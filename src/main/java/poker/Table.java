@@ -33,9 +33,13 @@ public class Table {
 	
 	public String getTakenSeats()
 	{
+		if (takenSeats.size() == 0)
+			return "";
 		String seats = "";
 		for (int seat: takenSeats)
 			seats += seat + " ";
+		seats.substring(0, seats.length() - 2);
+		System.out.println(seats);
 		return seats;
 	}
 	

@@ -58,7 +58,6 @@ public class GameView {
 		for (int i = 0; i < 10; ++i)
 		{
 			final int j = i;
-			takeSeatButton[i] = new JButton("Seat");
 			takeSeatButton[i].setBounds(new Rectangle(buttonPos[i][0], buttonPos[i][1], 102, 50));
 			takeSeatButton[i].addMouseListener(new MouseAdapter()
 					{
@@ -85,6 +84,8 @@ public class GameView {
 		buttonPos[7][0] = 157; buttonPos[7][1] = 442;
 		buttonPos[8][0] = 45; buttonPos[8][1] = 307;
 		buttonPos[9][0] = 45; buttonPos[9][1] = 173;
+		for (int i = 0; i < 10; ++i)
+			takeSeatButton[i] = new JButton("Seat");
 	}
 	
 }

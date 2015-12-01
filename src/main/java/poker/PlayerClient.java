@@ -19,6 +19,7 @@ public class PlayerClient extends Thread {
 			output = new PrintWriter(clientApp.getSocket().getOutputStream(), true);
 			output.println("NEW PLAYER " + clientApp.getThisPlayer().getName());
 			init();
+			start();
 		} catch (IOException e) {
 			clientApp.showMessage("An error ocurred in PlayerClient " + e);
 			throw e;

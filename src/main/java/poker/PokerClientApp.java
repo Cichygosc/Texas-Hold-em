@@ -33,7 +33,6 @@ public class PokerClientApp implements IPokerApp{
 			clientSocket = new Socket("localhost", this.port);
 			player = new HumanPlayer(playerName);
 			pokerClient = new PlayerClient(this);
-			pokerClient.start();
 		}
 		catch(IOException e)
 		{

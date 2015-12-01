@@ -70,13 +70,11 @@ public class PlayerThread extends Thread {
 		}
 		catch (IOException e)
 		{
-			System.out.println("PlayerThread error " + e);
+			System.out.println(player.getName() + " PlayerThread IO error " + e);
 		}
 		catch (NullPointerException e)
 		{
-			//System.out.println("PLAYER LEFT" + player.getSeat());
-			GameController.getInstance().sendMessageToAllPlayers(null, "PLAYER LEFT" + player.getSeat());
-			GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE " + player.getName() + " has left the game");		
+			System.out.println("PLAYER LEFT " + player.getSeat());		
 		}
 		catch (InterruptedException e)
 		{
@@ -90,9 +88,11 @@ public class PlayerThread extends Thread {
 				GameController.getInstance().removePlayerThread(this);
 				if (!player.equals(null))
 					serverListener.removePlayer(player);
+				GameController.getInstance().sendMessageToAllPlayers(null, "PLAYER LEFT " + player.getSeat());
+				GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE " + player.getName() + " has left the game");
 				playerSocket.close();
 			}
-			catch(IOException e)
+			catch(Exception e)
 			{
 				System.out.println("Couldnt close connection " + e);
 			}

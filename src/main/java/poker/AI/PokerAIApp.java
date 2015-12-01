@@ -15,7 +15,6 @@ public class PokerAIApp implements IPokerApp{
 
 	private void connectSocket(int port, String name) throws IOException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

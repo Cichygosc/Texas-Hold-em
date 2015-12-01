@@ -38,6 +38,7 @@ public class GameScreen {
 		gameFrame.setVisible(true);
 		gameFrame.setResizable(false);
 		
+		gameView = new GameView(this, gamePanel);
 		mainMenu = new MainMenu(this, gamePanel);
 		
 		mainMenu.show();
@@ -61,7 +62,6 @@ public class GameScreen {
 		try
 		{
 			gameModel.joinServer(port, name);
-			gameView = new GameView(this, gamePanel);
 			gameView.show();
 		}
 		catch(IOException e)
