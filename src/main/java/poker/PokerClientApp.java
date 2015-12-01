@@ -71,4 +71,9 @@ public class PokerClientApp implements IPokerApp{
 		pokerClient.sendMessage(message);
 		
 	}
+
+	@Override
+	public void takeASeat(int seat) {
+		player.takeASeat(seat);
+	}
 }

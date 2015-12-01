@@ -39,7 +39,6 @@ public class GameView {
 	{
 		gameScreen.takeSeat(seat);
 		addTakenSeat(seat);
-		//player.takeASeat(seat);
 	}
 	
 	public void addTakenSeat(int seat)
@@ -54,6 +53,7 @@ public class GameView {
 	
 	private void takeASeatView()
 	{
+		gamePanel.setLayout(null);
 		HashSet<Integer> takenSeats = gameScreen.getTakenSeats();
 		for (int i = 0; i < 10; ++i)
 		{
@@ -85,7 +85,6 @@ public class GameView {
 		buttonPos[7][0] = 157; buttonPos[7][1] = 442;
 		buttonPos[8][0] = 45; buttonPos[8][1] = 307;
 		buttonPos[9][0] = 45; buttonPos[9][1] = 173;
-		gamePanel.setLayout(null);
 	}
 	
 }

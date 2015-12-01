@@ -56,7 +56,8 @@ public class PlayerThread extends Thread {
 				}
 				else if (in.startsWith("SEAT"))
 				{
-					//player.takeASeat(Integer.parseInt(in.substring(5)));
+					System.out.println(in);
+					player.takeASeat(Integer.parseInt(in.substring(5)));
 					serverListener.addTakenSeat(Integer.parseInt(in.substring(5)));
 					GameController.getInstance().sendMessageToAllPlayers(output, "MESSAGE " + player.getName() + " has taken seat number " + Integer.parseInt(in.substring(5)));
 				}
@@ -73,9 +74,9 @@ public class PlayerThread extends Thread {
 		}
 		catch (NullPointerException e)
 		{
-			System.out.println("MESSAGE " + player.getName() + " has left the game");
-			GameController.getInstance().sendMessageToAllPlayers(output, "MESSAGE " + player.getName() + " has left the game");
-			GameController.getInstance().sendMessageToAllPlayers(output, "PLAYER LEFT" + player.getSeat());
+			//System.out.println("PLAYER LEFT" + player.getSeat());
+			GameController.getInstance().sendMessageToAllPlayers(null, "PLAYER LEFT" + player.getSeat());
+			GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE " + player.getName() + " has left the game");		
 		}
 		catch (InterruptedException e)
 		{
