@@ -34,6 +34,7 @@ public class PlayerClient extends Thread {
 			try
 			{
 				line = input.readLine();
+				System.out.println(line);
 				if (line.startsWith("END INIT"))
 					break;
 				if (line.startsWith("INIT PLACES"))
@@ -71,9 +72,14 @@ public class PlayerClient extends Thread {
 				while (true)
 				{
 					line = input.readLine();
+					System.out.println(line);
 					if (line.startsWith("MESSAGE"))
 					{
 						clientApp.showMessage(line.substring(8));
+					}
+					else if (line.startsWith("CARD"))
+					{
+						clientApp.addPlayerCard(line.substring(9), line.charAt(5) - 48, line.charAt(7) - 48);
 					}
 					else if (line.startsWith("SEAT"))
 					{
@@ -83,6 +89,14 @@ public class PlayerClient extends Thread {
 					{
 						System.out.println("SEAT " + Integer.parseInt(line.substring(12)));
 						clientApp.removeTakenSeat(Integer.parseInt(line.substring(12)));
+					}
+					else if (line.startsWith("GAME STARTING"))
+					{
+						clientApp.startingGame();
+					}
+					else if (line.startsWith("HOST"))
+					{
+						clientApp.getThisPlayer().setIsHost(Boolean.parseBoolean(line.substring(5)));
 					}
 					sleep(500);
 				}
@@ -106,7 +120,7 @@ public class PlayerClient extends Thread {
 				}
 				catch (IOException e)
 				{
-					System.out.println("Couldnt close connection " + e);
+					System.out.println("PlayerClient error Couldnt close connection " + e);
 				}
 			}
 		}

@@ -29,7 +29,7 @@ public class Server extends Thread {
 			try {
 				while (true) {
 					if (isListening) {
-						for (int i = 0; i < pokerGame.getNumberOfPlayers(); ++i) {
+						for (int i = 0; i < pokerGame.getMaxNumberOfPlayers(); ++i) {
 							System.out.println(i);
 							PlayerThread thread = new PlayerThread(listener.accept(), this);
 							thread.start();
@@ -37,6 +37,7 @@ public class Server extends Thread {
 						}
 						GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE All players connected...Game starts in the moment");
 						isListening = false;
+						pokerGame.startGame();
 					}
 					sleep(2000);
 				}
@@ -62,11 +63,26 @@ public class Server extends Thread {
 	{
 		pokerGame.removePlayer(player);
 	}
+	
+	public int getMaxNumberOfPlayers()
+	{
+		return pokerGame.getMaxNumberOfPlayers();
+	}
+	
+	public int getNumberOfConnectedPlayers()
+	{
+		return pokerGame.getNumberOfConnectedPlayers();
+	}
 
 	public void addTakenSeat(int seat)
 	{
 		pokerGame.addTakenSeat(seat);
 		GameController.getInstance().sendMessageToAllPlayers(null, "SEAT " + seat);
+	}
+	
+	public void removeTakenSeat(int seat)
+	{
+		pokerGame.removeTakenSeat(seat);
 	}
 	
 	public String getTakenSeats()

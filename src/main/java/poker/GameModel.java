@@ -50,6 +50,16 @@ public class GameModel {
 		takenSeats.remove(seat);
 		gameScreen.removeTakenSeat(seat);
 	}
+	
+	public void addPlayerCard(String path, int seat, int pos)
+	{
+		gameScreen.addPlayerCard(path, seat, pos);
+	}
+	
+	public void setGameView()
+	{
+		gameScreen.setGameView();
+	}
 
 	public HashSet<Integer> getTakenSeats() {
 		return takenSeats;

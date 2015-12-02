@@ -91,6 +91,16 @@ public class GameScreen {
 		gameView.removeTakenSeat(seat);
 	}
 	
+	public void setGameView()
+	{
+		gameView.pokerGameView();
+	}
+	
+	public void addPlayerCard(String path, int seat, int pos)
+	{
+		gameView.addPlayerCard(path, seat, pos);
+	}
+	
 	public GameModel getGameModel()
 	{
 		return gameModel;

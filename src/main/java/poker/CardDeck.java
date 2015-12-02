@@ -37,7 +37,7 @@ public class CardDeck {
 	{
 		for (int i = 0; i < NumberOfCards; ++i)
 		{
-			int j = r.nextInt(NumberOfCards - i);
+			int j = r.nextInt(NumberOfCards);
 			Collections.swap(cards, i, j);
 		}
 		

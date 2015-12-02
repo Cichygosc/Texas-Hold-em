@@ -5,8 +5,11 @@ import java.util.List;
 
 public class Card implements Comparable<Card>{
 
-	private static List<String> s_suites = Arrays.asList("Spades", "Clubs", "Hearts", "Diamonds");
-	private static List<String> s_numbers = Arrays.asList("Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace");
+//	private static List<String> s_suites = Arrays.asList("Spades", "Clubs", "Hearts", "Diamonds");
+//	private static List<String> s_numbers = Arrays.asList("Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace");
+	
+	private static List<String> s_suites = Arrays.asList("s", "c", "h", "d");
+	private static List<String> s_numbers = Arrays.asList("2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k", "a");
 	
 	private int number;
 	private int suit;
@@ -40,8 +43,15 @@ public class Card implements Comparable<Card>{
 	{
 		if (number == -1 || suit == -1)
 			return "Wrong card";
-		return s_numbers.get(number) + " of " + s_suites.get(suit);
+		return s_numbers.get(number) + s_suites.get(suit);
 	}
+	
+//	public String toString()
+//	{
+//		if (number == -1 || suit == -1)
+//			return "Wrong card";
+//		return s_numbers.get(number) + " of " + s_suites.get(suit);
+//	}
 	
 	public boolean equals(Object obj)
 	{

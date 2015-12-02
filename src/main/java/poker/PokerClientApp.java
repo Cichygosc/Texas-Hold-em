@@ -31,7 +31,7 @@ public class PokerClientApp implements IPokerApp{
 		try
 		{
 			clientSocket = new Socket("localhost", this.port);
-			player = new HumanPlayer(playerName);
+			player = new HumanPlayer(playerName, false);
 			pokerClient = new PlayerClient(this);
 		}
 		catch(IOException e)
@@ -63,6 +63,16 @@ public class PokerClientApp implements IPokerApp{
 	public Player getThisPlayer()
 	{
 		return player;
+	}
+	
+	public void startingGame()
+	{
+		gameModel.setGameView();
+	}
+	
+	public void addPlayerCard(String path, int seat, int pos)
+	{
+		gameModel.addPlayerCard(path, seat, pos);
 	}
 
 	@Override

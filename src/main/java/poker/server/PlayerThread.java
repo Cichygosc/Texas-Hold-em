@@ -50,13 +50,18 @@ public class PlayerThread extends Thread {
 				in = input.readLine();
 				if (in.startsWith("NEW PLAYER"))
 				{
-					player = new HumanPlayer(in.substring(11));
+					if (serverListener.getNumberOfConnectedPlayers() == 0)
+					{
+						System.out.println("Players: " + serverListener.getNumberOfConnectedPlayers());
+						player = new HumanPlayer(in.substring(11), true);
+						output.println("HOST True");
+					}
+					else player = new HumanPlayer(in.substring(11), false);
 					serverListener.addPlayer(player);
 					GameController.getInstance().sendMessageToAllPlayers(output, "MESSAGE " + in.substring(11) + " has joined the game");
 				}
 				else if (in.startsWith("SEAT"))
 				{
-					System.out.println(in);
 					player.takeASeat(Integer.parseInt(in.substring(5)));
 					serverListener.addTakenSeat(Integer.parseInt(in.substring(5)));
 					GameController.getInstance().sendMessageToAllPlayers(output, "MESSAGE " + player.getName() + " has taken seat number " + Integer.parseInt(in.substring(5)));
@@ -87,14 +92,17 @@ public class PlayerThread extends Thread {
 				GameController.getInstance().removePlayerOutput(output);
 				GameController.getInstance().removePlayerThread(this);
 				if (!player.equals(null))
+				{
+					serverListener.removeTakenSeat(player.getSeat());
 					serverListener.removePlayer(player);
+				}
 				GameController.getInstance().sendMessageToAllPlayers(null, "PLAYER LEFT " + player.getSeat());
 				GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE " + player.getName() + " has left the game");
 				playerSocket.close();
 			}
 			catch(Exception e)
 			{
-				System.out.println("Couldnt close connection " + e);
+				System.out.println("PlayerThread error Couldnt close connection " + e);
 			}
 		}
 	}

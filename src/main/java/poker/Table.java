@@ -14,6 +14,7 @@ public class Table {
 	{
 		takenSeats = new HashSet<Integer>();
 		playerHands = new ArrayList<Hand>();
+		tablePots = new ArrayList<TablePot>();
 	}
 	
 	public void addPlayerToTable(Hand hand)
@@ -29,6 +30,22 @@ public class Table {
 	public void addTakenSeat(int seat)
 	{
 		takenSeats.add(seat);
+	}
+	
+	public void removeTakenSeat(int seat)
+	{
+		if (seat > 0)
+			takenSeats.remove(seat);
+	}
+	
+	public void addTablePot(TablePot pot)
+	{
+		tablePots.add(pot);
+	}
+	
+	public void removeTablePot(TablePot pot)
+	{
+		tablePots.remove(pot);
 	}
 	
 	public String getTakenSeats()

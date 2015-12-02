@@ -6,12 +6,14 @@ public abstract class Player {
 	protected Hand hand;
 	protected String name;
 	protected PlayerPot pot;
+	protected boolean isHost;
 
 	protected Player(String name)
 	{
 		this.name = name;
 		hand = new Hand();
 		pot = new PlayerPot();
+		isHost = false;
 		this.seat = -1;
 	}
 	
@@ -30,6 +32,11 @@ public abstract class Player {
 		return seat;
 	}
 	
+	public boolean isHost()
+	{
+		return isHost;
+	}
+	
 	public PlayerPot getPlayerPot()
 	{
 		return pot;
@@ -43,5 +50,10 @@ public abstract class Player {
 	public void takeASeat(int seat)
 	{
 		this.seat = seat;
+	}
+	
+	public void setIsHost(boolean isHost)
+	{
+		this.isHost = isHost;
 	}
 }

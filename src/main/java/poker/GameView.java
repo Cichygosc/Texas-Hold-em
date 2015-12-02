@@ -5,15 +5,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GameView {
 
+	private static String CardBackPath = "cb.png";
+	private static int ButtonWidth = 102;
+	private static int ButtonHeight = 50;
+	
 	private GameScreen gameScreen;
 	private JPanel gamePanel;
 	private JButton takeSeatButton[];
 	private int buttonPos[][];
+	
 	
 	public GameView(GameScreen gameScreen, JPanel gamePanel)
 	{
@@ -23,53 +30,6 @@ public class GameView {
 		buttonPos = new int[10][2];
 		
 		initView();
-	}
-	
-	public void show()
-	{
-		gamePanel.removeAll();
-		
-		takeASeatView();
-		
-		gamePanel.revalidate();
-		gamePanel.repaint();
-	}
-	
-	private void takeSeat(int seat)
-	{
-		gameScreen.takeSeat(seat);
-		addTakenSeat(seat);
-	}
-	
-	public void addTakenSeat(int seat)
-	{
-		takeSeatButton[seat].setVisible(false);
-	}
-	
-	public void removeTakenSeat(int seat)
-	{
-		takeSeatButton[seat].setVisible(true);
-	}
-	
-	private void takeASeatView()
-	{
-		gamePanel.setLayout(null);
-		HashSet<Integer> takenSeats = gameScreen.getTakenSeats();
-		for (int i = 0; i < 10; ++i)
-		{
-			final int j = i;
-			takeSeatButton[i].setBounds(new Rectangle(buttonPos[i][0], buttonPos[i][1], 102, 50));
-			takeSeatButton[i].addMouseListener(new MouseAdapter()
-					{
-						public void mousePressed(MouseEvent e)
-						{
-							takeSeat(j);
-						}
-					});
-			if (takenSeats.contains(i))
-				takeSeatButton[i].setVisible(false);
-			gamePanel.add(takeSeatButton[i]);
-		}
 	}
 	
 	private void initView()
@@ -88,4 +48,101 @@ public class GameView {
 			takeSeatButton[i] = new JButton("Seat");
 	}
 	
+	public void show()
+	{
+		gamePanel.removeAll();
+		
+		takeASeatView();
+		
+		gamePanel.revalidate();
+		gamePanel.repaint();
+	}
+	
+	private void takeASeatView()
+	{
+		gamePanel.setLayout(null);
+		HashSet<Integer> takenSeats = gameScreen.getTakenSeats();
+		for (int i = 0; i < 10; ++i)
+		{
+			final int j = i;
+			takeSeatButton[i].setBounds(new Rectangle(buttonPos[i][0], buttonPos[i][1], ButtonWidth, ButtonHeight));
+			takeSeatButton[i].addMouseListener(new MouseAdapter()
+					{
+						public void mousePressed(MouseEvent e)
+						{
+							takeSeat(j);
+						}
+					});
+			if (takenSeats.contains(i))
+				takeSeatButton[i].setVisible(false);
+			gamePanel.add(takeSeatButton[i]);
+		}
+	}
+	
+	private void waitingForPlayersView()
+	{
+		for (int i = 0; i < 10; ++i)
+		{
+			if (gameScreen.getPlayer().isHost())
+			{
+				final int j = i;
+				takeSeatButton[j].setText("Add Bot");
+				takeSeatButton[j].addMouseListener(new MouseAdapter()
+						{
+							public void mousePressed(MouseEvent e)
+							{
+								addBot(j);
+							}
+						});
+			}
+			else takeSeatButton[i].setVisible(false);
+		}
+	}
+	
+	public void pokerGameView()
+	{
+		for (int i = 0; i < 10; ++i)
+			gamePanel.remove(takeSeatButton[i]);
+		
+		gamePanel.revalidate();
+		gamePanel.repaint();
+	}
+	
+	public void addPlayerCard(String path, int seat, int pos)
+	{
+		ImageIcon icon;
+		if (gameScreen.getPlayer().getSeat() == seat)
+			icon = new ImageIcon("images/" + path + ".png");
+		else icon = new ImageIcon("images/cb.png");
+
+		JLabel label = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(ButtonWidth / 2, ButtonHeight * 2, java.awt.Image.SCALE_SMOOTH)));
+		label.setBounds(buttonPos[seat][0] + pos * (ButtonWidth / 2 + 5), buttonPos[seat][1], ButtonWidth / 2, ButtonHeight * 2);
+		gamePanel.add(label);
+		
+		gamePanel.revalidate();
+		gamePanel.repaint();
+	}
+	
+	//TODO ADDING BOT
+	private void addBot(int seat)
+	{
+		
+	}
+	
+	private void takeSeat(int seat)
+	{
+		gameScreen.takeSeat(seat);
+		addTakenSeat(seat);
+		waitingForPlayersView();
+	}
+	
+	public void addTakenSeat(int seat)
+	{
+		takeSeatButton[seat].setVisible(false);
+	}
+	
+	public void removeTakenSeat(int seat)
+	{
+		takeSeatButton[seat].setVisible(true);
+	}
 }
