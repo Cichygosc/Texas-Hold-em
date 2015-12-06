@@ -1,30 +1,64 @@
 package poker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+
+import poker.server.GameController;
 
 public class Table {
 
 	private HashSet<Integer> takenSeats;
-	private List<Hand> playerHands;
-	private List<TablePot> tablePots;
+	private List<Player> players; 
+	private Player currentPlayer;
+	private int currentPlayerNum;
+	private int pot;
+	private int currentBet;
+	private int dealerButtonPos;
+	private boolean isOpen;
 	
 	public Table()
 	{
 		takenSeats = new HashSet<Integer>();
-		playerHands = new ArrayList<Hand>();
-		tablePots = new ArrayList<TablePot>();
+		players = new ArrayList<Player>();
+		currentPlayer = null;
+		isOpen = false;
+		currentPlayerNum = -1;
+		pot = 0;
+		currentBet = 0;
+		dealerButtonPos = -1;
 	}
 	
-	public void addPlayerToTable(Hand hand)
+	public void addPot(int pot)
 	{
-		playerHands.add(hand);
+		this.pot += pot;
 	}
 	
-	public void removePlayer(Hand hand)
+	public void newRound()
 	{
-		playerHands.remove(hand);
+		pot = 0;
+		currentBet = 0;
+	}
+	
+	public int getPot()
+	{
+		return pot;
+	}
+	
+	public void startGame()
+	{
+		Collections.sort(players);
+	}
+	
+	public void addPlayerToTable(Player player)
+	{
+		players.add(player);
+	}
+	
+	public void removePlayer(Player player)
+	{
+		players.remove(player);
 	}
 	
 	public void addTakenSeat(int seat)
@@ -38,14 +72,60 @@ public class Table {
 			takenSeats.remove(seat);
 	}
 	
-	public void addTablePot(TablePot pot)
+	public void setDealerButton(int pos)
 	{
-		tablePots.add(pot);
+		dealerButtonPos = pos;
+		currentPlayer = players.get(dealerButtonPos);
+		currentPlayerNum = dealerButtonPos;
+		GameController.getInstance().sendMessageToAllPlayers("DEALER " + players.get(pos).getSeat());
 	}
 	
-	public void removeTablePot(TablePot pot)
+	public void nextPlayer()
 	{
-		tablePots.remove(pot);
+		if (currentPlayerNum == players.size() - 1)
+			currentPlayerNum = 0;
+		else currentPlayerNum++;
+		currentPlayer = players.get(currentPlayerNum);
+	}
+	
+	public int getDealerPos()
+	{
+		return dealerButtonPos;
+	}
+	
+	public List<Player> getPlayers() 
+	{
+		return players;
+	}
+	
+	public int numOfPlayers()
+	{
+		return players.size();
+	}
+	
+	public Player getCurrentPlayer()
+	{
+		return currentPlayer;
+	}
+	
+	public void setCurrentBet(int currentBet)
+	{
+		this.currentBet = currentBet;
+	}
+	
+	public int getCurrentBet()
+	{
+		return currentBet;
+	}
+	
+	public void setIsOpen(boolean isOpen)
+	{
+		this.isOpen = isOpen;
+	}
+	
+	public boolean getIsOpen()
+	{
+		return isOpen;
 	}
 	
 	public String getTakenSeats()

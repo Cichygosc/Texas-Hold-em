@@ -3,6 +3,8 @@ package poker.server;
 import java.io.PrintWriter;
 import java.util.HashSet;
 
+import poker.Player;
+
 public class GameController {
 	
 	private static HashSet<PrintWriter> playerOutput = new HashSet<PrintWriter>();
@@ -46,12 +48,42 @@ public class GameController {
 		playerThread.remove(thread);
 	}
 	
+	public void sendMessageToAllPlayers(String message)
+	{
+		for (PrintWriter writer: playerOutput)
+			writer.println(message);
+	}
+	
 	public void sendMessageToAllPlayers(PrintWriter sender, String message)
 	{
 		for (PrintWriter writer: playerOutput)
 		{
 			if (!writer.equals(sender))
 				writer.println(message);
+		}
+	}
+	
+	public void sendMessageToAllPlayers(Player player, String message)
+	{
+		for (PlayerThread thread: playerThread)
+		{
+			if (thread.getPlayer().equals(player))
+			{
+				sendMessageToAllPlayers(thread.getPrintWriter(), message);
+				break;
+			}
+		}
+	}
+	
+	public void sendMessageToPlayer(Player player, String message)
+	{
+		for (PlayerThread thread: playerThread)
+		{
+			if (thread.getPlayer().equals(player))
+			{
+				thread.getPrintWriter().println(message);
+				break;
+			}
 		}
 	}
 	

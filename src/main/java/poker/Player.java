@@ -1,6 +1,6 @@
 package poker;
 
-public abstract class Player {
+public abstract class Player implements Comparable<Player>{
 
 	protected int seat;
 	protected Hand hand;
@@ -55,5 +55,10 @@ public abstract class Player {
 	public void setIsHost(boolean isHost)
 	{
 		this.isHost = isHost;
+	}
+	
+	public int compareTo(Player p)
+	{
+		return this.seat > p.getSeat() ? 1 : this.seat < p.getSeat() ? -1 : 0;
 	}
 }

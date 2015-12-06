@@ -37,16 +37,10 @@ public class PlayerClient extends Thread {
 				System.out.println(line);
 				if (line.startsWith("END INIT"))
 					break;
-				if (line.startsWith("INIT PLACES"))
+				if (line.startsWith("INIT PLACE"))
 				{
-					line = line.substring(12);
-					String num[] = line.split(" ");
-					for (String n: num)
-					{
-						if (n.equals(""))
-							break;
-						clientApp.addTakenSeat(Integer.parseInt(n));
-					}
+					int seat = Integer.parseInt(line.substring(11, 12));
+					clientApp.addTakenSeat(seat, line.substring(13));
 				}
 			}
 			catch(IOException e)
@@ -81,9 +75,38 @@ public class PlayerClient extends Thread {
 					{
 						clientApp.addPlayerCard(line.substring(9), line.charAt(5) - 48, line.charAt(7) - 48);
 					}
+					else if (line.startsWith("MONEY"))
+					{
+						int seat = Integer.parseInt(line.substring(6, 7));
+						if (seat == clientApp.getThisPlayer().getSeat())
+							clientApp.addMoney(Integer.parseInt(line.substring(8)));
+						else clientApp.setMoney(Integer.parseInt(line.substring(8)), seat);
+					}
+					else if (line.startsWith("END TURN"))
+					{
+						clientApp.hideAllButtons();
+					}
+					else if (line.startsWith("YOUR TURN"))
+					{
+						String[] args = line.split(" ");
+						int call = Integer.parseInt(args[2]);
+						String buttons = "";
+						for (int i = 3; i < args.length; ++i)
+							buttons += args[i] + " ";
+						clientApp.setCallValue(call);
+						clientApp.showButtons(buttons);
+					}
+					else if (line.startsWith("POT"))
+					{
+						clientApp.setPot(Integer.parseInt(line.substring(4)));
+					}
+					else if (line.startsWith("DEALER"))
+					{
+						clientApp.setDealer(Integer.parseInt(line.substring(7)));
+					}
 					else if (line.startsWith("SEAT"))
 					{
-						clientApp.addTakenSeat(Integer.parseInt(line.substring(5)));
+						clientApp.addTakenSeat(Integer.parseInt(line.substring(5, 6)), line.substring(7));
 					}
 					else if (line.startsWith("PLAYER LEFT"))
 					{

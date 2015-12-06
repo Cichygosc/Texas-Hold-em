@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 import poker.HumanPlayer;
 import poker.Player;
@@ -29,7 +31,9 @@ public class PlayerThread extends Thread {
 			GameController.getInstance().addPlayerOutput(output);
 			GameController.getInstance().addPlayerThread(this);
 			output.println("WELCOME");
-			output.println("INIT PLACES " + serverListener.getTakenSeats());
+			HashMap<Integer, String> seats = serverListener.getTakenSeats();
+			for (Map.Entry<Integer, String> entry: seats.entrySet())
+				output.println("INIT PLACE " + entry.getKey() + " " + entry.getValue());
 			output.println("END INIT");
 			output.println("MESSAGE Choose a seat...");
 		}
@@ -62,9 +66,11 @@ public class PlayerThread extends Thread {
 				}
 				else if (in.startsWith("SEAT"))
 				{
-					player.takeASeat(Integer.parseInt(in.substring(5)));
-					serverListener.addTakenSeat(Integer.parseInt(in.substring(5)));
-					GameController.getInstance().sendMessageToAllPlayers(output, "MESSAGE " + player.getName() + " has taken seat number " + Integer.parseInt(in.substring(5)));
+					int seat = Integer.parseInt(in.substring(5));
+					player.takeASeat(seat);
+					serverListener.addTakenSeat(seat);
+					GameController.getInstance().sendMessageToAllPlayers("SEAT " + seat + " " + player.getName());
+					GameController.getInstance().sendMessageToAllPlayers(output, "MESSAGE " + player.getName() + " has taken seat number " + seat);
 				}
 				else
 				{
@@ -96,8 +102,8 @@ public class PlayerThread extends Thread {
 					serverListener.removeTakenSeat(player.getSeat());
 					serverListener.removePlayer(player);
 				}
-				GameController.getInstance().sendMessageToAllPlayers(null, "PLAYER LEFT " + player.getSeat());
-				GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE " + player.getName() + " has left the game");
+				GameController.getInstance().sendMessageToAllPlayers("PLAYER LEFT " + player.getSeat());
+				GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " has left the game");
 				playerSocket.close();
 			}
 			catch(Exception e)

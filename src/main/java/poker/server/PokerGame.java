@@ -1,6 +1,7 @@
 package poker.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -12,18 +13,29 @@ import poker.Table;
 
 public class PokerGame {
 	
+	private static int ante = 5;
+	
 	private List<Player> connectedPlayers;
 	private Dealer dealer;
-	private Player currentPlayer;
 	private int numOfPlayers;
 	private int startingMoney;
+	private int smallBlind;
+	private int bigBlind;
+	private String rules;
+	private int maxRaiseAmount;
+	private int maxRaiseTimes;
 	
-	public PokerGame(int numOfPlayers, int startingMoney)
+	public PokerGame(int numOfPlayers, int startingMoney, int smallBlind, int bigBlind, String rules, int maxRaiseAmount, int maxRaiseTimes)
 	{
 		connectedPlayers = new ArrayList<Player>();
-		dealer = new Dealer();
+		dealer = new Dealer(this);
 		this.numOfPlayers = numOfPlayers;
 		this.startingMoney = startingMoney;
+		this.smallBlind = smallBlind;
+		this.bigBlind = bigBlind;
+		this.rules = rules;
+		this.maxRaiseAmount = maxRaiseAmount;
+		this.maxRaiseTimes = maxRaiseTimes;
 	}
 	
 	public void startGame()
@@ -32,17 +44,14 @@ public class PokerGame {
 		{
 			if (gameReadyToStart())
 			{
-				GameController.getInstance().sendMessageToAllPlayers(null, "GAME STARTING");
-				GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE Game started, have fun");
+				GameController.getInstance().sendMessageToAllPlayers("GAME STARTING");
+				GameController.getInstance().sendMessageToAllPlayers("MESSAGE Game started, have fun");
 				for (Player player: connectedPlayers)
 				{
-					for (int i = 0; i < 2; ++i)
-					{
-						Card card = dealer.drawCard();
-						GameController.getInstance().sendMessageToAllPlayers(null, "CARD " + player.getSeat() + " " + i + " " + card.toString());
-						player.getHand().addCardToHand(card);
-					}
+					player.getPlayerPot().addMoney(startingMoney);
+					GameController.getInstance().sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + startingMoney);
 				}
+				dealer.startGame();
 				break;
 			}
 			else
@@ -57,15 +66,13 @@ public class PokerGame {
 	public void addNewPlayer(Player player)
 	{
 		connectedPlayers.add(player);
-		dealer.getTable().addPlayerToTable(player.getHand());
-		dealer.getTable().addTablePot(player.getPlayerPot().getTablePot());
+		dealer.getTable().addPlayerToTable(player);
 	}
 	
 	public void removePlayer(Player player)
 	{
 		connectedPlayers.remove(player);
-		dealer.getTable().removePlayer(player.getHand());
-		dealer.getTable().removeTablePot(player.getPlayerPot().getTablePot());
+		dealer.getTable().removePlayer(player);
 	}
 	
 	public int getMaxNumberOfPlayers()
@@ -88,9 +95,14 @@ public class PokerGame {
 		dealer.getTable().removeTakenSeat(seat);
 	}
 	
-	public String getTakenSeats()
+	public HashMap<Integer, String> getTakenSeats()
 	{
-		return dealer.getTakenSeats();
+		HashMap<Integer, String> seats = new HashMap<Integer, String>();
+		for (Player player : connectedPlayers)
+			if (player.getSeat() != -1)
+				seats.put(player.getSeat(), player.getName());
+		
+		return seats;
 	}
 	
 	public boolean gameReadyToStart()
@@ -101,5 +113,20 @@ public class PokerGame {
 			if (p.getSeat() == -1)
 				return false;
 		return true;
+	}
+	
+	public int getAnte()
+	{
+		return ante;
+	}
+	
+	public int getSmallBlind()
+	{
+		return smallBlind;
+	}
+	
+	public int getBigBlind()
+	{
+		return bigBlind;
 	}
 }

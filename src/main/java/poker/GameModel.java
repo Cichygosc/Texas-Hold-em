@@ -16,8 +16,8 @@ public class GameModel {
 		takenSeats = new HashSet<Integer>();
 	}
 
-	public void hostServer(int numOfPlayers, int startingMoney, int port) throws IOException {
-		new Server(numOfPlayers, startingMoney, port);
+	public void hostServer(int players, int money, int port, int smallBlind, int bigBlind, String rules, int raiseAmount, int raiseTimes) throws IOException {
+		new Server(players, money, smallBlind, bigBlind, rules, raiseAmount, raiseTimes, port);
 	}
 
 	public void joinServer(int port, String name) throws IOException {
@@ -33,32 +33,28 @@ public class GameModel {
 		clientApp.sendMessage(message);
 	}
 
-	public void takeASeat(int seat) {
-		clientApp.takeASeat(seat);
-	}
-
 	public Player getPlayer() {
 		return clientApp.getThisPlayer();
 	}
 
-	public void addTakenSeat(int seat) {
+	public void addTakenSeat(int seat, String playerName) {
 		takenSeats.add(seat);
-		gameScreen.addTakenSeat(seat);
+		gameScreen.getGameView().addTakenSeat(seat, playerName);
 	}
 
 	public void removeTakenSeat(int seat) {
 		takenSeats.remove(seat);
-		gameScreen.removeTakenSeat(seat);
+		gameScreen.getGameView().removeTakenSeat(seat);
 	}
 	
 	public void addPlayerCard(String path, int seat, int pos)
 	{
-		gameScreen.addPlayerCard(path, seat, pos);
+		gameScreen.getGameView().addPlayerCard(path, seat, pos);
 	}
 	
-	public void setGameView()
+	public GameView getGameView()
 	{
-		gameScreen.setGameView();
+		return gameScreen.getGameView();
 	}
 
 	public HashSet<Integer> getTakenSeats() {

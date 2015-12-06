@@ -2,6 +2,7 @@ package poker.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
 
 import poker.Player;
 
@@ -11,7 +12,7 @@ public class Server extends Thread {
 	private PokerGame pokerGame;
 	private boolean isListening;
 
-	public Server(int numOfPlayers, int startingMoney, int port) throws IOException {
+	public Server(int players, int money, int smallBlind, int bigBlind, String rules, int raiseAmount, int raiseTimes, int port) throws IOException {
 		try {
 			listener = new ServerSocket(port);
 			isListening = true;
@@ -20,7 +21,7 @@ public class Server extends Thread {
 			throw e;
 		}
 		System.out.println("Server is running");
-		pokerGame = new PokerGame(numOfPlayers, startingMoney);
+		pokerGame = new PokerGame(players, money, smallBlind, bigBlind, rules, raiseAmount, raiseTimes);
 		this.start();
 	}
 
@@ -35,7 +36,7 @@ public class Server extends Thread {
 							thread.start();
 							System.out.println("Thread is running");
 						}
-						GameController.getInstance().sendMessageToAllPlayers(null, "MESSAGE All players connected...Game starts in the moment");
+						GameController.getInstance().sendMessageToAllPlayers("MESSAGE All players connected...Game starts in the moment");
 						isListening = false;
 						pokerGame.startGame();
 					}
@@ -77,7 +78,6 @@ public class Server extends Thread {
 	public void addTakenSeat(int seat)
 	{
 		pokerGame.addTakenSeat(seat);
-		GameController.getInstance().sendMessageToAllPlayers(null, "SEAT " + seat);
 	}
 	
 	public void removeTakenSeat(int seat)
@@ -85,7 +85,7 @@ public class Server extends Thread {
 		pokerGame.removeTakenSeat(seat);
 	}
 	
-	public String getTakenSeats()
+	public HashMap<Integer, String> getTakenSeats()
 	{
 		return pokerGame.getTakenSeats();
 	}

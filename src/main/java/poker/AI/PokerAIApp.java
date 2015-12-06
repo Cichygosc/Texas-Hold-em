@@ -28,11 +28,4 @@ public class PokerAIApp implements IPokerApp{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void takeASeat(int seat) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

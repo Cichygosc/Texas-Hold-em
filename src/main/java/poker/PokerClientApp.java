@@ -6,6 +6,7 @@ import java.net.Socket;
 public class PokerClientApp implements IPokerApp{
 
 	private GameModel gameModel;
+	private GameView gameView;
 	
 	private Player player;
 	private Socket clientSocket;
@@ -16,6 +17,8 @@ public class PokerClientApp implements IPokerApp{
 	{
 		this.port = port;
 		this.gameModel = gameModel;
+		this.gameView = gameModel.getGameView();
+		this.gameView.setPokerApp(this);
 		try
 		{
 			connectSocket(port, playerName);
@@ -45,9 +48,9 @@ public class PokerClientApp implements IPokerApp{
 		gameModel.showMessage(message);
 	}
 	
-	public void addTakenSeat(int seat)
+	public void addTakenSeat(int seat, String playerName)
 	{
-		gameModel.addTakenSeat(seat);
+		gameModel.addTakenSeat(seat, playerName);
 	}
 	
 	public void removeTakenSeat(int seat)
@@ -67,22 +70,76 @@ public class PokerClientApp implements IPokerApp{
 	
 	public void startingGame()
 	{
-		gameModel.setGameView();
+		gameView.pokerGameView();
 	}
 	
 	public void addPlayerCard(String path, int seat, int pos)
 	{
+		if (seat == player.getSeat())
+		{
+			String n = path.substring(0, path.length() - 1);
+			int number;
+			if (n.equals("j"))
+				number = 9;
+			else if (n.equals("q"))
+				number = 10;
+			else if (n.equals("k"))
+				number = 11;
+			else if (n.equals("a"))
+				number = 12;
+			else number = Integer.parseInt(n);
+			String s = path.substring(path.length() - 1);
+			if (s.equals("s"))
+				player.getHand().addCardToHand(new Card(number, 0));
+			else if (s.equals("c"))
+				player.getHand().addCardToHand(new Card(number, 1));
+			else if (s.equals("h"))
+				player.getHand().addCardToHand(new Card(number, 2));
+			else if (s.equals("d"))
+				player.getHand().addCardToHand(new Card(number, 3));
+		}
 		gameModel.addPlayerCard(path, seat, pos);
 	}
+	
+	public void setDealer(int seat)
+	{
+		gameView.setDealer(seat);
+	}
+	
+	public void addMoney(int money)
+	{
+		player.getPlayerPot().setMoney(money);
+		gameView.setMoney(player.getPlayerPot().getMoney(), player.getSeat());
+	}
 
+	public void setMoney(int money, int seat)
+	{
+		gameView.setMoney(money, seat);
+	}
+	
+	public void setPot(int money)
+	{
+		gameView.setPot(money);
+	}
+	
+	public void hideAllButtons()
+	{
+		gameView.hideButtons();
+	}
+	
+	public void showButtons(String buttons)
+	{
+		gameView.showButtons(buttons);
+	}
+	
+	public void setCallValue(int callValue)
+	{
+		gameView.setCallValue(callValue);
+	}
+	
 	@Override
 	public void sendMessage(String message) {
 		pokerClient.sendMessage(message);
 		
-	}
-
-	@Override
-	public void takeASeat(int seat) {
-		player.takeASeat(seat);
 	}
 }

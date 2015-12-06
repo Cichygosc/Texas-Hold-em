@@ -1,496 +1,539 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="poker.Player" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/Player.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="221" width="142" x="731" y="836"/>    
+  <class id="1" language="java" name="poker.HumanPlayer" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/HumanPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="77" width="166" x="584" y="1871"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="poker.GameModel" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/GameModel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="257" width="194" x="255" y="836"/>    
+  <class id="2" language="java" name="poker.Card" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/Card.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="275" width="143" x="-44" y="2357"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="poker.PokerClientAppGenerator" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/PokerClientAppGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="95" width="236" x="510" y="503"/>    
+  <class id="3" language="java" name="poker.server.GameController" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/server/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="257" width="264" x="-62" y="268"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="poker.GameScreen" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/GameScreen.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="293" width="194" x="255" y="503"/>    
+  <class id="4" language="java" name="poker.Dealer" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/Dealer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="131" width="136" x="54" y="1466"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="5" language="java" name="poker.AI.IAIStrategy" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/AI/IAIStrategy.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="59" width="103" x="200" y="1466"/>    
+  <class id="5" language="java" name="poker.PlayerClient" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/PlayerClient.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="167" width="163" x="412" y="1466"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="poker.MainMenu" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/MainMenu.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="185" width="179" x="-877" y="1466"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="poker.server.Server" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/server/Server.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="257" width="200" x="9" y="800"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="poker.TablePot" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/TablePot.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="77" width="87" x="240" y="2132"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="poker.AI.AIPlayer" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/AI/AIPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="77" width="102" x="442" y="1871"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="poker.AI.PokerAIApp" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/AI/PokerAIApp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="149" width="192" x="-424" y="1466"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="poker.server.PlayerThread" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/server/PlayerThread.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="185" width="167" x="102" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="poker.CardEvaluator" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/CardEvaluator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="185" width="198" x="252" y="268"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="poker.Player" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/Player.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="275" width="142" x="230" y="1466"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="poker.GameView" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/GameView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="365" width="185" x="-192" y="1466"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="poker.GameModel" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/GameModel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="311" width="194" x="-658" y="1466"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="poker.PokerAppGenerator" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/PokerAppGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="113" width="250" x="500" y="268"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="17" language="java" name="poker.IPokerApp" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/IPokerApp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="113" width="153" x="-318" y="1871"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="6" language="java" name="poker.GameView" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/GameView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="239" width="185" x="470" y="170"/>    
+  <class id="18" language="java" name="poker.GameScreen" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/GameScreen.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="329" width="194" x="-658" y="1097"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="poker.Table" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/Table.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="167" width="172" x="1074" y="836"/>    
+  <class id="19" language="java" name="poker.PokerClientApp" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/PokerClientApp.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="293" width="208" x="270" y="1097"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="poker.BestHand" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/BestHand.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="185" width="187" x="342" y="1133"/>    
+  <class id="20" language="java" name="poker.Hand" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/Hand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="185" width="164" x="36" y="2132"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="poker.PlayerClient" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/PlayerClient.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="167" width="163" x="47" y="836"/>    
+  <class id="21" language="java" name="poker.CardDeck" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/CardDeck.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="167" width="121" x="-125" y="1871"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="10" language="java" name="poker.IPokerApp" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/IPokerApp.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="95" width="153" x="7" y="1133"/>    
+  <class id="22" language="java" name="poker.AI.PokerAIAppGenerator" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/AI/PokerAIAppGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="95" width="236" x="362" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="poker.server.PokerGame" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/server/PokerGame.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="275" width="200" x="9" y="1097"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="poker.BestHand" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/BestHand.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="185" width="187" x="-252" y="2132"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="poker.PlayerPot" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/PlayerPot.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="149" width="132" x="270" y="1871"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="poker.PokerClientAppGenerator" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/PokerClientAppGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="95" width="236" x="638" y="575"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="poker.Table" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/Table.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="221" width="173" x="36" y="1871"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="28" language="java" name="poker.AI.IAIStrategy" project="texasholdem" 
+    file="/texasholdem/src/main/java/poker/AI/IAIStrategy.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="59" width="103" x="442" y="2132"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="11" language="java" name="poker.CardDeck" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/CardDeck.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="167" width="121" x="569" y="1133"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="12" language="java" name="poker.MainMenu" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/MainMenu.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="185" width="179" x="251" y="170"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="13" language="java" name="poker.AI.AIPlayer" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/AI/AIPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="77" width="102" x="200" y="1133"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="14" language="java" name="poker.Hand" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/Hand.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="185" width="164" x="730" y="1133"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="15" language="java" name="poker.server.Server" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/server/Server.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="293" width="264" x="1456" y="1133"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="16" language="java" name="poker.AI.PokerAIApp" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/AI/PokerAIApp.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="131" width="192" x="-206" y="836"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="17" language="java" name="poker.CardEvaluator" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/CardEvaluator.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="185" width="198" x="-102" y="170"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="18" language="java" name="poker.PlayerPot" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/PlayerPot.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="95" width="132" x="934" y="1133"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="19" language="java" name="poker.PokerAppGenerator" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/PokerAppGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="113" width="250" x="695" y="170"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="20" language="java" name="poker.server.PlayerThread" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/server/PlayerThread.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="185" width="167" x="1268" y="503"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="21" language="java" name="poker.PokerClientApp" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/PokerClientApp.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="239" width="208" x="7" y="503"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="22" language="java" name="poker.TablePot" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/TablePot.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="77" width="87" x="1252" y="1466"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="23" language="java" name="poker.Card" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/Card.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="275" width="143" x="593" y="1466"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="24" language="java" name="poker.AI.PokerAIAppGenerator" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/AI/PokerAIAppGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="95" width="236" x="786" y="503"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="25" language="java" name="poker.server.PokerGame" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/server/PokerGame.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="221" width="166" x="1062" y="503"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="26" language="java" name="poker.server.GameController" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/server/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="293" width="264" x="1456" y="170"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="27" language="java" name="poker.HumanPlayer" project="TexasHoldem" 
-    file="/TexasHoldem/src/main/java/poker/HumanPlayer.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="77" width="125" x="1106" y="1133"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <association id="28">    
-    <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="29" name="gameModel"/>      
-      <multiplicity id="30" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="31">    
-    <bendpoint x="1371" y="836"/>    
-    <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="32" name="serverListener"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="34">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="35" name="clientApp"/>      
-      <multiplicity id="36" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="37">    
-    <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="38" name="instance"/>      
-      <multiplicity id="39" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="17" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="40">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="41" name="gameScreen"/>      
-      <multiplicity id="42" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="43">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="44" name="pot"/>      
-      <multiplicity id="45" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="46">    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="47" name="gameScreen"/>      
-      <multiplicity id="48" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="49">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="50" name="gameScreen"/>      
-      <multiplicity id="51" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="52">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="5"/>  
-  </realization>  
-  <association id="53">    
-    <end type="SOURCE" refId="26" navigable="false">      
-      <attribute id="54" name="playerThread"/>      
-      <multiplicity id="55" minimum="0" maximum="2147483647"/>    
+  <association id="29">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="30" name="playerHands"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="20" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="56">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="57" name="clientApp"/>      
-      <multiplicity id="58" minimum="0" maximum="1"/>    
+  <generalization id="32">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <association id="33">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="34" name="player"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="59">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="10"/>  
+  <association id="36">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="37" name="gameModel"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="40" name="gameScreen"/>      
+      <multiplicity id="41" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="43" name="gameScreen"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="46" name="currentPlayer"/>      
+      <multiplicity id="47" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="49" name="tablePots"/>      
+      <multiplicity id="50" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="52" name="playerThread"/>      
+      <multiplicity id="53" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="54">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="28"/>  
   </realization>  
-  <association id="60">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="61" name="cards"/>      
-      <multiplicity id="62" minimum="0" maximum="2147483647"/>    
+  <association id="55">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="56" name="clientApp"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="58">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="59" name="pokerGame"/>      
+      <multiplicity id="60" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="23" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="63">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="64" name="cards"/>      
-      <multiplicity id="65" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="66">    
-    <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="67" name="pokerClient"/>      
-      <multiplicity id="68" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="69">    
+  <realization id="61">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <association id="62">    
     <end type="SOURCE" refId="20" navigable="false">      
-      <attribute id="70" name="player"/>      
-      <multiplicity id="71" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="72">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="73" name="table"/>      
-      <multiplicity id="74" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="75">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="76" name="gameModel"/>      
-      <multiplicity id="77" minimum="0" maximum="1"/>    
+      <attribute id="63" name="cardsInHand"/>      
+      <multiplicity id="64" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="78">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="79" name="gameView"/>      
-      <multiplicity id="80" minimum="0" maximum="1"/>    
+  <association id="65">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="66" name="cards"/>      
+      <multiplicity id="67" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="68">    
+    <bendpoint x="23" y="1466"/>    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <association id="69">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="70" name="gameView"/>      
+      <multiplicity id="71" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="72">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="73">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="74" name="clientApp"/>      
+      <multiplicity id="75" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="76">    
+    <end type="SOURCE" refId="25" navigable="false">      
+      <attribute id="77" name="tablePot"/>      
+      <multiplicity id="78" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="79">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="80" name="mainMenu"/>      
+      <multiplicity id="81" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="81">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="82" name="hand"/>      
-      <multiplicity id="83" minimum="0" maximum="1"/>    
+  <association id="82">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="83" name="connectedPlayers"/>      
+      <multiplicity id="84" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="84">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
   <association id="85">    
-    <bendpoint x="1261" y="1133"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="86" name="tablePots"/>      
-      <multiplicity id="87" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="86" name="pot"/>      
+      <multiplicity id="87" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="22" navigable="true"/>    
+    <end type="TARGET" refId="25" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="88">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="89" name="cardsInHand"/>      
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="89" name="cardsOnBoard"/>      
       <multiplicity id="90" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="91">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="92" name="cardsOnBoard"/>      
-      <multiplicity id="93" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="92" name="serverListener"/>      
+      <multiplicity id="93" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="94">    
-    <end type="SOURCE" refId="27"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <realization id="95">    
-    <bendpoint x="16" y="836"/>    
-    <end type="SOURCE" refId="21"/>    
-    <end type="TARGET" refId="10"/>  
-  </realization>  
-  <association id="96">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="97" name="currentPlayer"/>      
-      <multiplicity id="98" minimum="0" maximum="1"/>    
+  <association id="94">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="95" name="pokerClient"/>      
+      <multiplicity id="96" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="99">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="100" name="playerHands"/>      
-      <multiplicity id="101" minimum="0" maximum="2147483647"/>    
+  <association id="97">    
+    <bendpoint x="239" y="800"/>    
+    <bendpoint x="239" y="1097"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="98" name="player"/>      
+      <multiplicity id="99" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="102">    
-    <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="103" name="player"/>      
-      <multiplicity id="104" minimum="0" maximum="1"/>    
+  <association id="100">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="101" name="dealer"/>      
+      <multiplicity id="102" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="105">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="106" name="tablePot"/>      
-      <multiplicity id="107" minimum="0" maximum="1"/>    
+  <association id="103">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="104" name="instance"/>      
+      <multiplicity id="105" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="22" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="108">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="19"/>  
-  </generalization>  
-  <association id="109">    
+  <association id="106">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="110" name="mainMenu"/>      
+      <attribute id="107" name="deck"/>      
+      <multiplicity id="108" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="109">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="110" name="instance"/>      
       <multiplicity id="111" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="12" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="112">    
-    <end type="SOURCE" refId="25" navigable="false">      
-      <attribute id="113" name="connectedPlayers"/>      
-      <multiplicity id="114" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="113" name="gameScreen"/>      
+      <multiplicity id="114" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="18" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="115">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="19"/>  
+  <association id="115">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="116" name="gameModel"/>      
+      <multiplicity id="117" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="118">    
+    <bendpoint x="239" y="1871"/>    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="119" name="hand"/>      
+      <multiplicity id="120" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="121">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="16"/>  
   </generalization>  
+  <association id="122">    
+    <bendpoint x="-35" y="2132"/>    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="123" name="cards"/>      
+      <multiplicity id="124" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="125">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="13"/>  
+  </generalization>  
+  <association id="126">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="127" name="table"/>      
+      <multiplicity id="128" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

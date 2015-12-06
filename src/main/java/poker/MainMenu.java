@@ -15,6 +15,7 @@ import java.text.NumberFormat;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,14 +26,18 @@ import javax.swing.text.NumberFormatter;
 
 public class MainMenu {
 
+	private static String[] gameRules = { "No-Limit", "Pot-Limit", "Fixed-Limit" };
+	
 	private JPanel gamePanel;
 	private JLabel titleLabel;
 	private GameScreen gameScreen;
+	private GridBagConstraints gridBagConstraints;
 	
  	public MainMenu(GameScreen gameScreen, JPanel gamePanel)
 	{
  		this.gameScreen = gameScreen;
  		this.gamePanel = gamePanel;
+ 		this.gridBagConstraints = new GridBagConstraints();
  		titleLabel = new JLabel("Texas Hold'em");
 	}
  	
@@ -44,7 +49,7 @@ public class MainMenu {
 	private void mainMenuView()
 	{
 		gamePanel.removeAll();
-		
+			
 		gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.Y_AXIS));
 		titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font font = new Font("SansSerif", Font.BOLD, 20);
@@ -96,23 +101,19 @@ public class MainMenu {
 		gamePanel.removeAll();
 		
 		gamePanel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
 		
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 2;
-		c.ipady = 30;
-		gamePanel.add(titleLabel, c);
+		gridBagConstraints.anchor = GridBagConstraints.CENTER;
+		gridBagConstraints.fill = GridBagConstraints.NONE;
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridwidth = 2;
+		gridBagConstraints.ipady = 30;
+		gamePanel.add(titleLabel, gridBagConstraints);
 		
-		JLabel port = new JLabel("Port number");
-		port.setForeground(Color.black);
-		c.anchor = GridBagConstraints.WEST;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		c.ipady = 5;
-		gamePanel.add(port, c);
+		JLabel port = generateLabel("Port number", 0, 1);
+		gridBagConstraints.gridwidth = 1;
+		gridBagConstraints.ipady = 10;
+		gamePanel.add(port, gridBagConstraints);
 		
 		NumberFormat format = NumberFormat.getInstance();
 		format.setMinimumIntegerDigits(1);
@@ -125,10 +126,22 @@ public class MainMenu {
 		final JFormattedTextField portNumber = new JFormattedTextField(formatter);
 		portNumber.setValue(12343);
 		portNumber.setHorizontalAlignment(JTextField.RIGHT);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridx = 1;
-		gamePanel.add(portNumber, c);
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gridBagConstraints.gridx = 1;
+		gamePanel.add(portNumber, gridBagConstraints);
+		
+		JLabel name = generateLabel("Name", 0, 2);
+		gamePanel.add(name, gridBagConstraints);
+		
+		final JTextField nameText = new JTextField(15);
+		nameText.setText("Client");
+		nameText.setHorizontalAlignment(JTextField.RIGHT);
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gamePanel.add(nameText, gridBagConstraints);
 		
 		JButton back = new JButton("Back");
 		back.addMouseListener(new MouseAdapter()
@@ -138,24 +151,24 @@ public class MainMenu {
 						mainMenuView();
 					}
 				});
-		c.gridx = 0;
-		c.gridy = 2;
-		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.WEST;
-		gamePanel.add(back, c);
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 3;
+		gridBagConstraints.fill = GridBagConstraints.NONE;
+		gridBagConstraints.anchor = GridBagConstraints.WEST;
+		gamePanel.add(back, gridBagConstraints);
 		
 		JButton joinGame = new JButton("Join game");
 		joinGame.addMouseListener(new MouseAdapter()
 				{
 					public void mousePressed(MouseEvent e)
 					{
-						gameScreen.joinServer((int)portNumber.getValue(), "CLIENT");
+						gameScreen.joinServer((int)portNumber.getValue(), nameText.getText());
 					}
 				});
-		c.gridx = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.EAST;
-		gamePanel.add(joinGame, c);
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gamePanel.add(joinGame, gridBagConstraints);
 		
 		gamePanel.revalidate();
 		gamePanel.repaint();
@@ -166,57 +179,107 @@ public class MainMenu {
 		gamePanel.removeAll();
 		
 		gamePanel.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
 		
-		JLabel players = new JLabel("Number of players");
-		players.setForeground(Color.black);
-		c.anchor = GridBagConstraints.WEST;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.ipady = 10;
-		gamePanel.add(players, c);
+		JLabel players = generateLabel("Number of players", 0, 1);
+		gridBagConstraints.ipady = 10;
+		gamePanel.add(players, gridBagConstraints);
 		gamePanel.add(Box.createHorizontalStrut(20));
 		
 		final JSpinner numberOfPlayers = new JSpinner();
-		SpinnerNumberModel playerModel = new SpinnerNumberModel();
-		playerModel.setMaximum(10);
-		playerModel.setMinimum(2);
-		playerModel.setValue(2);
+		SpinnerNumberModel playerModel = generateSpinner(10, 2, 1, 2, 1, 1);
 		numberOfPlayers.setModel(playerModel);
-		numberOfPlayers.setMinimumSize(new Dimension(100, 20));
-		c.anchor = GridBagConstraints.EAST;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		gamePanel.add(numberOfPlayers, c);
+		gamePanel.add(numberOfPlayers, gridBagConstraints);
 
 		
-		JLabel cash = new JLabel("Starting amount of money");
-		cash.setForeground(Color.black);
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 2;
-		gamePanel.add(cash, c);
+		JLabel cash = generateLabel("Starting amount of money", 0, 2);
+		gamePanel.add(cash, gridBagConstraints);
 		
 		final JSpinner moneyAmount = new JSpinner();
-		SpinnerNumberModel moneyModel = new SpinnerNumberModel();
-		moneyModel.setMaximum(500);
-		moneyModel.setMinimum(200);
-		moneyModel.setStepSize(20);
-		moneyModel.setValue(200);
-		moneyAmount.setModel(moneyModel);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridx = 1;
-		gamePanel.add(moneyAmount, c);
+		SpinnerNumberModel moneyModel = generateSpinner(500, 200, 20, 200, 1, 2);
+		moneyAmount.setModel(moneyModel);;
+		gamePanel.add(moneyAmount, gridBagConstraints);
 		
-		JLabel port = new JLabel("Port");
-		port.setForeground(Color.black);
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 3;
-		gamePanel.add(port, c);
+		JLabel smallBlind = generateLabel("Small blind", 0, 3);
+		gamePanel.add(smallBlind, gridBagConstraints);
+		
+		final JSpinner smallBlindAmount = new JSpinner();
+		SpinnerNumberModel smallBlindModel = generateSpinner(30, 5, 5, 15, 1, 3);
+		smallBlindAmount.setModel(smallBlindModel);
+		gamePanel.add(smallBlindAmount, gridBagConstraints);
+		
+		JLabel bigBlind = generateLabel("Big blind", 0, 4);
+		gamePanel.add(bigBlind, gridBagConstraints);
+		
+		final JSpinner bigBlindAmount = new JSpinner();
+		SpinnerNumberModel bigBlindModel = generateSpinner(50, 15, 5, 30, 1, 4);
+		bigBlindAmount.setModel(bigBlindModel);
+		gamePanel.add(bigBlindAmount, gridBagConstraints);
+		
+		final JLabel raiseAmountLabel = generateLabel("Max raise amount", 0, 6);
+		raiseAmountLabel.setVisible(false);
+		gamePanel.add(raiseAmountLabel, gridBagConstraints);
+		
+		final JSpinner raiseAmount = new JSpinner();
+		SpinnerNumberModel raiseAmountModel = generateSpinner(100, 10, 10, 50, 1, 6);
+		raiseAmount.setModel(raiseAmountModel);
+		raiseAmount.setVisible(false);
+		gamePanel.add(raiseAmount, gridBagConstraints);
+		
+		final JLabel raiseTimeLabel = generateLabel("Max raise times", 0, 7);
+		raiseTimeLabel.setVisible(false);
+		gamePanel.add(raiseTimeLabel, gridBagConstraints);
+		
+		final JSpinner raiseTimeAmount = new JSpinner();
+		SpinnerNumberModel raiseTimeAmountModel = generateSpinner(5, 1, 1, 2, 1, 7);
+		raiseTimeAmount.setModel(raiseTimeAmountModel);
+		raiseTimeAmount.setVisible(false);
+		gamePanel.add(raiseTimeAmount, gridBagConstraints);
+		
+		JLabel rules = generateLabel("Rules", 0, 5);
+		gamePanel.add(rules, gridBagConstraints);
+		
+		final JComboBox chooseRules = new JComboBox(gameRules);
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 5;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		chooseRules.setSelectedIndex(0);
+		chooseRules.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						if (chooseRules.getSelectedItem().equals("Fixed-Limit"))
+						{
+							raiseAmountLabel.setVisible(true);
+							raiseAmount.setVisible(true);
+							raiseTimeLabel.setVisible(true);
+							raiseTimeAmount.setVisible(true);
+						}
+						else
+						{
+							raiseAmountLabel.setVisible(false);
+							raiseAmount.setVisible(false);
+							raiseTimeLabel.setVisible(false);
+							raiseTimeAmount.setVisible(false);
+						}
+					}
+				});
+		gamePanel.add(chooseRules, gridBagConstraints);
+		
+		JLabel name = generateLabel("Name", 0, 8);
+		gamePanel.add(name, gridBagConstraints);
+		
+		final JTextField nameText = new JTextField(15);
+		nameText.setText("Host");
+		nameText.setHorizontalAlignment(JTextField.RIGHT);
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 8;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gamePanel.add(nameText, gridBagConstraints);
+		
+		JLabel port = generateLabel("Port", 0, 9);
+		gamePanel.add(port, gridBagConstraints);
 		
 		NumberFormat format = NumberFormat.getInstance();
 		format.setMinimumIntegerDigits(1);
@@ -229,10 +292,10 @@ public class MainMenu {
 		final JFormattedTextField portNumber = new JFormattedTextField(formatter);
 		portNumber.setValue(12343);
 		portNumber.setHorizontalAlignment(JTextField.RIGHT);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridx = 1;
-		gamePanel.add(portNumber, c);
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gridBagConstraints.gridx = 1;
+		gamePanel.add(portNumber, gridBagConstraints);
 		
 		JButton back = new JButton("Back");
 		back.addMouseListener(new MouseAdapter()
@@ -242,34 +305,62 @@ public class MainMenu {
 						mainMenuView();
 					}
 				});
-		c.anchor = GridBagConstraints.WEST;
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 4;
-		gamePanel.add(back, c);
+		gridBagConstraints.anchor = GridBagConstraints.WEST;
+		gridBagConstraints.fill = GridBagConstraints.NONE;
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 10;
+		gamePanel.add(back, gridBagConstraints);
 		
 		JButton createGame = new JButton("Create game");
 		createGame.addMouseListener(new MouseAdapter()
 				{
 					public void mousePressed(MouseEvent e)
 					{
-						gameScreen.hostServer((int)numberOfPlayers.getValue(), (int)moneyAmount.getValue(), (int)portNumber.getValue(), "HOST");
+						gameScreen.hostServer((int)numberOfPlayers.getValue(), (int)moneyAmount.getValue(), (int)portNumber.getValue(), 
+											  (int)smallBlindAmount.getValue(), (int)bigBlindAmount.getValue(), (String)chooseRules.getSelectedItem(),
+											  nameText.getText(), (int)raiseAmount.getValue(), (int)raiseTimeAmount.getValue());
 					}
 				});
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.EAST;
-		c.gridx = 1;
-		gamePanel.add(createGame, c);
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gridBagConstraints.gridx = 1;
+		gamePanel.add(createGame, gridBagConstraints);
 		
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 3;
-		c.ipady = 30;
-		gamePanel.add(titleLabel, c);
+		gridBagConstraints.anchor = GridBagConstraints.CENTER;
+		gridBagConstraints.fill = GridBagConstraints.NONE;
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridwidth = 3;
+		gridBagConstraints.ipady = 30;
+		gamePanel.add(titleLabel, gridBagConstraints);
 		
 		gamePanel.revalidate();
 		gamePanel.repaint();
 	}	
+	
+	private SpinnerNumberModel generateSpinner(int max, int min, int stepSize, int value, int x, int y)
+	{
+		SpinnerNumberModel temp = new SpinnerNumberModel();
+		temp.setMaximum(max);
+		temp.setMinimum(min);
+		temp.setStepSize(stepSize);
+		temp.setValue(value);
+		gridBagConstraints.gridx = x;
+		gridBagConstraints.gridy = y;
+		gridBagConstraints.anchor = GridBagConstraints.EAST;
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		return temp;
+	}
+	
+	private JLabel generateLabel(String text, int x, int y)
+	{
+		JLabel temp = new JLabel(text);
+		temp.setForeground(Color.black);
+		gridBagConstraints.gridx = x;
+		gridBagConstraints.gridy = y;
+		gridBagConstraints.anchor = GridBagConstraints.WEST;
+		gridBagConstraints.fill = GridBagConstraints.NONE;
+		return temp;
+	}
 }
+

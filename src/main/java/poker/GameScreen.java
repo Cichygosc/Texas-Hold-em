@@ -44,11 +44,11 @@ public class GameScreen {
 		mainMenu.show();
 	}
 	
-	public void hostServer(int players, int money, int port, String name)
+	public void hostServer(int players, int money, int port, int smallBlind, int bigBlind, String rules, String name, int raiseAmount, int raiseTimes)
 	{
 		try
 		{
-			gameModel.hostServer(players, money, port);
+			gameModel.hostServer(players, money, port, smallBlind, bigBlind, rules, raiseAmount, raiseTimes);
 			joinServer(port, name);
 		}
 		catch(IOException e)
@@ -77,33 +77,18 @@ public class GameScreen {
 	
 	public void takeSeat(int seat)
 	{
-		gameModel.takeASeat(seat);
+		gameModel.getPlayer().takeASeat(seat);
 		gameModel.sendMessage("SEAT " + seat);
-	}
-	
-	public void addTakenSeat(int seat)
-	{
-		gameView.addTakenSeat(seat);
-	}
-	
-	public void removeTakenSeat(int seat)
-	{
-		gameView.removeTakenSeat(seat);
-	}
-	
-	public void setGameView()
-	{
-		gameView.pokerGameView();
-	}
-	
-	public void addPlayerCard(String path, int seat, int pos)
-	{
-		gameView.addPlayerCard(path, seat, pos);
 	}
 	
 	public GameModel getGameModel()
 	{
 		return gameModel;
+	}
+	
+	public GameView getGameView()
+	{
+		return gameView;
 	}
 	
 	public HashSet<Integer> getTakenSeats()
