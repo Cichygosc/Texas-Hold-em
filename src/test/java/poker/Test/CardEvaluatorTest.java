@@ -14,7 +14,6 @@ public class CardEvaluatorTest {
 
 	@Test
 	public void isStraightFlushTest(){
-		
 	}
 
 	@Test

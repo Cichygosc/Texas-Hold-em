@@ -76,9 +76,7 @@ public class CardEvaluator {
 	
 	public boolean isStraight(List<Card> cards)
 	{
-		
-		
-		
+			
 		return true;
 	}
 	
