@@ -51,16 +51,104 @@ public class CardEvaluator {
 		return false;
 	}
 	
+	public boolean isFullHouse(List<Card> cards)
+	{
+		
+		HashMap<Integer, Integer> valueMap = new HashMap<Integer, Integer>();
+		for (int i = 0; i < cards.size(); ++i)
+		{
+			Integer count = valueMap.get(cards.get(i).getNumber());
+			
+			if (count == null)
+				valueMap.put(cards.get(i).getNumber(), 1);
+			
+			else valueMap.put(cards.get(i).getNumber(), count + 1);
+		}
+		
+		if (valueMap.containsValue(3) && valueMap.containsValue(2))
+			
+			return true;
+		return false;
+	}
+	
+	
+	
+	
 	public boolean isStraight(List<Card> cards)
 	{
+		
+		
+		
 		return true;
 	}
 	
 	public boolean isFlush(List<Card> cards)
 	{
+		HashMap<Integer, Integer> valueMap = new HashMap<Integer, Integer>();
+		for (int i = 0; i < cards.size(); ++i)
+		{
+			Integer count = valueMap.get(cards.get(i).getSuit());
+			
+			if (count == null)
+				valueMap.put(cards.get(i).getSuit(), 1);
+			
+			else valueMap.put(cards.get(i).getSuit(), count + 1);
+		}
+		
+		if (valueMap.containsValue(5))
+			
+			return true;
+	
 		return false;
 	}
 	
+	public boolean isThreeOfAKind(List<Card> cards)
+	{
+		
+		HashMap<Integer, Integer> valueMap = new HashMap<Integer, Integer>();
+		for (int i = 0; i < cards.size(); ++i)
+		{
+			Integer count = valueMap.get(cards.get(i).getNumber());
+			
+			if (count == null)
+				valueMap.put(cards.get(i).getNumber(), 1);
+			
+			else valueMap.put(cards.get(i).getNumber(), count + 1);
+		}
+		
+		if (valueMap.containsValue(3))
+			
+			return true;
+		return false;
+	}
+	
+	
+	public boolean isTwoPair(List<Card> cards)
+	{
+
+
+		return false;
+	}
+	
+	public boolean isOnePair(List<Card> cards)
+	{
+		
+		HashMap<Integer, Integer> valueMap = new HashMap<Integer, Integer>();
+		for (int i = 0; i < cards.size(); ++i)
+		{
+			Integer count = valueMap.get(cards.get(i).getNumber());
+			
+			if (count == null)
+				valueMap.put(cards.get(i).getNumber(), 1);
+			
+			else valueMap.put(cards.get(i).getNumber(), count + 1);
+		}
+		
+		if (valueMap.containsValue(2))
+			
+			return true;
+		return false;
+	}
 	
 	public static CardEvaluator getInstance()
 	{
