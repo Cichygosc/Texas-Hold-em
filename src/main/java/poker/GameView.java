@@ -163,6 +163,19 @@ public class GameView {
 		gamePanel.revalidate();
 		gamePanel.repaint();
 	}
+	
+	public void addMiddleCards(String path, int pos)
+	{
+		ImageIcon icon;
+		icon = new ImageIcon("images/" + path + ".png");
+		cardOnTabelLabel[pos] = new JLabel(new ImageIcon(
+				icon.getImage().getScaledInstance(ButtonWidth / 2, ButtonHeight * 2, java.awt.Image.SCALE_SMOOTH)));
+		cardOnTabelLabel[pos].setBounds(buttonPos[0][0] + 10 + pos * (ButtonWidth / 2 + 5), 267, ButtonWidth / 2, ButtonHeight * 2);
+		gamePanel.add(cardOnTabelLabel[pos]);
+		
+		gamePanel.revalidate();
+		gamePanel.repaint();
+	}
 
 	// TODO ADDING BOT
 	private void addBot(int seat) {
@@ -212,9 +225,9 @@ public class GameView {
 		rightPanel.showButtons(buttons);
 	}
 	
-	public void setCallValue(int callValue)
+	public void setCallAndRaiseValue(int callValue, int raiseValue, int maxRaise)
 	{
-		rightPanel.setCallValue(callValue);
+		rightPanel.setCallAndRaiseValue(callValue, raiseValue, maxRaise);
 	}
 
 	public void removeTakenSeat(int seat) {

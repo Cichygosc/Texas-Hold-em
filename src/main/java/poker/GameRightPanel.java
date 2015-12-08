@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
 public class GameRightPanel extends JPanel {
@@ -27,6 +29,8 @@ public class GameRightPanel extends JPanel {
 	private GameView gameView;
 	private int playerSeat;
 	private int callValue;
+	private int raiseValue;
+	private int maxRaise;
 	
 	//bet available only if nobody bet
 	private JButton betViewButton;
@@ -52,6 +56,8 @@ public class GameRightPanel extends JPanel {
 
 	public GameRightPanel(GameView gameView) {
 		callValue = 0;
+		raiseValue = 0;
+		maxRaise = 0;
 		
 		this.setSize(getPreferredSize());
 		this.setOpaque(false);
@@ -135,6 +141,14 @@ public class GameRightPanel extends JPanel {
 		raiseAmount.setAlignmentX(Component.CENTER_ALIGNMENT);
 		raiseAmount.setMaximumSize(new Dimension(100, 20));
 		raiseAmount.setVisible(true);
+		raiseModel.setStepSize(5);
+		raiseModel.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				cashLabel.setText("$" + raiseAmount.getValue());
+				
+			}
+		});
 		
 		raiseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		raiseButton.setVisible(true);
@@ -190,8 +204,7 @@ public class GameRightPanel extends JPanel {
 		removeAll();
 		
 		titleLabel.setText(title);
-		cashLabel.setText("$" + String.valueOf(callValue));
-		raiseModel.setMinimum(0);
+		cashLabel.setText("$" + String.valueOf(raiseValue));
 		
 		add(titleLabel);
 		add(Box.createVerticalStrut(5));
@@ -244,10 +257,20 @@ public class GameRightPanel extends JPanel {
 		this.playerSeat = seat;
 	}
 	
-	public void setCallValue(int callValue)
+	/*
+	 * Sets how much cash you need to stay in game
+	 * And how much can you raise bet
+	 * maximumRaise = playerCash - cash to stay in game(ALL IN)
+	 */
+	public void setCallAndRaiseValue(int callValue, int raiseValue, int playerCash)
 	{
 		this.callValue = callValue;
+		this.raiseValue = raiseValue;
+		this.maxRaise = playerCash;
 		this.callButton.setText("Call $" + String.valueOf(callValue));
+		raiseModel.setMinimum(raiseValue);
+		raiseModel.setMaximum(maxRaise - callValue);
+		raiseModel.setValue(raiseValue);
 	}
 	
 	public void hideAllButtons()

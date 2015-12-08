@@ -35,7 +35,7 @@ public class Table {
 		this.pot += pot;
 	}
 	
-	public void newRound()
+	public void newGame()
 	{
 		pot = 0;
 		currentBet = 0;
@@ -106,6 +106,11 @@ public class Table {
 	public Player getCurrentPlayer()
 	{
 		return currentPlayer;
+	}
+	
+	public int getCurrentPlayerNumber()
+	{
+		return currentPlayerNum;
 	}
 	
 	public void setCurrentBet(int currentBet)

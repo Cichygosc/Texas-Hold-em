@@ -76,29 +76,39 @@ public class PokerClientApp implements IPokerApp{
 	public void addPlayerCard(String path, int seat, int pos)
 	{
 		if (seat == player.getSeat())
-		{
-			String n = path.substring(0, path.length() - 1);
-			int number;
-			if (n.equals("j"))
-				number = 9;
-			else if (n.equals("q"))
-				number = 10;
-			else if (n.equals("k"))
-				number = 11;
-			else if (n.equals("a"))
-				number = 12;
-			else number = Integer.parseInt(n);
-			String s = path.substring(path.length() - 1);
-			if (s.equals("s"))
-				player.getHand().addCardToHand(new Card(number, 0));
-			else if (s.equals("c"))
-				player.getHand().addCardToHand(new Card(number, 1));
-			else if (s.equals("h"))
-				player.getHand().addCardToHand(new Card(number, 2));
-			else if (s.equals("d"))
-				player.getHand().addCardToHand(new Card(number, 3));
-		}
+			player.getHand().addCardToHand(createCard(path));
 		gameModel.addPlayerCard(path, seat, pos);
+	}
+	
+	public void addBoardCard(String path, int pos)
+	{
+		player.getHand().addCardOnBoard(createCard(path));
+		gameView.addMiddleCards(path, pos);
+	}
+	
+	public Card createCard(String path)
+	{
+		String n = path.substring(0, path.length() - 1);
+		int number;
+		if (n.equals("j"))
+			number = 9;
+		else if (n.equals("q"))
+			number = 10;
+		else if (n.equals("k"))
+			number = 11;
+		else if (n.equals("a"))
+			number = 12;
+		else number = Integer.parseInt(n);
+		String s = path.substring(path.length() - 1);
+		if (s.equals("s"))
+			return new Card(number, 0);
+		else if (s.equals("c"))
+			return new Card(number, 1);
+		else if (s.equals("h"))
+			return new Card(number, 2);
+		else if (s.equals("d"))
+			return new Card(number, 3);
+		return null;
 	}
 	
 	public void setDealer(int seat)
@@ -132,9 +142,9 @@ public class PokerClientApp implements IPokerApp{
 		gameView.showButtons(buttons);
 	}
 	
-	public void setCallValue(int callValue)
+	public void setCallAndRaiseValue(int callValue, int raiseValue, int maxRaise)
 	{
-		gameView.setCallValue(callValue);
+		gameView.setCallAndRaiseValue(callValue, raiseValue, maxRaise);
 	}
 	
 	@Override

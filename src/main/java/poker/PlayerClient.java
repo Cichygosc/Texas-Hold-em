@@ -75,6 +75,10 @@ public class PlayerClient extends Thread {
 					{
 						clientApp.addPlayerCard(line.substring(9), line.charAt(5) - 48, line.charAt(7) - 48);
 					}
+					else if (line.startsWith("BOARD CARD"))
+					{
+						clientApp.addBoardCard(line.substring(13), line.charAt(11) - 48);
+					}
 					else if (line.startsWith("MONEY"))
 					{
 						int seat = Integer.parseInt(line.substring(6, 7));
@@ -90,11 +94,17 @@ public class PlayerClient extends Thread {
 					{
 						String[] args = line.split(" ");
 						int call = Integer.parseInt(args[2]);
+						int raise = Integer.parseInt(args[3]);
+						int maxRaise = Integer.parseInt(args[4]);
 						String buttons = "";
-						for (int i = 3; i < args.length; ++i)
+						for (int i = 4; i < args.length; ++i)
 							buttons += args[i] + " ";
-						clientApp.setCallValue(call);
+						clientApp.setCallAndRaiseValue(call, raise, maxRaise);
 						clientApp.showButtons(buttons);
+					}
+					else if (line.startsWith("NEXT ROUND"))
+					{
+						clientApp.getThisPlayer().getPlayerPot().newRound();
 					}
 					else if (line.startsWith("POT"))
 					{

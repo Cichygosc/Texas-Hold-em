@@ -13,8 +13,6 @@ import poker.Table;
 
 public class PokerGame {
 	
-	private static int ante = 5;
-	
 	private List<Player> connectedPlayers;
 	private Dealer dealer;
 	private int numOfPlayers;
@@ -113,11 +111,6 @@ public class PokerGame {
 			if (p.getSeat() == -1)
 				return false;
 		return true;
-	}
-	
-	public int getAnte()
-	{
-		return ante;
 	}
 	
 	public int getSmallBlind()

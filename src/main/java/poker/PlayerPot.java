@@ -3,19 +3,27 @@ package poker;
 public class PlayerPot {
 
 	private int money;
-	private int currentBet;
+	private int currentBet;			//last bet or raise amount
+	private int totalCashInRound;	//sum of bet, raise and call in this round
 	private boolean isAllIn;
 	private boolean isFold;
 	
 	public PlayerPot()
 	{
 		money = 0;
-		newRound();
+		newGame();
 	}
 	
 	public void newRound()
 	{
 		currentBet = 0;
+		totalCashInRound = 0;
+	}
+	
+	public void newGame()
+	{
+		currentBet = 0;
+		totalCashInRound = 0;
 		isAllIn = false;
 		isFold = false;
 	}
@@ -23,6 +31,7 @@ public class PlayerPot {
 	public void bet(int money)
 	{
 		this.money -= money;
+		this.totalCashInRound += money;
 	}
 	
 	public void setCurrentBet(int bet)
@@ -68,6 +77,11 @@ public class PlayerPot {
 	public int getCurrentBet()
 	{
 		return currentBet;
+	}
+	
+	public int getTotalCashUsedInRound()
+	{
+		return totalCashInRound;
 	}
 	
 }
