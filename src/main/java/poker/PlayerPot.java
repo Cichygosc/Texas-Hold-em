@@ -39,6 +39,11 @@ public class PlayerPot {
 		currentBet = bet;
 	}
 	
+	public void increaseCurrentBet(int bet)
+	{
+		currentBet += bet;
+	}
+	
 	public void addMoney(int money)
 	{
 		this.money += money;
@@ -51,6 +56,7 @@ public class PlayerPot {
 	
 	public void allIn()
 	{
+		bet(money);
 		isAllIn = true;
 	}
 	

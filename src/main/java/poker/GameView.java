@@ -13,6 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.sun.org.apache.xerces.internal.util.EntityResolver2Wrapper;
+
+import poker.server.PokerGame;
+
 //ZNANE BLEDY
 //brak nickow graczy ktorzy juz sa na serwerze(gamePanel.removeAll usuwa je)
 
@@ -154,11 +158,10 @@ public class GameView {
 		ImageIcon icon;
 		icon = new ImageIcon("images/" + path + ".png");
 
-		playerCardLabel[seat + pos] = new JLabel(new ImageIcon(
+		playerCardLabel[seat + pos].setIcon(new ImageIcon(
 				icon.getImage().getScaledInstance(ButtonWidth / 2, ButtonHeight * 2, java.awt.Image.SCALE_SMOOTH)));
 		playerCardLabel[seat + pos].setBounds(buttonPos[seat][0] + pos * (ButtonWidth / 2 + 5), buttonPos[seat][1],
 				ButtonWidth / 2, ButtonHeight * 2);
-		gamePanel.add(playerCardLabel[seat + pos]);
 
 		gamePanel.revalidate();
 		gamePanel.repaint();
@@ -166,11 +169,13 @@ public class GameView {
 	
 	public void addMiddleCards(String path, int pos)
 	{
+		if (cardOnTabelLabel[pos] != null)
+			gamePanel.remove(cardOnTabelLabel[pos]);
 		ImageIcon icon;
 		icon = new ImageIcon("images/" + path + ".png");
 		cardOnTabelLabel[pos] = new JLabel(new ImageIcon(
 				icon.getImage().getScaledInstance(ButtonWidth / 2, ButtonHeight * 2, java.awt.Image.SCALE_SMOOTH)));
-		cardOnTabelLabel[pos].setBounds(buttonPos[0][0] + 10 + pos * (ButtonWidth / 2 + 5), 267, ButtonWidth / 2, ButtonHeight * 2);
+		cardOnTabelLabel[pos].setBounds(buttonPos[0][0] + 30 + pos * (ButtonWidth / 2 + 5), 247, ButtonWidth / 2, ButtonHeight * 2);
 		gamePanel.add(cardOnTabelLabel[pos]);
 		
 		gamePanel.revalidate();
@@ -192,6 +197,10 @@ public class GameView {
 	public void addTakenSeat(int seat, String playerName) {
 		playerNameLabel[seat] = new JLabel(playerName);
 		playerMoneyLabel[seat] = new JLabel();
+		playerCardLabel[seat] = new JLabel();
+		playerCardLabel[seat + 1] = new JLabel();
+		gamePanel.add(playerCardLabel[seat]);
+		gamePanel.add(playerCardLabel[seat + 1]);
 		refreshPlayerLabels(seat);
 		takeSeatButton[seat].setVisible(false);
 	}
@@ -236,6 +245,50 @@ public class GameView {
 
 	public void sendMessage(String message) {
 		pokerApp.sendMessage(message);
+	}
+	
+	public void bet(int amount)
+	{
+		sendMessage("BET " + amount);
+		pokerApp.getThisPlayer().getPlayerPot().bet(amount);
+		pokerApp.getThisPlayer().getPlayerPot().setCurrentBet(amount);
+		sendMessage("NEXT PLAYER");
+	}
+	
+	public void raise(int callValue, int amount)
+	{
+		sendMessage("CALL " + callValue);
+		sendMessage("BET " + amount);
+		pokerApp.getThisPlayer().getPlayerPot().bet(callValue);
+		pokerApp.getThisPlayer().getPlayerPot().bet(amount);
+		pokerApp.getThisPlayer().getPlayerPot().increaseCurrentBet(amount);
+		sendMessage("NEXT PLAYER");
+	}
+	
+	public void check()
+	{
+		sendMessage("NEXT PLAYER");
+	}
+	
+	public void call(int amount)
+	{
+		sendMessage("CALL " + amount);
+		pokerApp.getThisPlayer().getPlayerPot().bet(amount);
+		sendMessage("NEXT PLAYER");
+	}
+	
+	public void fold()
+	{
+		sendMessage("FOLD");
+		pokerApp.getThisPlayer().getPlayerPot().fold();
+		sendMessage("NEXT PLAYER");
+	}
+	
+	public void allIn()
+	{
+		sendMessage("ALLIN");
+		pokerApp.getThisPlayer().getPlayerPot().allIn();
+		sendMessage("NEXT PLAYER");
 	}
 
 	public void setPokerApp(IPokerApp app) {

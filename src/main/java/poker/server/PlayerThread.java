@@ -72,9 +72,40 @@ public class PlayerThread extends Thread {
 					GameController.getInstance().sendMessageToAllPlayers("SEAT " + seat + " " + player.getName());
 					GameController.getInstance().sendMessageToAllPlayers(output, "MESSAGE " + player.getName() + " has taken seat number " + seat);
 				}
+				else if (in.startsWith("BET"))
+				{
+					int bet = Integer.parseInt(in.substring(4));
+					player.getPlayerPot().bet(bet);
+					player.getPlayerPot().setCurrentBet(bet);
+					serverListener.setCurrentBet(bet);
+					GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " bet " + bet);
+				}
+				else if (in.startsWith("CALL"))
+				{
+					int call = Integer.parseInt(in.substring(5));
+					player.getPlayerPot().bet(call);
+					serverListener.addPot(call);
+					GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " call " + call);
+				}
+				else if (in.startsWith("FOLD"))
+				{
+					player.getPlayerPot().fold();
+					GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " has fold");
+				}
+				else if (in.startsWith("ALLIN"))
+				{
+					serverListener.addPot(player.getPlayerPot().getMoney());
+					player.getPlayerPot().allIn();
+					GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " all in");
+				}
+				else if (in.startsWith("NEXT PLAYER"))
+				{
+					GameController.getInstance().sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + player.getPlayerPot().getMoney());
+					serverListener.nextPlayer();
+				}
 				else
 				{
-					output.println("ERROR Unrecognized command");
+					output.println("MESSAGE Unrecognized command");
 				}
 				sleep(500);
 			}
@@ -85,7 +116,7 @@ public class PlayerThread extends Thread {
 		}
 		catch (NullPointerException e)
 		{
-			System.out.println("PLAYER LEFT " + player.getSeat());		
+			System.out.println("PLAYER LEFT " + player.getName());		
 		}
 		catch (InterruptedException e)
 		{

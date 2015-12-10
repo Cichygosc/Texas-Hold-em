@@ -120,7 +120,6 @@ public class PlayerClient extends Thread {
 					}
 					else if (line.startsWith("PLAYER LEFT"))
 					{
-						System.out.println("SEAT " + Integer.parseInt(line.substring(12)));
 						clientApp.removeTakenSeat(Integer.parseInt(line.substring(12)));
 					}
 					else if (line.startsWith("GAME STARTING"))

@@ -1,5 +1,6 @@
 package poker;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,9 +16,11 @@ public class Dealer {
 	private PokerGame pokerGame;
 	private Random random;
 	private Dealer.GameStateBehavior gameState;
+	private boolean isDealerTurn;
 
 	public Dealer(PokerGame pokerGame) {
 		this.pokerGame = pokerGame;
+		this.isDealerTurn = false;
 		random = new Random();
 		table = new Table();
 		deck = new CardDeck();
@@ -33,10 +36,26 @@ public class Dealer {
 		table.newGame();
 		gameState = GameState.Preflop.getStateBehavior();
 		chooseDealer();
-		table.nextPlayer();
+		findAvailableNextPlayer();
 		throwCards();
 		getBlinds();
 		nextPlayer();
+	}
+	
+	private void findAvailableNextPlayer()
+	{
+		isDealerTurn = false;
+		table.nextPlayer();
+		Player player = table.getCurrentPlayer();
+		if (table.getCurrentPlayerNumber() == table.getDealerPos())
+			isDealerTurn = true;
+		while (player.getPlayerPot().isAllIn() || player.getPlayerPot().isFold())
+		{
+			table.nextPlayer();
+			player = table.getCurrentPlayer();
+			if (table.getCurrentPlayerNumber() == table.getDealerPos())
+				isDealerTurn = true;
+		}
 	}
 
 	private void getBlinds() {
@@ -47,8 +66,7 @@ public class Dealer {
 		GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " small blind");
 		GameController.getInstance()
 				.sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + player.getPlayerPot().getMoney());
-		GameController.getInstance().sendMessageToAllPlayers("POT " + table.getPot());
-		table.nextPlayer();
+		findAvailableNextPlayer();
 		player = table.getCurrentPlayer();
 		player.getPlayerPot().bet(pokerGame.getBigBlind());
 		player.getPlayerPot().setCurrentBet(pokerGame.getBigBlind());
@@ -56,53 +74,60 @@ public class Dealer {
 		GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " big blind");
 		GameController.getInstance()
 				.sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + player.getPlayerPot().getMoney());
-		GameController.getInstance().sendMessageToAllPlayers("POT " + table.getPot());
-		table.setCurrentBet(pokerGame.getBigBlind());
+		table.increaseRoundBet(pokerGame.getBigBlind());
+		table.setLastBet(pokerGame.getBigBlind());
 		table.setIsOpen(true);
 	}
 
-	private void nextPlayer() {
+	public void nextPlayer() {
 		GameController.getInstance().sendMessageToPlayer(table.getCurrentPlayer(), "END TURN");
-		table.nextPlayer();
+		findAvailableNextPlayer();
 		Player player = table.getCurrentPlayer();
-		if (table.getCurrentPlayerNumber() == table.getDealerPos() && checkEndOfRound())
-			nextRound();
-		while (player.getPlayerPot().isFold() || player.getPlayerPot().isAllIn()) {
-			table.nextPlayer();
-			player = table.getCurrentPlayer();
-			if (table.getCurrentPlayerNumber() == table.getDealerPos() && checkEndOfRound())
-				nextRound();
-		}
-		int call = table.getCurrentBet() - player.getPlayerPot().getCurrentBet();
-		int raise = table.getCurrentBet() == 0 ? pokerGame.getBigBlind() : table.getCurrentBet();
+		if (isDealerTurn && checkEndOfRound())
+			if (!nextRound())
+				return;
+		int call = table.getLastBet() == player.getPlayerPot().getCurrentBet() ? 0 : 
+			player.getPlayerPot().getCurrentBet() == pokerGame.getSmallBlind() ? table.getLastBet() - player.getPlayerPot().getCurrentBet() : table.getLastBet();
+		int raise = table.getRoundBet() == 0 ? pokerGame.getBigBlind() : table.getLastBet() * 2;
 		int maxRaise = player.getPlayerPot().getMoney();
 		String buttons = "";
-		if (table.getIsOpen())
-			buttons += "Raise ";
+		if (player.getPlayerPot().getMoney() - call < 0)
+			buttons += "AllIn Fold";
 		else
-			buttons += "Bet ";
-		if (call == 0)
-			buttons += "Check ";
-		if (call > 0)
-			buttons += "Call Fold ";
-		buttons += "AllIn";
+		{
+			if (raise < maxRaise)
+			{
+				if (table.getIsOpen())
+					buttons += "Raise ";
+				else
+					buttons += "Bet ";
+			}
+			if (call == 0)
+				buttons += "Check ";
+			if (call > 0)
+				buttons += "Call Fold ";
+		}
+		
 		GameController.getInstance().sendMessageToPlayer(player,
 				"YOUR TURN " + call + " " + raise + " " + maxRaise + " " + buttons);
 	}
 	
-	private void nextRound()
+	private boolean nextRound()
 	{
 		for (Player player: table.getPlayers())
 			player.getPlayerPot().newRound();
 		GameController.getInstance().sendMessageToAllPlayers("NEXT ROUND");
-		table.setCurrentBet(0);
-		table.setIsOpen(false);
+		table.newRound();
 		gameState = gameState.nextState();
-		int numOfCards = gameState.getNumberOfCards();		
+		int numOfCards = gameState.getNumberOfCards();	
 		int pos = gameState.getCardsStartPos();
 		if (numOfCards == 0)
+		{
 			showdown();
+			return false;
+		}
 		else showMiddleCards(numOfCards, pos);
+		return true;
 	}
 
 	private void chooseDealer() {
@@ -159,11 +184,67 @@ public class Dealer {
 	}
 
 	private void showdown() {
+		GameController.getInstance().sendMessageToAllPlayers("END TURN");
+		GameController.getInstance().sendMessageToAllPlayers("MESSAGE Checking cards...");
 		for (Player player: table.getPlayers())
 		{
 			for (int i = 0; i < 2; ++i)
 				GameController.getInstance().sendMessageToAllPlayers(player, "CARD " + player.getSeat() + " " + i + " " + player.getHand().getCardFromHand(i).toString());
 		}
+		lookForWinner();
+	}
+	
+	private void lookForWinner()
+	{
+		List<Player> winners = new ArrayList<Player>();
+		BestHand winnerHand = null;
+		for (Player player: table.getPlayers())
+		{
+			if (player.getPlayerPot().isFold())
+				continue;
+			if (winners.isEmpty())
+			{
+				winners.add(player);
+				winnerHand = player.getHand().getBestHand();
+				continue;
+			}
+			BestHand comHand = player.getHand().getBestHand();
+			if (winnerHand.getRank() < comHand.getRank())
+			{
+				winners.clear();
+				winners.add(player);
+				winnerHand = comHand;
+				continue;
+			}
+			int handCompare = winnerHand.compareHighCards(comHand);
+			if (handCompare == 1)
+			{
+				continue;
+			}
+			else if (handCompare == -1)
+			{
+				winners.clear();
+				winners.add(player);
+				winnerHand = comHand;
+			}
+			else if (handCompare == 0)
+			{
+				winners.add(player);
+			}
+		}
+	}
+	
+	public void setCurrentBet(int bet)
+	{
+		table.setLastBet(bet);
+		table.increaseRoundBet(bet);
+		table.setIsOpen(true);
+		table.addPot(bet);
+	}
+	
+	public void addPot(int pot)
+	{
+		table.addPot(pot);
 	}
 
 	public Table getTable() {

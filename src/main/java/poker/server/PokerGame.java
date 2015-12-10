@@ -113,6 +113,21 @@ public class PokerGame {
 		return true;
 	}
 	
+	public void setCurrentBet(int bet)
+	{
+		dealer.setCurrentBet(bet);
+	}
+	
+	public void nextPlayer()
+	{
+		dealer.nextPlayer();
+	}
+	
+	public void addPot(int pot)
+	{
+		dealer.addPot(pot);
+	}
+	
 	public int getSmallBlind()
 	{
 		return smallBlind;

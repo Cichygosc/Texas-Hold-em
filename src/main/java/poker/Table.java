@@ -14,7 +14,8 @@ public class Table {
 	private Player currentPlayer;
 	private int currentPlayerNum;
 	private int pot;
-	private int currentBet;
+	private int roundBet;
+	private int lastBet;
 	private int dealerButtonPos;
 	private boolean isOpen;
 	
@@ -26,19 +27,28 @@ public class Table {
 		isOpen = false;
 		currentPlayerNum = -1;
 		pot = 0;
-		currentBet = 0;
+		roundBet = 0;
+		lastBet = 0;
 		dealerButtonPos = -1;
 	}
 	
 	public void addPot(int pot)
 	{
 		this.pot += pot;
+		GameController.getInstance().sendMessageToAllPlayers("POT " + this.pot);
 	}
 	
 	public void newGame()
 	{
 		pot = 0;
-		currentBet = 0;
+		newRound();
+	}
+	
+	public void newRound()
+	{
+		roundBet = 0;
+		lastBet = 0;
+		isOpen = false;
 	}
 	
 	public int getPot()
@@ -113,14 +123,24 @@ public class Table {
 		return currentPlayerNum;
 	}
 	
-	public void setCurrentBet(int currentBet)
+	public void setLastBet(int bet)
 	{
-		this.currentBet = currentBet;
+		this.lastBet = bet;
 	}
 	
-	public int getCurrentBet()
+	public void increaseRoundBet(int amount)
 	{
-		return currentBet;
+		this.roundBet += amount;
+	}
+	
+	public int getLastBet()
+	{
+		return lastBet;
+	}
+	
+	public int getRoundBet()
+	{
+		return roundBet;
 	}
 	
 	public void setIsOpen(boolean isOpen)

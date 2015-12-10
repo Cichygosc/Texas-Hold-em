@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.HashMap;
 
+import com.sun.corba.se.impl.protocol.AddressingDispositionException;
+
 import poker.Player;
 
 public class Server extends Thread {
@@ -83,6 +85,21 @@ public class Server extends Thread {
 	public void removeTakenSeat(int seat)
 	{
 		pokerGame.removeTakenSeat(seat);
+	}
+	
+	public void setCurrentBet(int bet)
+	{
+		pokerGame.setCurrentBet(bet);
+	}
+	
+	public void addPot(int pot)
+	{
+		pokerGame.addPot(pot);
+	}
+	
+	public void nextPlayer()
+	{
+		pokerGame.nextPlayer();
 	}
 	
 	public HashMap<Integer, String> getTakenSeats()

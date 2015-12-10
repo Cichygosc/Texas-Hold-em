@@ -104,7 +104,7 @@ public class GameRightPanel extends JPanel {
 		checkButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				check();
+				gameView.check();
 			}
 		});
 		
@@ -112,7 +112,7 @@ public class GameRightPanel extends JPanel {
 		callButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				call();
+				gameView.call(callValue);
 			}
 		});
 		
@@ -120,7 +120,7 @@ public class GameRightPanel extends JPanel {
 		foldButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e)
 			{
-				fold();
+				gameView.fold();
 			}
 		});
 		
@@ -128,7 +128,7 @@ public class GameRightPanel extends JPanel {
 		allInButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e)
 			{
-				allIn();
+				gameView.allIn();
 			}
 		});
 		
@@ -155,7 +155,7 @@ public class GameRightPanel extends JPanel {
 		raiseButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent event)
 			{
-				raise((int)raiseAmount.getValue());
+				gameView.raise(callValue, (int)raiseAmount.getValue());
 			}
 		});
 		
@@ -164,7 +164,7 @@ public class GameRightPanel extends JPanel {
 		betButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent event)
 			{
-				bet((int)raiseAmount.getValue());
+				gameView.bet((int)raiseAmount.getValue());
 			}
 		});
 		
@@ -220,36 +220,6 @@ public class GameRightPanel extends JPanel {
 		
 		revalidate();
 		repaint();
-	}
-	
-	private void bet(int amount)
-	{
-		gameView.sendMessage("Bet " + playerSeat + " " + amount);
-	}
-	
-	private void raise(int amount)
-	{
-		gameView.sendMessage("Raise " + playerSeat + " " + amount);
-	}
-	
-	private void check()
-	{
-		gameView.sendMessage("Check " + playerSeat);
-	}
-	
-	private void call()
-	{
-		gameView.sendMessage("Call " + playerSeat);
-	}
-	
-	private void fold()
-	{
-		gameView.sendMessage("Fold " + playerSeat);
-	}
-	
-	private void allIn()
-	{
-		gameView.sendMessage("AllIn " + playerSeat);
 	}
 	
 	public void setPlayerSeat(int seat)

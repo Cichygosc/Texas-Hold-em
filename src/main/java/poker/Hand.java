@@ -16,6 +16,7 @@ public class Hand {
 	public void newGame()
 	{
 		cardsInHand = new ArrayList<Card>();
+		cardsOnBoard = new ArrayList<Card>();
 	}
 	
 	public int numberOfCards()
