@@ -31,21 +31,18 @@ public class CardEvaluator {
 	
 	public boolean isFourOfKind(List<Card> cards)
 	{
-		//HashMap<klucz, wartosc>
-		//klucz - numer karty
-		//wartosc - ilosc wystapien
+		
 		HashMap<Integer, Integer> valueMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < cards.size(); ++i)
 		{
 			Integer count = valueMap.get(cards.get(i).getNumber());
-			//jezeli numer karty nie istnieje w mapie dodaj go z wartoscia 1
-			if (count == null)
+					if (count == null)
 				valueMap.put(cards.get(i).getNumber(), 1);
-			//w przeciwnym wypadku zwieksz wartosc o 1
+			
 			else valueMap.put(cards.get(i).getNumber(), count + 1);
 		}
-		//jezeli wartosc ktoregos numeru wynosi 4 to znaczy ze wystepuje 4 razy
-		//dla pary, dwoch par, trojki, full'a, flush'a mozna zrobic tak samo (dla flush'a kluczem bedzie kolor)
+		
+		
 		if (valueMap.containsValue(4))
 			return true;
 		return false;
@@ -74,10 +71,16 @@ public class CardEvaluator {
 	
 	
 	
-	public boolean isStraight(List<Card> cards)
+	public boolean isStraight(List<Card>  cards)
 	{
-			
-		return true;
+		
+		for (int i = 1; i < cards.size(); i++) {
+	        if (cards.get(i).getNumber() - cards.get(i-1).getNumber() == 1) {
+	            return true;
+	        }
+	    }
+
+	    return false;
 	}
 	
 	public boolean isFlush(List<Card> cards)
@@ -122,10 +125,23 @@ public class CardEvaluator {
 	
 	
 	public boolean isTwoPair(List<Card> cards)
-	{
+	{   
+		
+		Card tmpCard = null;
+        int pairCount = 0;
+        for (Card card : cards) {
+            
+            if (tmpCard != null && (tmpCard.getNumber() == card.getNumber())) {
+                pairCount = pairCount + 1;
+            }
+            tmpCard = card;
 
+        }
+       
+        if (pairCount == 2)
+            return true;
 
-		return false;
+        return false; 
 	}
 	
 	public boolean isOnePair(List<Card> cards)

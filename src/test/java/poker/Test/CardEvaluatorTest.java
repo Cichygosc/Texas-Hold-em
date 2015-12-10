@@ -14,6 +14,18 @@ public class CardEvaluatorTest {
 
 	@Test
 	public void isStraightFlushTest(){
+		
+			List<Card> temp = new ArrayList<Card>();
+			temp.add(new Card(1, 4));
+			temp.add(new Card(1, 1));
+			temp.add(new Card(2, 1));
+			temp.add(new Card(4, 1));
+			temp.add(new Card(1, 2));
+			temp.add(new Card(5, 1));
+			temp.add(new Card(3, 1));
+			assertTrue(CardEvaluator.getInstance().isStraightFlush(temp));
+		
+	
 	}
 
 	@Test
@@ -59,6 +71,20 @@ public class CardEvaluatorTest {
 	}
 	
 	@Test
+	public void isStraightTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(2, 2));
+		temp.add(new Card(4, 3));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(5, 3));
+		temp.add(new Card(3, 4));
+		assertTrue(CardEvaluator.getInstance().isStraight(temp));
+	}
+	
+	@Test
 	public void isThreeOfAKindTest()
 	{
 		List<Card> temp = new ArrayList<Card>();
@@ -75,6 +101,16 @@ public class CardEvaluatorTest {
 	@Test
 	public void isTwoPairTest()
 	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(3, 3));
+		temp.add(new Card(5, 3));
+		temp.add(new Card(0, 1));
+		temp.add(new Card(0, 4));
+		temp.add(new Card(11, 5));
+		assertTrue(CardEvaluator.getInstance().isTwoPair(temp));
+
 			}
 	
 	@Test
