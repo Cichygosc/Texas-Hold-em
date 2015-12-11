@@ -1,8 +1,5 @@
 package poker;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,10 +9,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import com.sun.org.apache.xerces.internal.util.EntityResolver2Wrapper;
-
-import poker.server.PokerGame;
 
 //ZNANE BLEDY
 //brak nickow graczy ktorzy juz sa na serwerze(gamePanel.removeAll usuwa je)
@@ -113,7 +106,6 @@ public class GameView {
 			if (gameScreen.getPlayer().isHost()) {
 				final int j = i;
 				takeSeatButton[j].setText("Add Bot");
-				takeSeatButton[j].removeMouseListener(takeSeatButton[j].getMouseListeners()[0]);
 				takeSeatButton[j].addMouseListener(new MouseAdapter() {
 					public void mousePressed(MouseEvent e) {
 						addBot(j);
@@ -169,8 +161,6 @@ public class GameView {
 	
 	public void addMiddleCards(String path, int pos)
 	{
-		if (cardOnTabelLabel[pos] != null)
-			gamePanel.remove(cardOnTabelLabel[pos]);
 		ImageIcon icon;
 		icon = new ImageIcon("images/" + path + ".png");
 		cardOnTabelLabel[pos] = new JLabel(new ImageIcon(
@@ -190,7 +180,6 @@ public class GameView {
 	private void takeSeat(int seat) {
 		gameScreen.takeSeat(seat);
 		addTakenSeat(seat, gameScreen.getPlayer().getName());
-		rightPanel.setPlayerSeat(seat);
 		waitingForPlayersView();
 	}
 
@@ -201,13 +190,14 @@ public class GameView {
 		playerCardLabel[seat + 1] = new JLabel();
 		gamePanel.add(playerCardLabel[seat]);
 		gamePanel.add(playerCardLabel[seat + 1]);
+		gamePanel.add(playerMoneyLabel[seat]);
+		gamePanel.add(playerNameLabel[seat]);
 		refreshPlayerLabels(seat);
+
 		takeSeatButton[seat].setVisible(false);
 	}
 
 	private void refreshPlayerLabels(int seat) {
-		gamePanel.remove(playerMoneyLabel[seat]);
-		gamePanel.remove(playerNameLabel[seat]);
 		playerNameLabel[seat].setBounds(
 				buttonPos[seat][0] + ButtonWidth / 2
 						- playerNameLabel[seat].getFontMetrics(playerNameLabel[seat].getFont())
@@ -218,8 +208,6 @@ public class GameView {
 						- playerMoneyLabel[seat].getFontMetrics(playerMoneyLabel[seat].getFont())
 								.stringWidth(playerMoneyLabel[seat].getText()) / 2,
 				buttonPos[seat][1] - 25, ButtonWidth, 25);
-		gamePanel.add(playerMoneyLabel[seat]);
-		gamePanel.add(playerNameLabel[seat]);
 		gamePanel.revalidate();
 		gamePanel.repaint();
 	}

@@ -21,7 +21,7 @@ public class PokerClientApp implements IPokerApp{
 		this.gameView.setPokerApp(this);
 		try
 		{
-			connectSocket(port, playerName);
+			connectSocket(playerName);
 		}
 		catch (IOException e)
 		{
@@ -29,7 +29,7 @@ public class PokerClientApp implements IPokerApp{
 		}
 	}
 	
-	private void connectSocket(int port, String playerName) throws IOException
+	private void connectSocket(String playerName) throws IOException
 	{
 		try
 		{

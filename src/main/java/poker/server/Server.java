@@ -2,28 +2,34 @@ package poker.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.HashMap;
-
-import com.sun.corba.se.impl.protocol.AddressingDispositionException;
-
-import poker.Player;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server extends Thread {
 
 	private ServerSocket listener;
-	private PokerGame pokerGame;
+	private List<PokerRoom> pokerRooms;
+	private int connectedClients;
 	private boolean isListening;
 
-	public Server(int players, int money, int smallBlind, int bigBlind, String rules, int raiseAmount, int raiseTimes, int port) throws IOException {
+	public Server(int players, int tables, int money, int smallBlind, int bigBlind, String rules, int raiseAmount,
+			int raiseTimes, int port) throws IOException {
 		try {
 			listener = new ServerSocket(port);
+			pokerRooms = new ArrayList<PokerRoom>();
+			connectedClients = 0;
 			isListening = true;
 
 		} catch (IOException e) {
 			throw e;
 		}
 		System.out.println("Server is running");
-		pokerGame = new PokerGame(players, money, smallBlind, bigBlind, rules, raiseAmount, raiseTimes);
+		GameSettings.getInstance().setCustomSettings(players, tables, money, smallBlind, bigBlind, rules, raiseAmount,
+				raiseTimes);
+		for (int i = 0; i < tables; ++i) {
+			PokerRoom room = new PokerRoom();
+			pokerRooms.add(room);
+		}
 		this.start();
 	}
 
@@ -32,15 +38,19 @@ public class Server extends Thread {
 			try {
 				while (true) {
 					if (isListening) {
-						for (int i = 0; i < pokerGame.getMaxNumberOfPlayers(); ++i) {
+						for (int i = 0; i < GameSettings.getInstance().getNumOfPlayers()
+								* GameSettings.getInstance().getNumOfTables(); ++i) {
 							System.out.println(i);
 							PlayerThread thread = new PlayerThread(listener.accept(), this);
 							thread.start();
 							System.out.println("Thread is running");
 						}
-						GameController.getInstance().sendMessageToAllPlayers("MESSAGE All players connected...Game starts in the moment");
+						for (PokerRoom pokerRoom : pokerRooms)
+						{
+							pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE All players connected. Game starting in the moment...");
+							pokerRoom.startGame();
+						}
 						isListening = false;
-						pokerGame.startGame();
 					}
 					sleep(2000);
 				}
@@ -56,54 +66,12 @@ public class Server extends Thread {
 			System.out.println("Error " + e);
 		}
 	}
-	
-	public void addPlayer(Player player)
-	{
-		pokerGame.addNewPlayer(player);
-	}
-	
-	public void removePlayer(Player player)
-	{
-		pokerGame.removePlayer(player);
-	}
-	
-	public int getMaxNumberOfPlayers()
-	{
-		return pokerGame.getMaxNumberOfPlayers();
-	}
-	
-	public int getNumberOfConnectedPlayers()
-	{
-		return pokerGame.getNumberOfConnectedPlayers();
+
+	public PokerRoom getPokerRoom(int index) {
+		return pokerRooms.get(index);
 	}
 
-	public void addTakenSeat(int seat)
-	{
-		pokerGame.addTakenSeat(seat);
-	}
-	
-	public void removeTakenSeat(int seat)
-	{
-		pokerGame.removeTakenSeat(seat);
-	}
-	
-	public void setCurrentBet(int bet)
-	{
-		pokerGame.setCurrentBet(bet);
-	}
-	
-	public void addPot(int pot)
-	{
-		pokerGame.addPot(pot);
-	}
-	
-	public void nextPlayer()
-	{
-		pokerGame.nextPlayer();
-	}
-	
-	public HashMap<Integer, String> getTakenSeats()
-	{
-		return pokerGame.getTakenSeats();
+	public int getNumberOfConnectedPlayers() {
+		return connectedClients;
 	}
 }

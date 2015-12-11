@@ -7,25 +7,13 @@ import poker.Player;
 
 public class GameController {
 	
-	private static HashSet<PrintWriter> playerOutput = new HashSet<PrintWriter>();
-	private static HashSet<PlayerThread> playerThread = new HashSet<PlayerThread>();
+	private HashSet<PrintWriter> playerOutput;
+	private HashSet<PlayerThread> playerThread;
 	
-	private static volatile GameController instance;
-	
-	private GameController()
-	{}
-	
-	public static GameController getInstance()
+	public GameController()
 	{
-		if (instance == null)
-		{
-			synchronized(GameController.class)
-			{
-				if (instance == null)
-					instance = new GameController();
-			}
-		}
-		return instance;
+		playerOutput = new HashSet<PrintWriter>();
+		playerThread = new HashSet<PlayerThread>();
 	}
 	
 	public void addPlayerOutput(PrintWriter writer)

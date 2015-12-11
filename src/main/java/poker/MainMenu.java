@@ -2,7 +2,6 @@ package poker;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -238,7 +237,7 @@ public class MainMenu {
 		JLabel rules = generateLabel("Rules", 0, 5);
 		gamePanel.add(rules, gridBagConstraints);
 		
-		final JComboBox chooseRules = new JComboBox(gameRules);
+		final JComboBox<?> chooseRules = new JComboBox<Object>(gameRules);
 		gridBagConstraints.gridx = 1;
 		gridBagConstraints.gridy = 5;
 		gridBagConstraints.anchor = GridBagConstraints.EAST;

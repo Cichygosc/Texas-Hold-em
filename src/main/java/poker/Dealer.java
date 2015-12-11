@@ -2,194 +2,57 @@ package poker;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import org.omg.PortableServer.ThreadPolicyValue;
-
-import poker.server.GameController;
-import poker.server.PokerGame;
+import poker.server.PokerRoom;
 
 public class Dealer {
 
 	private Table table;
 	private CardDeck deck;
-	private PokerGame pokerGame;
-	private Random random;
-	private Dealer.GameStateBehavior gameState;
-	private boolean isDealerTurn;
+	private PokerRoom pokerRoom;
 
-	public Dealer(PokerGame pokerGame) {
-		this.pokerGame = pokerGame;
-		this.isDealerTurn = false;
-		random = new Random();
+	public Dealer(PokerRoom pokerRoom) {
+		this.pokerRoom = pokerRoom;
 		table = new Table();
 		deck = new CardDeck();
 		deck.shuffleCards();
 	}
 
-	public void startGame() {
-		table.startGame();
-		newGame();
-	}
-
-	private void newGame() {
+	public void newGame() {
 		table.newGame();
-		gameState = GameState.Preflop.getStateBehavior();
-		chooseDealer();
-		findAvailableNextPlayer();
-		throwCards();
-		getBlinds();
-		nextPlayer();
-	}
-	
-	private void findAvailableNextPlayer()
-	{
-		isDealerTurn = false;
-		table.nextPlayer();
-		Player player = table.getCurrentPlayer();
-		if (table.getCurrentPlayerNumber() == table.getDealerPos())
-			isDealerTurn = true;
-		while (player.getPlayerPot().isAllIn() || player.getPlayerPot().isFold())
-		{
-			table.nextPlayer();
-			player = table.getCurrentPlayer();
-			if (table.getCurrentPlayerNumber() == table.getDealerPos())
-				isDealerTurn = true;
-		}
 	}
 
-	private void getBlinds() {
-		Player player = table.getCurrentPlayer();
-		player.getPlayerPot().bet(pokerGame.getSmallBlind());
-		player.getPlayerPot().setCurrentBet(pokerGame.getSmallBlind());
-		table.addPot(pokerGame.getSmallBlind());
-		GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " small blind");
-		GameController.getInstance()
-				.sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + player.getPlayerPot().getMoney());
-		findAvailableNextPlayer();
-		player = table.getCurrentPlayer();
-		player.getPlayerPot().bet(pokerGame.getBigBlind());
-		player.getPlayerPot().setCurrentBet(pokerGame.getBigBlind());
-		table.addPot(pokerGame.getBigBlind());
-		GameController.getInstance().sendMessageToAllPlayers("MESSAGE " + player.getName() + " big blind");
-		GameController.getInstance()
-				.sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + player.getPlayerPot().getMoney());
-		table.increaseRoundBet(pokerGame.getBigBlind());
-		table.setLastBet(pokerGame.getBigBlind());
-		table.setIsOpen(true);
-	}
-
-	public void nextPlayer() {
-		GameController.getInstance().sendMessageToPlayer(table.getCurrentPlayer(), "END TURN");
-		findAvailableNextPlayer();
-		Player player = table.getCurrentPlayer();
-		if (isDealerTurn && checkEndOfRound())
-			if (!nextRound())
-				return;
-		int call = table.getLastBet() == player.getPlayerPot().getCurrentBet() ? 0 : 
-			player.getPlayerPot().getCurrentBet() == pokerGame.getSmallBlind() ? table.getLastBet() - player.getPlayerPot().getCurrentBet() : table.getLastBet();
-		int raise = table.getRoundBet() == 0 ? pokerGame.getBigBlind() : table.getLastBet() * 2;
-		int maxRaise = player.getPlayerPot().getMoney();
-		String buttons = "";
-		if (player.getPlayerPot().getMoney() - call < 0)
-			buttons += "AllIn Fold";
-		else
-		{
-			if (raise < maxRaise)
-			{
-				if (table.getIsOpen())
-					buttons += "Raise ";
-				else
-					buttons += "Bet ";
-			}
-			if (call == 0)
-				buttons += "Check ";
-			if (call > 0)
-				buttons += "Call Fold ";
-		}
-		
-		GameController.getInstance().sendMessageToPlayer(player,
-				"YOUR TURN " + call + " " + raise + " " + maxRaise + " " + buttons);
-	}
-	
-	private boolean nextRound()
-	{
-		for (Player player: table.getPlayers())
-			player.getPlayerPot().newRound();
-		GameController.getInstance().sendMessageToAllPlayers("NEXT ROUND");
-		table.newRound();
-		gameState = gameState.nextState();
-		int numOfCards = gameState.getNumberOfCards();	
-		int pos = gameState.getCardsStartPos();
-		if (numOfCards == 0)
-		{
-			showdown();
-			return false;
-		}
-		else showMiddleCards(numOfCards, pos);
-		return true;
-	}
-
-	private void chooseDealer() {
-		int pos = table.getDealerPos();
-		if (pos == -1)
-			table.setDealerButton(random.nextInt(table.getPlayers().size()));
-		else {
-			if (pos == table.numOfPlayers() - 1)
-				table.setDealerButton(0);
-			else
-				table.setDealerButton(pos + 1);
-		}
-	}
-
-	private void throwCards() {
-		for (Player player : table.getPlayers()) {
+	public void throwCards() {
+		for (Player player : pokerRoom.getPlayers()) {
 			for (int i = 0; i < 2; ++i) {
 				Card card = deck.getCard();
-				GameController.getInstance().sendMessageToPlayer(player,
+				pokerRoom.getGameController().sendMessageToPlayer(player,
 						"CARD " + player.getSeat() + " " + i + " " + card.toString());
-				GameController.getInstance().sendMessageToAllPlayers(player,
+				pokerRoom.getGameController().sendMessageToAllPlayers(player,
 						"CARD " + player.getSeat() + " " + i + " " + "cb");
 				player.getHand().addCardToHand(card);
 			}
 		}
 	}
 	
-	private void showMiddleCards(int amount, int pos)
+	public void showMiddleCards(int amount, int pos)
 	{
 		for (int i = 0; i < amount; ++i, ++pos)
 		{
 			Card card = deck.getCard();
-			for (Player player : table.getPlayers())
+			for (Player player : pokerRoom.getPlayers())
 				player.getHand().addCardOnBoard(card);
-			GameController.getInstance().sendMessageToAllPlayers("BOARD CARD " + pos + " " + card.toString());
+			pokerRoom.getGameController().sendMessageToAllPlayers("BOARD CARD " + pos + " " + card.toString());
 		}
 	}
 
-	private boolean checkEndOfRound() {
-		List<Player> temp = table.getPlayers();
-		int i = 0;
-		int cash = -1;
-		for (i = 0; i < temp.size(); ++i) {
-			if (temp.get(i).getPlayerPot().isAllIn() || temp.get(i).getPlayerPot().isFold())
-				continue;
-			if (cash == -1) {
-				cash = temp.get(i).getPlayerPot().getTotalCashUsedInRound();
-				continue;
-			}
-			if (cash != temp.get(i).getPlayerPot().getTotalCashUsedInRound())
-				return false;
-		}
-		return true;
-	}
-
-	private void showdown() {
-		GameController.getInstance().sendMessageToAllPlayers("END TURN");
-		GameController.getInstance().sendMessageToAllPlayers("MESSAGE Checking cards...");
-		for (Player player: table.getPlayers())
+	public void showdown() {
+		pokerRoom.getGameController().sendMessageToAllPlayers("END TURN");
+		pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE Checking cards...");
+		for (Player player: pokerRoom.getPlayers())
 		{
 			for (int i = 0; i < 2; ++i)
-				GameController.getInstance().sendMessageToAllPlayers(player, "CARD " + player.getSeat() + " " + i + " " + player.getHand().getCardFromHand(i).toString());
+				pokerRoom.getGameController().sendMessageToAllPlayers(player, "CARD " + player.getSeat() + " " + i + " " + player.getHand().getCardFromHand(i).toString());
 		}
 		lookForWinner();
 	}
@@ -198,7 +61,7 @@ public class Dealer {
 	{
 		List<Player> winners = new ArrayList<Player>();
 		BestHand winnerHand = null;
-		for (Player player: table.getPlayers())
+		for (Player player: pokerRoom.getPlayers())
 		{
 			if (player.getPlayerPot().isFold())
 				continue;
@@ -214,6 +77,10 @@ public class Dealer {
 				winners.clear();
 				winners.add(player);
 				winnerHand = comHand;
+				continue;
+			}
+			else if (winnerHand.getRank() > comHand.getRank())
+			{
 				continue;
 			}
 			int handCompare = winnerHand.compareHighCards(comHand);
@@ -239,12 +106,13 @@ public class Dealer {
 		table.setLastBet(bet);
 		table.increaseRoundBet(bet);
 		table.setIsOpen(true);
-		table.addPot(bet);
+		addPot(bet);
 	}
 	
 	public void addPot(int pot)
 	{
 		table.addPot(pot);
+		pokerRoom.getGameController().sendMessageToAllPlayers("POT " + table.getPot());
 	}
 
 	public Table getTable() {
@@ -254,188 +122,4 @@ public class Dealer {
 	public String getTakenSeats() {
 		return table.getTakenSeats();
 	}
-	
-	///////////////////////////////////////////////////////////////////
-	/////////////////////////GAME STATES///////////////////////////////
-	///////////////////////////////////////////////////////////////////
-	interface GameStateBehavior
-	{
-		public int getNumberOfCards();
-		public int getCardsStartPos();
-		public GameStateBehavior nextState();
-		public GameState getState();
-	}
-	
-	enum GameState
-	{
-		Preflop
-		{
-			public GameStateBehavior getStateBehavior()
-			{
-				return new Dealer.PreflopState();
-			}
-		},
-		
-		Flop
-		{
-			public GameStateBehavior getStateBehavior()
-			{
-				return new Dealer.FlopState();
-			}
-		},
-		
-		Turn
-		{
-			public GameStateBehavior getStateBehavior()
-			{
-				return new Dealer.TurnState();
-			}
-		},
-		
-		River
-		{
-			public GameStateBehavior getStateBehavior()
-			{
-				return new Dealer.RiverState();
-			}
-		},
-		
-		Showdown
-		{
-			public GameStateBehavior getStateBehavior()
-			{
-				return new Dealer.ShowdownState();
-			}
-		};
-		
-		public GameStateBehavior getStateBehavior()
-		{
-			return null;
-		}
-	}
-	
-	static class PreflopState implements GameStateBehavior
-	{
-
-		@Override
-		public int getNumberOfCards() {
-			return 0;
-		}
-
-		@Override
-		public GameStateBehavior nextState() {
-			return GameState.Flop.getStateBehavior();
-		}
-
-		@Override
-		public GameState getState() {
-			return GameState.Preflop;
-		}
-
-		@Override
-		public int getCardsStartPos() {
-			return 0;
-		}	
-	}
-	
-	static class FlopState implements GameStateBehavior
-	{
-
-		@Override
-		public int getNumberOfCards() {
-			return 3;
-		}
-
-		@Override
-		public GameStateBehavior nextState() {
-			return GameState.Turn.getStateBehavior();
-		}
-
-		@Override
-		public GameState getState() {
-			return GameState.Flop;
-		}
-
-		@Override
-		public int getCardsStartPos() {
-			return 0;
-		}
-		
-	}
-	
-	static class TurnState implements GameStateBehavior
-	{
-
-		@Override
-		public int getNumberOfCards() {
-			return 1;
-		}
-
-		@Override
-		public GameStateBehavior nextState() {
-			return GameState.River.getStateBehavior();
-		}
-
-		@Override
-		public GameState getState() {
-			return GameState.Turn;
-		}
-
-		@Override
-		public int getCardsStartPos() {
-			return 3;
-		}
-		
-	}
-	
-	static class RiverState implements GameStateBehavior
-	{
-
-		@Override
-		public int getNumberOfCards() {
-			return 1;
-		}
-
-		@Override
-		public GameStateBehavior nextState() {
-			return GameState.Showdown.getStateBehavior();
-		}
-
-		@Override
-		public GameState getState() {
-			return GameState.River;
-		}
-
-		@Override
-		public int getCardsStartPos() {
-			return 4;
-		}
-		
-	}
-	
-	static class ShowdownState implements GameStateBehavior
-	{
-
-		@Override
-		public int getNumberOfCards() {
-			return 0;
-		}
-
-		@Override
-		public GameStateBehavior nextState() {
-			return GameState.Preflop.getStateBehavior();
-		}
-
-		@Override
-		public GameState getState() {
-			return GameState.Showdown;
-		}
-
-		@Override
-		public int getCardsStartPos() {
-			return 0;
-		}
-		
-	}
-
 }

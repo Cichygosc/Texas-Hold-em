@@ -1,41 +1,27 @@
 package poker;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-
-import poker.server.GameController;
 
 public class Table {
 
 	private HashSet<Integer> takenSeats;
-	private List<Player> players; 
-	private Player currentPlayer;
-	private int currentPlayerNum;
-	private int pot;
-	private int roundBet;
-	private int lastBet;
-	private int dealerButtonPos;
-	private boolean isOpen;
+	private int pot;				//amount of money to win
+	private int roundBet;			//sum of all players bets/raises
+	private int lastBet;			//amount of last bet/raise
+	private boolean isOpen;			//was bet used before in this round
 	
 	public Table()
 	{
 		takenSeats = new HashSet<Integer>();
-		players = new ArrayList<Player>();
-		currentPlayer = null;
 		isOpen = false;
-		currentPlayerNum = -1;
 		pot = 0;
 		roundBet = 0;
 		lastBet = 0;
-		dealerButtonPos = -1;
 	}
 	
 	public void addPot(int pot)
 	{
 		this.pot += pot;
-		GameController.getInstance().sendMessageToAllPlayers("POT " + this.pot);
 	}
 	
 	public void newGame()
@@ -56,21 +42,6 @@ public class Table {
 		return pot;
 	}
 	
-	public void startGame()
-	{
-		Collections.sort(players);
-	}
-	
-	public void addPlayerToTable(Player player)
-	{
-		players.add(player);
-	}
-	
-	public void removePlayer(Player player)
-	{
-		players.remove(player);
-	}
-	
 	public void addTakenSeat(int seat)
 	{
 		takenSeats.add(seat);
@@ -81,48 +52,7 @@ public class Table {
 		if (seat > 0)
 			takenSeats.remove(seat);
 	}
-	
-	public void setDealerButton(int pos)
-	{
-		dealerButtonPos = pos;
-		currentPlayer = players.get(dealerButtonPos);
-		currentPlayerNum = dealerButtonPos;
-		GameController.getInstance().sendMessageToAllPlayers("DEALER " + players.get(pos).getSeat());
-	}
-	
-	public void nextPlayer()
-	{
-		if (currentPlayerNum == players.size() - 1)
-			currentPlayerNum = 0;
-		else currentPlayerNum++;
-		currentPlayer = players.get(currentPlayerNum);
-	}
-	
-	public int getDealerPos()
-	{
-		return dealerButtonPos;
-	}
-	
-	public List<Player> getPlayers() 
-	{
-		return players;
-	}
-	
-	public int numOfPlayers()
-	{
-		return players.size();
-	}
-	
-	public Player getCurrentPlayer()
-	{
-		return currentPlayer;
-	}
-	
-	public int getCurrentPlayerNumber()
-	{
-		return currentPlayerNum;
-	}
-	
+
 	public void setLastBet(int bet)
 	{
 		this.lastBet = bet;

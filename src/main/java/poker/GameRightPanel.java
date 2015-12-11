@@ -1,14 +1,10 @@
 package poker;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -27,7 +22,6 @@ public class GameRightPanel extends JPanel {
 	private static int height = 150;
 	
 	private GameView gameView;
-	private int playerSeat;
 	private int callValue;
 	private int raiseValue;
 	private int maxRaise;
@@ -62,7 +56,6 @@ public class GameRightPanel extends JPanel {
 		this.setSize(getPreferredSize());
 		this.setOpaque(false);
 		this.gameView = gameView;
-		this.playerSeat = -1;
 		betViewButton = new JButton("Bet");
 		raiseViewButton = new JButton("Raise...");
 		checkButton = new JButton("Check");
@@ -220,11 +213,6 @@ public class GameRightPanel extends JPanel {
 		
 		revalidate();
 		repaint();
-	}
-	
-	public void setPlayerSeat(int seat)
-	{
-		this.playerSeat = seat;
 	}
 	
 	/*
