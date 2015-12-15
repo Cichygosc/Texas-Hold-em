@@ -16,8 +16,8 @@ public class GameModel {
 		takenSeats = new HashSet<Integer>();
 	}
 
-	public void hostServer(int players, int money, int port, int smallBlind, int bigBlind, String rules, int raiseAmount, int raiseTimes) throws IOException {
-		new Server(players, 1, money, smallBlind, bigBlind, rules, raiseAmount, raiseTimes, port);
+	public void hostServer(int players, int tables, int money, int port, int smallBlind, int bigBlind, String rules, int raiseAmount, int raiseTimes) throws IOException {
+		new Server(players, tables, money, smallBlind, bigBlind, rules, raiseAmount, raiseTimes, port);
 	}
 
 	public void joinServer(int port, String name) throws IOException {

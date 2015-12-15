@@ -1,14 +1,23 @@
 package poker;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
+import poker.server.GameSettings;
+import sun.tools.jar.resources.jar;
 
 //ZNANE BLEDY
 //brak nickow graczy ktorzy juz sa na serwerze(gamePanel.removeAll usuwa je)
@@ -22,6 +31,7 @@ public class GameView {
 	private IPokerApp pokerApp;
 	private String dealerName = "";
 	private int dealerSeat = -1;
+	private int numOfTables = 1;
 
 	private GameScreen gameScreen;
 	private JPanel gamePanel;
@@ -77,9 +87,43 @@ public class GameView {
 
 	public void show() {
 		gamePanel.removeAll();
+		
+		chooseTableView();
 
+		gamePanel.revalidate();
+		gamePanel.repaint();
+	}
+	
+	private void chooseTableView()
+	{
+		gamePanel.setLayout(new BoxLayout(gamePanel, BoxLayout.Y_AXIS));
+		gamePanel.add(Box.createHorizontalStrut(100));
+		if (numOfTables == 1)
+			chooseTable(0);
+		for (int i = 0; i < numOfTables; ++i)
+		{
+			final int j = i;
+			JButton table = new JButton("Table " + (i+1));
+			table.setAlignmentX(Component.CENTER_ALIGNMENT);
+			table.setForeground(Color.black);
+			table.addMouseListener(new MouseAdapter()
+					{
+						public void mousePressed(MouseEvent e)
+						{
+							chooseTable(j);
+						}
+					});
+			gamePanel.add(table);
+		}
+		gamePanel.add(Box.createHorizontalStrut(100));
+	}
+	
+	private void chooseTable(int table)
+	{
+		sendMessage("TABLE " + table);
+		pokerApp.initPlayer();
+		gamePanel.removeAll();
 		takeASeatView();
-
 		gamePanel.revalidate();
 		gamePanel.repaint();
 	}
@@ -233,6 +277,11 @@ public class GameView {
 
 	public void sendMessage(String message) {
 		pokerApp.sendMessage(message);
+	}
+	
+	public void setNumOfTables(int numOfTables)
+	{
+		this.numOfTables = numOfTables;
 	}
 	
 	public void bet(int amount)

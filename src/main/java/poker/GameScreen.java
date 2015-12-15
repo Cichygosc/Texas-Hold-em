@@ -44,11 +44,11 @@ public class GameScreen {
 		mainMenu.show();
 	}
 	
-	public void hostServer(int players, int money, int port, int smallBlind, int bigBlind, String rules, String name, int raiseAmount, int raiseTimes)
+	public void hostServer(int players, int tables, int money, int port, int smallBlind, int bigBlind, String rules, String name, int raiseAmount, int raiseTimes)
 	{
 		try
 		{
-			gameModel.hostServer(players, money, port, smallBlind, bigBlind, rules, raiseAmount, raiseTimes);
+			gameModel.hostServer(players, tables, money, port, smallBlind, bigBlind, rules, raiseAmount, raiseTimes);
 			joinServer(port, name);
 		}
 		catch(IOException e)

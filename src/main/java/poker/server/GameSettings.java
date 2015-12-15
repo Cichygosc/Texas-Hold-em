@@ -14,6 +14,7 @@ public class GameSettings {
 	private static int maxRaiseTimes;
 
 	private GameSettings() {
+		System.out.println("Creating instnce of GameSettings");
 		numOfPlayers = 2;
 		numOfTables = 1;
 		startingMoney = 200;

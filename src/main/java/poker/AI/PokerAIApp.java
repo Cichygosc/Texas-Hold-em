@@ -28,4 +28,10 @@ public class PokerAIApp implements IPokerApp{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void initPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -3,6 +3,8 @@ package poker;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.corba.se.impl.protocol.AddressingDispositionException;
+
 import poker.server.PokerRoom;
 
 public class Dealer {
@@ -10,7 +12,7 @@ public class Dealer {
 	private Table table;
 	private CardDeck deck;
 	private PokerRoom pokerRoom;
-
+	
 	public Dealer(PokerRoom pokerRoom) {
 		this.pokerRoom = pokerRoom;
 		table = new Table();
@@ -112,6 +114,7 @@ public class Dealer {
 	public void addPot(int pot)
 	{
 		table.addPot(pot);
+		table.checkSidePots(pot, pokerRoom.getCurrentPlayer());
 		pokerRoom.getGameController().sendMessageToAllPlayers("POT " + table.getPot());
 	}
 
@@ -122,4 +125,23 @@ public class Dealer {
 	public String getTakenSeats() {
 		return table.getTakenSeats();
 	}
+	
+	////////////////////////////////////////////////////
+	//////////// METHODS USED ONLY IN TESTS/////////////
+	////////////////////////////////////////////////////
+	
+	public void setCurrentBet(int bet, Player player)
+	{
+		table.setLastBet(bet);
+		table.increaseRoundBet(bet);
+		table.setIsOpen(true);
+		addPot(bet, player);
+	}
+	
+	public void addPot(int pot, Player player)
+	{
+		table.addPot(pot);
+		table.checkSidePots(pot, player);
+	}
+	
 }

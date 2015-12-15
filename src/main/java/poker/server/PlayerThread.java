@@ -30,6 +30,7 @@ public class PlayerThread extends Thread {
 		{
 			input = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
 			output = new PrintWriter(playerSocket.getOutputStream(), true);
+			output.println("Tables " + GameSettings.getInstance().getNumOfTables());
 		}
 		catch(IOException e)
 		{

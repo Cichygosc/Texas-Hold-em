@@ -17,17 +17,15 @@ public class PlayerClient extends Thread {
 		try {
 			input = new BufferedReader(new InputStreamReader(clientApp.getSocket().getInputStream()));
 			output = new PrintWriter(clientApp.getSocket().getOutputStream(), true);
-			output.println("TABLE 0");
-			init();
-			output.println("NEW PLAYER " + clientApp.getThisPlayer().getName());
-			start();
+			String in = input.readLine();
+			clientApp.getGameView().setNumOfTables(Integer.parseInt(in.substring(7)));
 		} catch (IOException e) {
-			clientApp.showMessage("An error ocurred in PlayerClient " + e);
+			clientApp.getGameModel().showMessage("An error ocurred in PlayerClient " + e);
 			throw e;
 		}
 	}
 	
-	private void init()
+	public void init()
 	{
 		String line;
 		while (true)
@@ -41,15 +39,17 @@ public class PlayerClient extends Thread {
 				if (line.startsWith("INIT PLACE"))
 				{
 					int seat = Integer.parseInt(line.substring(11, 12));
-					clientApp.addTakenSeat(seat, line.substring(13));
+					clientApp.getGameModel().addTakenSeat(seat, line.substring(13));
 				}
 			}
 			catch(IOException e)
 			{
-				clientApp.showMessage("Error while initializing client " + e);
+				clientApp.getGameModel().showMessage("Error while initializing client " + e);
 				System.exit(-1);
 			}
 		}
+		output.println("NEW PLAYER " + clientApp.getThisPlayer().getName());
+		start();
 	}
 	
 	public void sendMessage(String message)
@@ -70,7 +70,7 @@ public class PlayerClient extends Thread {
 					System.out.println(line);
 					if (line.startsWith("MESSAGE"))
 					{
-						clientApp.showMessage(line.substring(8));
+						clientApp.getGameModel().showMessage(line.substring(8));
 					}
 					else if (line.startsWith("CARD"))
 					{
@@ -85,11 +85,11 @@ public class PlayerClient extends Thread {
 						int seat = Integer.parseInt(line.substring(6, 7));
 						if (seat == clientApp.getThisPlayer().getSeat())
 							clientApp.addMoney(Integer.parseInt(line.substring(8)));
-						else clientApp.setMoney(Integer.parseInt(line.substring(8)), seat);
+						else clientApp.getGameView().setMoney(Integer.parseInt(line.substring(8)), seat);
 					}
 					else if (line.startsWith("END TURN"))
 					{
-						clientApp.hideAllButtons();
+						clientApp.getGameView().hideButtons();
 					}
 					else if (line.startsWith("YOUR TURN"))
 					{
@@ -100,8 +100,8 @@ public class PlayerClient extends Thread {
 						String buttons = "";
 						for (int i = 4; i < args.length; ++i)
 							buttons += args[i] + " ";
-						clientApp.setCallAndRaiseValue(call, raise, maxRaise);
-						clientApp.showButtons(buttons);
+						clientApp.getGameView().setCallAndRaiseValue(call, raise, maxRaise);
+						clientApp.getGameView().showButtons(buttons);
 					}
 					else if (line.startsWith("NEXT ROUND"))
 					{
@@ -109,23 +109,23 @@ public class PlayerClient extends Thread {
 					}
 					else if (line.startsWith("POT"))
 					{
-						clientApp.setPot(Integer.parseInt(line.substring(4)));
+						clientApp.getGameView().setPot(Integer.parseInt(line.substring(4)));
 					}
 					else if (line.startsWith("DEALER"))
 					{
-						clientApp.setDealer(Integer.parseInt(line.substring(7)));
+						clientApp.getGameView().setDealer(Integer.parseInt(line.substring(7)));
 					}
 					else if (line.startsWith("SEAT"))
 					{
-						clientApp.addTakenSeat(Integer.parseInt(line.substring(5, 6)), line.substring(7));
+						clientApp.getGameModel().addTakenSeat(Integer.parseInt(line.substring(5, 6)), line.substring(7));
 					}
 					else if (line.startsWith("PLAYER LEFT"))
 					{
-						clientApp.removeTakenSeat(Integer.parseInt(line.substring(12)));
+						clientApp.getGameModel().removeTakenSeat(Integer.parseInt(line.substring(12)));
 					}
 					else if (line.startsWith("GAME STARTING"))
 					{
-						clientApp.startingGame();
+						clientApp.getGameView().pokerGameView();
 					}
 					else if (line.startsWith("HOST"))
 					{
