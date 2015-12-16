@@ -1,5 +1,7 @@
 package poker.server;
 
+import java.sql.ResultSet;
+
 public class GameSettings {
 
 	private static volatile GameSettings instance;
@@ -9,7 +11,7 @@ public class GameSettings {
 	private static int startingMoney;
 	private static int smallBlind;
 	private static int bigBlind;
-	private static String rules;
+	private static GameRules rules;
 	private static int maxRaiseAmount;
 	private static int maxRaiseTimes;
 
@@ -20,7 +22,7 @@ public class GameSettings {
 		startingMoney = 200;
 		smallBlind = 2;
 		bigBlind = 4;
-		rules = "NoLimit";
+		rules = new NoLimitRules();
 		maxRaiseAmount = 0;
 		maxRaiseTimes = 0;
 	}
@@ -35,14 +37,19 @@ public class GameSettings {
 		return instance;
 	}
 
-	public void setCustomSettings(int numOfPlayers, int numOfTables,  int startingMoney, int smallBlind, int bigBlind, String rules,
-			int maxRaiseAmount, int maxRaiseTimes) {
+	public void setCustomSettings(int numOfPlayers, int numOfTables, int startingMoney, int smallBlind, int bigBlind,
+			String rules, int maxRaiseAmount, int maxRaiseTimes) {
 		GameSettings.numOfPlayers = numOfPlayers;
 		GameSettings.numOfTables = numOfTables;
 		GameSettings.startingMoney = startingMoney;
 		GameSettings.smallBlind = smallBlind;
 		GameSettings.bigBlind = bigBlind;
-		GameSettings.rules = rules;
+		if (rules.equals("No-Limit"))
+			GameSettings.rules = new NoLimitRules();
+		else if (rules.equals("Pot-Limit"))
+			GameSettings.rules = new PotLimitRules();
+		else if (rules.equals("Fixed-Limit"))
+			GameSettings.rules = new FixedLimitRules();
 		GameSettings.maxRaiseAmount = maxRaiseAmount;
 		GameSettings.maxRaiseTimes = maxRaiseTimes;
 	}
@@ -67,7 +74,7 @@ public class GameSettings {
 		return bigBlind;
 	}
 
-	public String getRules() {
+	public GameRules getRules() {
 		return rules;
 	}
 

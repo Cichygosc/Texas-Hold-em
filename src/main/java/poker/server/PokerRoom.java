@@ -25,6 +25,8 @@ public class PokerRoom {
 	private int dealerPosition;
 	private boolean isDealerTurn;
 
+	private int raisedTimes;
+
 	public PokerRoom() {
 		connectedPlayers = new ArrayList<Player>();
 		numOfConnectedPlayers = 0;
@@ -34,6 +36,7 @@ public class PokerRoom {
 		currentPlayer = null;
 		currentPlayerNumber = -1;
 		dealerPosition = -1;
+		raisedTimes = 0;
 		random = new Random();
 	}
 
@@ -60,9 +63,8 @@ public class PokerRoom {
 			}
 		}
 	}
-	
-	private void newGame()
-	{
+
+	private void newGame() {
 		gameState = GameState.Preflop.getStateBehavior();
 		dealer.newGame();
 		chooseDealer();
@@ -135,9 +137,9 @@ public class PokerRoom {
 				return;
 		findAvailableNextPlayer();
 		int call = dealer.getTable().getRoundBet() - currentPlayer.getPlayerPot().getTotalCashUsedInRound();
-		int raise = dealer.getTable().getRoundBet() == 0 ? GameSettings.getInstance().getBigBlind()
-				: dealer.getTable().getLastBet() * 2;
-		int maxRaise = currentPlayer.getPlayerPot().getMoney();
+		BettingValues values = GameSettings.getInstance().getRules().calculateBet(this);
+		int raise = values.getRaise();
+		int maxRaise = values.getMaxRaise();
 		String buttons = "";
 		if (currentPlayer.getPlayerPot().getMoney() - call < 0)
 			buttons += "AllIn Fold";
@@ -215,11 +217,18 @@ public class PokerRoom {
 		gameController.sendMessageToAllPlayers("MESSAGE " + player.getName() + " has left the game!");
 	}
 
-	public int getNumOfConnectedPlayers()
-	{
+	public int getRaisedTimes() {
+		return raisedTimes;
+	}
+
+	public void increaseRaiseTimes() {
+		raisedTimes++;
+	}
+
+	public int getNumOfConnectedPlayers() {
 		return numOfConnectedPlayers;
 	}
-	
+
 	public int getDealerPos() {
 		return dealerPosition;
 	}
@@ -251,9 +260,8 @@ public class PokerRoom {
 	public Dealer getDealer() {
 		return dealer;
 	}
-	
-	public Table getTable()
-	{
+
+	public Table getTable() {
 		return dealer.getTable();
 	}
 
