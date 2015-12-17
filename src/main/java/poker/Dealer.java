@@ -1,12 +1,11 @@
 package poker;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import org.junit.Ignore;
-import org.omg.PortableServer.POAManagerOperations;
-
-import com.sun.corba.se.impl.protocol.AddressingDispositionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import poker.server.PokerRoom;
 
@@ -65,11 +64,14 @@ public class Dealer {
 	private void lookForWinner()
 	{
 		table.optimalizeSidePots();
+		HashSet<Player> allWinners = new HashSet<Player>();
+		System.out.println("Pots: " + table.getTablePots().size());
 		for (int i = 0; i < table.getTablePots().size(); ++i)
 		{
 			TablePot pot = table.getTablePots().get(i);
 			List<Player> winners = new ArrayList<Player>();
 			BestHand winnerHand = null;
+			System.out.println("Players: " + pot.getPlayers().size());
 			for (Player player: pot.getPlayers())
 			{
 				if (player.getPlayerPot().isFold())
@@ -111,10 +113,24 @@ public class Dealer {
 			int moneyWin = pot.getPot() / winners.size();
 			for (Player player: winners)
 			{
+				allWinners.add(player);
 				player.getPlayerPot().addMoney(moneyWin);
 				pokerRoom.getGameController().sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + player.getPlayerPot().getMoney());
 			}
 		}
+		String winners = "Winners: ";
+		for (Player player : allWinners)
+			winners += player.name + " with " + player.getHand().getBestHand() + " ";
+		pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE " + winners);
+		final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+		executorService.schedule(new Runnable() {
+			
+			@Override
+			public void run() {
+				pokerRoom.restartGame();
+				
+			}
+		}, 2, TimeUnit.SECONDS);
 	}
 	
 	public void setCurrentBet(int bet)

@@ -77,6 +77,7 @@ public class GameScreen {
 	
 	public void takeSeat(int seat)
 	{
+		gameModel.addTakenSeat(seat, gameModel.getPlayer().getName());
 		gameModel.getPlayer().takeASeat(seat);
 		gameModel.sendMessage("SEAT " + seat);
 	}

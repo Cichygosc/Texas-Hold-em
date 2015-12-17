@@ -1,7 +1,5 @@
 package poker.server;
 
-import java.sql.ResultSet;
-
 public class GameSettings {
 
 	private static volatile GameSettings instance;
@@ -16,7 +14,6 @@ public class GameSettings {
 	private static int maxRaiseTimes;
 
 	private GameSettings() {
-		System.out.println("Creating instnce of GameSettings");
 		numOfPlayers = 2;
 		numOfTables = 1;
 		startingMoney = 200;

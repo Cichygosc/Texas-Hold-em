@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import poker.Dealer;
@@ -66,6 +68,7 @@ public class PokerRoom {
 
 	private void newGame() {
 		gameState = GameState.Preflop.getStateBehavior();
+		raisedTimes = 0;
 		dealer.newGame();
 		chooseDealer();
 		findAvailableNextPlayer();
@@ -169,6 +172,8 @@ public class PokerRoom {
 			else
 				dealerPosition++;
 		}
+		currentPlayerNumber = dealerPosition;
+		currentPlayer = connectedPlayers.get(currentPlayerNumber);
 		gameController.sendMessageToAllPlayers("DEALER " + connectedPlayers.get(dealerPosition).getSeat());
 	}
 
@@ -203,6 +208,20 @@ public class PokerRoom {
 				return false;
 		}
 		return true;
+	}
+	
+	public void restartGame()
+	{
+		gameController.sendMessageToAllPlayers("END ROUND");
+		gameController.sendMessageToAllPlayers("New game starts in 5 seconds");
+		final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+		executorService.schedule(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("RUNNING NEWW GAME");
+				newGame();
+			}
+		}, 5, TimeUnit.SECONDS);
 	}
 
 	public void addPlayer(Player player) {

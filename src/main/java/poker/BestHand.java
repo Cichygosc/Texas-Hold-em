@@ -49,5 +49,47 @@ public class BestHand {
 		return rank;
 	}
 	
+	public String toString()
+	{
+		String string = "";
+		switch(rank)
+		{
+		case 1:
+			string = "High Card";
+			break;
+		case 2:
+			string = "Pair";
+			break;
+		case 3:
+			string = "Two Pairs";
+			break;
+		case 4:
+			string = "Three of Kind";
+			break;
+		case 5:
+			string = "Straight";
+			break;
+		case 6:
+			string = "Flush";
+			break;
+		case 7:
+			string = "Full";
+			break;
+		case 8:
+			string = "Four of Kind";
+			break;
+		case 9:
+			string = "Straight Flush";
+			break;
+		case 10:
+			string = "Royal Flush";
+			break;
+		default:
+			string = "Unrecognized combination";
+			break;
+		}
+		return string;
+	}
+	
 	
 }

@@ -29,6 +29,7 @@ public class Table {
 
 	public void newGame() {
 		pot = 0;
+		sidePots.clear();
 		newRound();
 	}
 
@@ -36,7 +37,6 @@ public class Table {
 		roundBet = 0;
 		lastBet = 0;
 		isOpen = false;
-		sidePots.clear();
 	}
 
 	public void optimalizeSidePots() {
@@ -83,7 +83,6 @@ public class Table {
 
 	private void createSidePot(int bet, List<Player> players) {
 		TablePot newPot = new TablePot();
-		System.out.println(players.size());
 		newPot.setBet(bet);
 		for (Player player : players) {
 			newPot.addPlayer(player);

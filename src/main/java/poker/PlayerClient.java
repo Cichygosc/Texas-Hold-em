@@ -119,6 +119,10 @@ public class PlayerClient extends Thread {
 					{
 						clientApp.getGameModel().addTakenSeat(Integer.parseInt(line.substring(5, 6)), line.substring(7));
 					}
+					else if (line.startsWith("END ROUND"))
+					{
+						clientApp.getGameView().restartGame();
+					}
 					else if (line.startsWith("PLAYER LEFT"))
 					{
 						clientApp.getGameModel().removeTakenSeat(Integer.parseInt(line.substring(12)));

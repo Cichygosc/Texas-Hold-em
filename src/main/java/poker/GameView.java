@@ -165,6 +165,12 @@ public class GameView {
 		for (int i = 0; i < 10; ++i)
 			gamePanel.remove(takeSeatButton[i]);
 
+		for (int i = 0; i < 5; ++i)
+		{
+			cardOnTabelLabel[i] = new JLabel();
+			gamePanel.add(cardOnTabelLabel[i]);
+		}
+		
 		gamePanel.add(potLabel);
 		gamePanel.add(rightPanel);
 		gamePanel.revalidate();
@@ -207,10 +213,9 @@ public class GameView {
 	{
 		ImageIcon icon;
 		icon = new ImageIcon("images/" + path + ".png");
-		cardOnTabelLabel[pos] = new JLabel(new ImageIcon(
+		cardOnTabelLabel[pos].setIcon(new ImageIcon(
 				icon.getImage().getScaledInstance(ButtonWidth / 2, ButtonHeight * 2, java.awt.Image.SCALE_SMOOTH)));
 		cardOnTabelLabel[pos].setBounds(buttonPos[0][0] + 30 + pos * (ButtonWidth / 2 + 5), 247, ButtonWidth / 2, ButtonHeight * 2);
-		gamePanel.add(cardOnTabelLabel[pos]);
 		
 		gamePanel.revalidate();
 		gamePanel.repaint();
@@ -223,7 +228,6 @@ public class GameView {
 
 	private void takeSeat(int seat) {
 		gameScreen.takeSeat(seat);
-		addTakenSeat(seat, gameScreen.getPlayer().getName());
 		waitingForPlayersView();
 	}
 
@@ -252,6 +256,23 @@ public class GameView {
 						- playerMoneyLabel[seat].getFontMetrics(playerMoneyLabel[seat].getFont())
 								.stringWidth(playerMoneyLabel[seat].getText()) / 2,
 				buttonPos[seat][1] - 25, ButtonWidth, 25);
+		gamePanel.revalidate();
+		gamePanel.repaint();
+	}
+	
+	public void restartGame()
+	{
+		for (int seat : gameScreen.getGameModel().getTakenSeats())
+		{
+			playerCardLabel[seat].setIcon(new ImageIcon());
+			playerCardLabel[seat + 1].setIcon(new ImageIcon());
+			refreshPlayerLabels(seat);
+		}
+		for (int i = 0; i < 5; ++i)
+		{
+			cardOnTabelLabel[i].setIcon(new ImageIcon());
+		}
+		potLabel.setText("0");
 		gamePanel.revalidate();
 		gamePanel.repaint();
 	}
