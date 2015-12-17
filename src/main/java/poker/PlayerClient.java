@@ -48,7 +48,7 @@ public class PlayerClient extends Thread {
 				System.exit(-1);
 			}
 		}
-		output.println("NEW PLAYER " + clientApp.getThisPlayer().getName());
+		output.println("NEW PLAYER " + clientApp.getPlayer().getName());
 		start();
 	}
 	
@@ -83,7 +83,7 @@ public class PlayerClient extends Thread {
 					else if (line.startsWith("MONEY"))
 					{
 						int seat = Integer.parseInt(line.substring(6, 7));
-						if (seat == clientApp.getThisPlayer().getSeat())
+						if (seat == clientApp.getPlayer().getSeat())
 							clientApp.addMoney(Integer.parseInt(line.substring(8)));
 						else clientApp.getGameView().setMoney(Integer.parseInt(line.substring(8)), seat);
 					}
@@ -105,7 +105,7 @@ public class PlayerClient extends Thread {
 					}
 					else if (line.startsWith("NEXT ROUND"))
 					{
-						clientApp.getThisPlayer().getPlayerPot().newRound();
+						clientApp.getPlayer().getPlayerPot().newRound();
 					}
 					else if (line.startsWith("POT"))
 					{
@@ -133,7 +133,7 @@ public class PlayerClient extends Thread {
 					}
 					else if (line.startsWith("HOST"))
 					{
-						clientApp.getThisPlayer().setIsHost(Boolean.parseBoolean(line.substring(5)));
+						clientApp.getPlayer().setIsHost(Boolean.parseBoolean(line.substring(5)));
 					}
 					sleep(500);
 				}

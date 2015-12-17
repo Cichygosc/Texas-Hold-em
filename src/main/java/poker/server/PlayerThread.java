@@ -10,6 +10,7 @@ import java.util.Map;
 
 import poker.HumanPlayer;
 import poker.Player;
+import poker.AI.AIPlayer;
 
 public class PlayerThread extends Thread {
 
@@ -65,6 +66,13 @@ public class PlayerThread extends Thread {
 						output.println("HOST True");
 					}
 					else player = new HumanPlayer(in.substring(11), false);
+					pokerRoom.addPlayer(player);
+					pokerRoom.getGameController().addPlayerThread(this);
+					pokerRoom.getGameController().addPlayerOutput(output);
+				}
+				else if (in.startsWith("NEW BOT"))
+				{
+					player = new AIPlayer(in.substring(8));
 					pokerRoom.addPlayer(player);
 					pokerRoom.getGameController().addPlayerThread(this);
 					pokerRoom.getGameController().addPlayerOutput(output);

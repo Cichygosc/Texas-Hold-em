@@ -40,10 +40,8 @@ public class Server extends Thread {
 					if (isListening) {
 						for (int i = 0; i < GameSettings.getInstance().getNumOfPlayers()
 								* GameSettings.getInstance().getNumOfTables(); ++i) {
-							System.out.println(i);
 							PlayerThread thread = new PlayerThread(listener.accept(), this);
 							thread.start();
-							System.out.println("Thread is running");
 						}
 						for (PokerRoom pokerRoom : pokerRooms)
 						{

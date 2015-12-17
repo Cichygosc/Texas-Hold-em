@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashSet;
 
 import javax.swing.Box;
@@ -32,6 +33,7 @@ public class GameView {
 	private String dealerName = "";
 	private int dealerSeat = -1;
 	private int numOfTables = 1;
+	private int table = -1;
 
 	private GameScreen gameScreen;
 	private JPanel gamePanel;
@@ -121,6 +123,7 @@ public class GameView {
 	private void chooseTable(int table)
 	{
 		sendMessage("TABLE " + table);
+		this.table = table;
 		pokerApp.initPlayer();
 		gamePanel.removeAll();
 		takeASeatView();
@@ -150,6 +153,8 @@ public class GameView {
 			if (gameScreen.getPlayer().isHost()) {
 				final int j = i;
 				takeSeatButton[j].setText("Add Bot");
+				for (MouseListener listener: takeSeatButton[j].getMouseListeners())
+					takeSeatButton[j].removeMouseListener(listener);
 				takeSeatButton[j].addMouseListener(new MouseAdapter() {
 					public void mousePressed(MouseEvent e) {
 						addBot(j);
@@ -221,9 +226,8 @@ public class GameView {
 		gamePanel.repaint();
 	}
 
-	// TODO ADDING BOT
 	private void addBot(int seat) {
-
+		gameScreen.addBot("Bot" + seat, seat, table);
 	}
 
 	private void takeSeat(int seat) {
@@ -308,8 +312,8 @@ public class GameView {
 	public void bet(int amount)
 	{
 		sendMessage("BET " + amount);
-		pokerApp.getThisPlayer().getPlayerPot().bet(amount);
-		pokerApp.getThisPlayer().getPlayerPot().setCurrentBet(amount);
+		pokerApp.getPlayer().getPlayerPot().bet(amount);
+		pokerApp.getPlayer().getPlayerPot().setCurrentBet(amount);
 		sendMessage("NEXT PLAYER");
 	}
 	
@@ -317,9 +321,9 @@ public class GameView {
 	{
 		sendMessage("CALL " + callValue);
 		sendMessage("BET " + amount);
-		pokerApp.getThisPlayer().getPlayerPot().bet(callValue);
-		pokerApp.getThisPlayer().getPlayerPot().bet(amount);
-		pokerApp.getThisPlayer().getPlayerPot().increaseCurrentBet(amount);
+		pokerApp.getPlayer().getPlayerPot().bet(callValue);
+		pokerApp.getPlayer().getPlayerPot().bet(amount);
+		pokerApp.getPlayer().getPlayerPot().increaseCurrentBet(amount);
 		sendMessage("NEXT PLAYER");
 	}
 	
@@ -331,21 +335,21 @@ public class GameView {
 	public void call(int amount)
 	{
 		sendMessage("CALL " + amount);
-		pokerApp.getThisPlayer().getPlayerPot().bet(amount);
+		pokerApp.getPlayer().getPlayerPot().bet(amount);
 		sendMessage("NEXT PLAYER");
 	}
 	
 	public void fold()
 	{
 		sendMessage("FOLD");
-		pokerApp.getThisPlayer().getPlayerPot().fold();
+		pokerApp.getPlayer().getPlayerPot().fold();
 		sendMessage("NEXT PLAYER");
 	}
 	
 	public void allIn()
 	{
 		sendMessage("ALLIN");
-		pokerApp.getThisPlayer().getPlayerPot().allIn();
+		pokerApp.getPlayer().getPlayerPot().allIn();
 		sendMessage("NEXT PLAYER");
 	}
 

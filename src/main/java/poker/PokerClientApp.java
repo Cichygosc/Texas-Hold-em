@@ -39,7 +39,7 @@ public class PokerClientApp implements IPokerApp {
 		return clientSocket;
 	}
 
-	public Player getThisPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 

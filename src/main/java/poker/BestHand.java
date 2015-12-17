@@ -18,42 +18,34 @@ public class BestHand {
 
 	private List<Card> cards;
 	private int rank;
-	
-	public BestHand()
-	{
-		
+
+	public BestHand() {
+
 	}
-	
-	public int compareHighCards(BestHand hand)
-	{
+
+	public int compareHighCards(BestHand hand) {
 		return 0;
 	}
-	
-	public void setCards(List<Card> cards)
-	{
+
+	public void setCards(List<Card> cards) {
 		this.cards.addAll(cards);
 	}
-	
-	public void setRank(int rank)
-	{
+
+	public void setRank(int rank) {
 		this.rank = rank;
 	}
-	
-	public List<Card> getCards()
-	{
+
+	public List<Card> getCards() {
 		return cards;
 	}
-	
-	public int getRank()
-	{
+
+	public int getRank() {
 		return rank;
 	}
-	
-	public String toString()
-	{
+
+	public String toString() {
 		String string = "";
-		switch(rank)
-		{
+		switch (rank) {
 		case 1:
 			string = "High Card";
 			break;
@@ -90,6 +82,5 @@ public class BestHand {
 		}
 		return string;
 	}
-	
-	
+
 }
