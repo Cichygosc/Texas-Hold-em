@@ -38,8 +38,7 @@ public class CardEvaluator {
 	public BestHand checkCards(List<Card> cards)
 	{
 		BestHand hand = new BestHand();
-		Collections.sort(cards);
-		createValueMap(cards);
+		createMaps(cards);
 
 		//Musisz sprawdzić jaką kobinację ma gracz. (masz od tego metody is...)
 		//Sprawdzanie zacznij od najmocniejszej kombinacji.
@@ -63,8 +62,10 @@ public class CardEvaluator {
 	/*
 	 * Wyrzuciłem tu powtarzający się kod w poniższych metodach.
 	 */
-	private void createValueMap(List<Card> cards)
+	public void createMaps(List<Card> cards)
 	{
+		Collections.sort(cards);
+		
 		valueMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < cards.size(); ++i)
 		{
@@ -74,6 +75,18 @@ public class CardEvaluator {
 			
 			else valueMap.put(cards.get(i).getNumber(), count + 1);
 		}
+		
+		suitMap = new HashMap<Integer, Integer>();
+		for (int i = 0; i < cards.size(); ++i)
+		{
+			Integer count = suitMap.get(cards.get(i).getSuit());
+			
+			if (count == null)
+				suitMap.put(cards.get(i).getSuit(), 1);
+			
+			else suitMap.put(cards.get(i).getSuit(), count + 1);
+		}
+		
 	}
 	
 	public boolean isStraightFlush(List<Card> cards)
@@ -97,27 +110,20 @@ public class CardEvaluator {
 		return false;
 	}
 	
-	/*
-	 * 
-	 */
 	public boolean isStraight(List<Card>  cards)
 	{
-	    return false;
+		for (int i = 0; i < 3; ++i)
+		{
+			if (cards.get(i).getNumber() + 1 == cards.get(i + 1).getNumber() && cards.get(i).getNumber() + 2 == cards.get(i + 2).getNumber()
+					&& cards.get(i).getNumber() + 3 == cards.get(i + 3).getNumber() && cards.get(i).getNumber() + 4 == cards.get(i + 4).getNumber()
+					&& cards.get(i).getNumber() + 4 == cards.get(i + 4).getNumber())
+				return true;
+		}
+		return false;
 	}
 	
 	public boolean isFlush(List<Card> cards)
 	{
-		suitMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < cards.size(); ++i)
-		{
-			Integer count = suitMap.get(cards.get(i).getSuit());
-			
-			if (count == null)
-				suitMap.put(cards.get(i).getSuit(), 1);
-			
-			else suitMap.put(cards.get(i).getSuit(), count + 1);
-		}
-		
 		if (suitMap.containsValue(5))
 			return true;
 		return false;

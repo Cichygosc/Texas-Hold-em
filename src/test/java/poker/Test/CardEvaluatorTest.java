@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import poker.Card;
@@ -23,9 +25,8 @@ public class CardEvaluatorTest {
 			temp.add(new Card(1, 2));
 			temp.add(new Card(5, 1));
 			temp.add(new Card(3, 1));
+			CardEvaluator.getInstance().createMaps(temp);
 			assertTrue(CardEvaluator.getInstance().isStraightFlush(temp));
-		
-	
 	}
 
 	@Test
@@ -39,6 +40,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(5, 2));
 		temp.add(new Card(1, 3));
 		temp.add(new Card(1, 4));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isFourOfKind(temp));
 	}
 	
@@ -53,6 +55,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(0, 1));
 		temp.add(new Card(0, 4));
 		temp.add(new Card(11, 5));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isFullHouse(temp));
 	}
 	
@@ -67,6 +70,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(0, 1));
 		temp.add(new Card(0, 1));
 		temp.add(new Card(11, 5));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isFlush(temp));
 	}
 	
@@ -81,6 +85,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(1, 2));
 		temp.add(new Card(5, 3));
 		temp.add(new Card(3, 4));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isStraight(temp));
 	}
 	
@@ -95,6 +100,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(5, 2));
 		temp.add(new Card(6, 4));
 		temp.add(new Card(7, 4));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isThreeOfAKind(temp));
 	}
 	
@@ -109,6 +115,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(0, 1));
 		temp.add(new Card(0, 4));
 		temp.add(new Card(11, 5));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isTwoPair(temp));
 
 			}
@@ -124,6 +131,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(5, 2));
 		temp.add(new Card(6, 4));
 		temp.add(new Card(7, 4));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isOnePair(temp));
 	}
 
