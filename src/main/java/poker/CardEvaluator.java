@@ -6,25 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-///////////////////////////////////////////////////////////
-//////////////////PORADNIK ŻÓŁTODZIOBA/////////////////////
-///////////////////////////////////////////////////////////
-/*
-1. Wszystkie poniższe algorytmy można napisać nie umiejąc programować.
-2. Wymagana jest tylko znajomość pętli for oraz tworzenia zmiennych.
-3. Oprócz tego potrzebujesz umiejętności logicznego myślenia oraz kartki papieru (lub kilku kartek) i długopisu.
-4. Wszyskie metody działają tak samo. (biorą ostatnią kartę z listy i dobierają do niej cztery kolejne aby stworzyć daną kombinację)
-5. Wyjątkiem od powyższej reguły są straight, flush oraz full.
-6. Zacznij od przestudiowania co się zmieniło.
-7. Nazwy metod ustal jakie chcesz.
-8. Lista kroków dla każdego algorytmu jest na dole.
-9. Każdy algorytm przestudiuj na kartce na dowolnym przykładzie.
-10. Jeżeli obawiasz się że nie ogarniesz to weź największą książkę jaką masz w mieszkaniu (albo coś innego) i walnij się w łeb.
-11. Jeżeli masz nadal jakieś obawy to wróć do punktu poprzedniego.
-12. Najprawdopodobniej boli cię właśnie mocno głowa ale jesteś już zmotywowany do pracy.
-13. Powodzenia.
-*/
-
 
 public class CardEvaluator {
 
@@ -83,28 +64,10 @@ public class CardEvaluator {
 		hand.setRank(rank);
 		
 		
-		//Musisz sprawdzić jaką kobinację ma gracz. (masz od tego metody is...)
-		//Sprawdzanie zacznij od najmocniejszej kombinacji.
-		//Jeżeli gracz ma np parę to wywołujesz metodę do znalezienia tej pary.
-		//W pseudokodzie metoda ta wygląda mniej więcej tak:
-		/*
-		 if (Jest poker)
-		 	listaKart = znajdźPoker;
-		 	ranga = rangaPokera (w BestHand w komentarzu są rangi)
-		 w przeciwnym wypadku if (Jest kareta)
-		 	listaKart = znajdz karete;
-		 	ranga = rangaKarety
-		 w przciwnym wypadku if ....... 
-		 */
-		// Następnie obiektowi klasy BestHand ustawiasz listę kart oraz rangę
-		// zwracasz ten obiekt
-		// to tyle. Teraz pozostało napisać metody od znajdowania 5 kart.
 		return hand;
 	}
 	
-	/*
-	 * Wyrzuciłem tu powtarzający się kod w poniższych metodach.
-	 */
+
 	public void createMaps(List<Card> cards)
 	{
 		Collections.sort(cards);
@@ -207,6 +170,81 @@ public class CardEvaluator {
 		return false;
 	}
 	
+	public List<Card> findStraightFlush(List<Card> cards){
+		
+		List<Card> bestCards = new ArrayList<Card>();
+		
+		int suit = -1;
+		for (Entry<Integer, Integer> entry : suitMap.entrySet()) {
+	            if (entry.getValue().intValue() >= 5) {
+		            suit = entry.getKey();
+		            break;
+	            }
+		}
+	            if (cards.get(2).getNumber() + 1 == cards.get(3).getNumber() && cards.get(2).getNumber() + 2 == cards.get(4).getNumber() && cards.get(3).getNumber() + 1 == cards.get(4).getNumber()
+	        		&& cards.get(2).getSuit() == suit && cards.get(2).getSuit()  == cards.get(3).getSuit() && cards.get(2).getSuit() == cards.get(4).getSuit()){
+	        			bestCards.add(cards.get(2));
+	        			bestCards.add(cards.get(3));
+	        			bestCards.add(cards.get(4));
+	        			bestCards.add(cards.get(5));
+	        			bestCards.add(cards.get(6));
+	        	}
+	        	else 
+	        	if (cards.get(1).getNumber() + 1 == cards.get(2).getNumber() && cards.get(1).getNumber() + 2 == cards.get(3).getNumber() && cards.get(2).getNumber() + 1 == cards.get(3).getNumber()
+	        		&& cards.get(1).getSuit() == suit && cards.get(1).getSuit() == cards.get(2).getSuit() && cards.get(1).getSuit() == cards.get(3).getSuit() ){
+	        			bestCards.add(cards.get(1));
+	        			bestCards.add(cards.get(2));
+	        			bestCards.add(cards.get(3));
+	        			bestCards.add(cards.get(4));
+	        			bestCards.add(cards.get(5));
+	        	}
+	        	else 
+	        	if (cards.get(0).getNumber() + 1 == cards.get(1).getNumber() && cards.get(0).getNumber() + 2 == cards.get(2).getNumber() && cards.get(1).getNumber() + 1 == cards.get(2).getNumber()
+	        		&& cards.get(0).getSuit() == suit && cards.get(0).getSuit()  == cards.get(1).getSuit() && cards.get(0).getSuit() == cards.get(2).getSuit()){
+	        			bestCards.add(cards.get(0));
+	        			bestCards.add(cards.get(1));
+	        			bestCards.add(cards.get(2));
+	        			bestCards.add(cards.get(3));
+	        			bestCards.add(cards.get(4));
+	        	}
+           
+		
+		return bestCards;
+	}
+	
+	public List<Card> findFourOfKind(List<Card> cards){
+	
+		
+			Collections.sort(cards);
+			boolean findFour = false;
+			int cardNumber = cards.get(6).getNumber();
+			List<Card> bestCards = new ArrayList<Card>();
+			bestCards.add(cards.get(6));
+			for (int i = cards.size() - 2; i >= 0; --i) {
+				if (!findFour) {
+					if (cardNumber == cards.get(i).getNumber()) {
+						findFour = true;
+						bestCards.add(cards.get(i));
+						if (i != 5)
+							bestCards.add(cards.get(i + 1));
+					} else {
+						cardNumber = cards.get(i).getNumber();
+						if (bestCards.size() < 1) {
+							bestCards.add(cards.get(i));
+						}
+					}
+				} else {
+					if (bestCards.size() < 5) {
+						bestCards.add(cards.get(i));
+					} else 
+						break;
+				}
+
+			}
+		
+		return bestCards;
+	}
+	
 	public List<Card> findFullHouse(List<Card> cards){
 		Collections.sort(cards);
 		int value1 = -1;
@@ -222,10 +260,7 @@ public class CardEvaluator {
 		
 		for(int i = 0; i <= cards.size() - 1; ++i){
 			if(cards.get(i).getNumber() == value2 || cards.get(i).getNumber() == value1 ){
-				bestCards.add(cards.get(i));
-			}else{
-				break;
-				
+				bestCards.add(cards.get(i));	
 			}
 		}				
 		
@@ -255,65 +290,99 @@ public List<Card> findFlush(List<Card> cards){
 		
 	return bestCards;
 }
+
+
+public List<Card> findStraight(List<Card> cards){
 	
+	Collections.sort(cards);
+	List<Card> bestCards = new ArrayList<Card>();
+	
+	if (cards.get(2).getNumber() + 1 == cards.get(3).getNumber() && cards.get(2).getNumber() + 2 == cards.get(4).getNumber() && cards.get(3).getNumber() + 1 == cards.get(4).getNumber()){
+		bestCards.add(cards.get(2));
+		bestCards.add(cards.get(3));
+		bestCards.add(cards.get(4));
+		bestCards.add(cards.get(5));
+		bestCards.add(cards.get(6));
+	}
+	else if (cards.get(1).getNumber() + 1 == cards.get(2).getNumber() && cards.get(1).getNumber() + 2 == cards.get(3).getNumber() && cards.get(2).getNumber() + 1 == cards.get(3).getNumber()){
+		bestCards.add(cards.get(1));
+		bestCards.add(cards.get(2));
+		bestCards.add(cards.get(3));
+		bestCards.add(cards.get(4));
+		bestCards.add(cards.get(5));
+	}
+	else if (cards.get(0).getNumber() + 1 == cards.get(1).getNumber() && cards.get(0).getNumber() + 2 == cards.get(2).getNumber() && cards.get(1).getNumber() + 1 == cards.get(2).getNumber()){
+		bestCards.add(cards.get(0));
+		bestCards.add(cards.get(1));
+		bestCards.add(cards.get(2));
+		bestCards.add(cards.get(3));
+		bestCards.add(cards.get(4));
+	}
+	
+	return bestCards;
+}
 	
 	
 public List<Card> findThreeOfAKind(List<Card> cards){
-
-	
-		int count = 0;
-		int lastCard = cards.get(6).getNumber();
 		
+		Collections.sort(cards);
+		boolean findThree = false;
+		int cardNumber = cards.get(6).getNumber();
 		List<Card> bestCards = new ArrayList<Card>();
 		bestCards.add(cards.get(6));
-		
-		for(int i=cards.size() - 2; i >= 0; --i)
-			if(count == 3){
-				if(bestCards.size() < 5){
+		for (int i = cards.size() - 2; i >= 0; --i) {
+			if (!findThree) {
+				if (cardNumber == cards.get(i).getNumber()) {
+					findThree = true;
 					bestCards.add(cards.get(i));
-				}else{
-					break;
-				}
-					
-			} else {
-				if(lastCard == cards.get(i).getNumber()){
-					count++;
-					bestCards.add(cards.get(i));
-				}else{
-					lastCard = cards.get(i).getNumber();
-					if(bestCards.size()<2){
+					if (i != 5)
+						bestCards.add(cards.get(i + 1));
+				} else {
+					cardNumber = cards.get(i).getNumber();
+					if (bestCards.size() < 2) {
 						bestCards.add(cards.get(i));
 					}
 				}
+			} else {
+				if (bestCards.size() < 5) {
+					bestCards.add(cards.get(i));
+				} else 
+					break;
 			}
+
+		}
+	
 		return bestCards;
 	}
 	
-	public List<Card> findTwoPair(List<Card> cards){
-		
-		int countPair = 0;
-		int lastCard = cards.get(6).getNumber();
-		
-		List<Card> bestCards = new ArrayList<Card>();
-		bestCards.add(cards.get(6));
-		
-		for(int i=cards.size() - 2; i >= 0; --i)
-			if(countPair == 2){
-				if(bestCards.size() < 5){
-					bestCards.add(cards.get(i));
-				}else{
-					break;
-				}
-					
-			} else {
-				if(lastCard == cards.get(i).getNumber()){
-					countPair++;
-				}else{
-					lastCard = cards.get(i).getNumber();
-				}
+public List<Card> findTwoPair(List<Card> cards){
+	
+	int countPair = 0;
+	int lastCard = cards.get(6).getNumber();
+	
+	List<Card> bestCards = new ArrayList<Card>();
+	bestCards.add(cards.get(6));
+	
+	for(int i=cards.size() - 2; i >= 0; --i)
+		if(countPair == 2){
+			if(bestCards.size() < 5){
+				bestCards.add(cards.get(i));
+			}else{
+				break;
 			}
-		return bestCards;
-	}
+				
+		} else {
+			if(lastCard == cards.get(i).getNumber()){
+				countPair++;
+				bestCards.add(cards.get(i));
+				if (i != 5)
+					bestCards.add(cards.get(i + 1));
+			}else{
+				lastCard = cards.get(i).getNumber();
+			}
+		}
+	return bestCards;
+}
 	
 	
 	public List<Card> findOnePair(List<Card> cards) {
@@ -347,15 +416,6 @@ public List<Card> findThreeOfAKind(List<Card> cards){
 		return bestCards;
 	}	 
 	
-
-	
-	/*
-	 * Musisz stworzyć taką metodę dla każdej kombinacji.
-	 * Jako parametr przyjmuje listę 7 kart.
-	 * Zwraca listę 5 kart.
-	 * 
-	 * Przykładowy algorytm wybierający 5 najlepszych kart gdy nie ma żadnego układu (bierzemy poprostu 5 ostatnich kart)
-	 */
 	public List<Card> findHighCard(List<Card>cards)
 	{
 		List<Card> bestCards = new ArrayList<Card>();
@@ -379,243 +439,5 @@ public List<Card> findThreeOfAKind(List<Card> cards){
 		return instance;
 	}
 	
-///////////////////////////////////////////////
-////////////////ALGORYTMY//////////////////////
-/////////////W WERSJI LIGHT////////////////////
-///////////////////////////////////////////////
-	
-	
-/*
-/////////////PARA/////////////////////
- 
- na początek przypomnę że karty są ustawione w kolejności od 'najsłabszej' do 'najlepszej'
- 
- aby wyciągnąc pięc nalepszych kart potrzebujemy dwóch o tej samej wartości oraz 3 o najwyższych wartościach z pozostałych 5 kart
- jak zuważyłeś będziemy mięc wtedy najlepszą parę, teraz algorytm
- 
- będziesz potrzebował kilku zmiennych pomocniczych
- boolean, int oraz listę nowych kart
- zmienna boolean będzie mówić czy znaleziono już parę 
- int będzie odpowiadać wartości karty dla której pary szukamy
- w liście kart znajdzie się 5 najlepszych kart (wśród którch jest para)
- 
- boolean ustawiamy na false (jeszcze nie znaleźliśmy pary)
- int ustwiamy na wartośc ostatniej karty
- do nowej listy możemy dodać ostatnią kartę (nawet jeżeli nie jest to karta z pary to i tak znajdzie się w liście bo ma najwyższą wartość)
- 
- OSTATNI INDEKS W LIŚCIE TO 6!!
-
-tworzymy pętle od PRZED ostatniego elementu do elementu pierwszego  (pierwszy element nie ma indeksu 1)
--sprawdzamy czy para została już odnaleziona (jeżeli nie wiesz jak to sprawdzić to przeczytaj jeszcze raz od początku albo zrób se przerwę)
- 	-jeżeli NIE została odnaleziona to sprawdzamy czy wartość której szukamy jest równa wartości sprawdzanej karty
- 		-jeżeli wartości są równe to zmienną bool ustawiamy na true (udało się znaleźć parę) oraz dodajemy kartę do listy)
- 		-jeżeli wartości nie są równe to do wartości poszukiwanej przypisujemy wartość karty sprawdznej i sprawdzamy czy na liście są mniej niż 3 karty
- 			-jeżeli są mniej niż 3 karty to dodajemy kartę do listy
- 	-jeżeli para została już znaleziona to sprawdzamy czy na liście jest mniej niż 5 kart
- 		-jeżeli tak to dodajemy kartę 
- 		-w przeciwnym wypadku wychodzimy z pętli (służy do tego polecenie break) (wychodzimy ponieważ mamy już 5 kart w liście)
- 		
- 		
- zwracamy wypełnioną listę 
- 
- 
- ////////KONIEC PARY////////////
- 
- jeżeli udało ci się to ogarnąć to prawie każdy poniższy alogrytm zajmie ci 10 minut (wszystkie działają tak samo) :)
- 
- 
- ///////////DWIE PARY///////////
- 
-zadanie rozpoczynamy tak samo z tą różnicą że zmienną bool zamieniamy na int (będziemy zliczać ile już znaleźliśmy par)
-w sumie inicjujemy dwie zmienne int oraz listę kart
-do jednej zmiennej int przypisujemy 0 (mamy narazie 0 par)
-do drugiej wartośc ostatniej karty (jest to wartość której szukamy)
-do listy dodajemy ostatnią kartę
-
-algorytm jest skróconą wersją poprzedniego
-
-tworzymy pętle od PRZED ostatniego elementu do elementu pierwszego
--sprawdzamy czy dwie pary zostały już odnalezione (od tego ile mamy par masz zmienną int)
- 	-jeżeli NIE zostały znalezione to sprawdzamy czy wartość której szukamy jest równa wartości sprawdzanej karty
- 		-jeżeli wartości są równe to zmienną int zwiększamy (masz dwie zmienne ale chyba skapniesz się którą) oraz dodajemy kartę do listy)
- 		-jeżeli wartości nie są równe to do wartości poszukiwanej przypisujemy wartość karty sprawdznej
- 	-jeżeli dwie pary zostały już znalezione to sprawdzamy czy na liście jest mniej niż 5 kart
- 		-jeżeli tak to dodajemy kartę 
- 		-w przeciwnym wypadku wychodzimy z pętli
- 		
- zwracamy listę
- 
- 
- ////////KONIEC DWÓCH PAR//////////////////
- 
- ///////TRÓJKA///////////////
- 
- algorytm jest mixem dwóch powyższych
- potrzebujesz tych samych zmiennych co do dwóch par 
- po raz ostatni napiszę do listy dodajemy ostatnią kartę 
- 
- tworzymy pętle od PRZED ostatniego elementu do elementu pierwszego  
--sprawdzamy czy trójka została już odnaleziona
- 	-jeżeli NIE została odnaleziona to sprawdzamy czy wartość której szukamy jest równa wartości sprawdzanej karty
- 		-jeżeli wartości są równe to zmienną int zwiększamy oraz dodajemy kartę do listy)
- 		-jeżeli wartości nie są równe to do wartości poszukiwanej przypisujemy wartość karty sprawdznej i sprawdzamy czy na liście są mniej niż 2 karty
- 			-jeżeli są mniej niż 2 karty to dodajemy kartę do listy
- 	-jeżeli trójka została już znaleziona to sprawdzamy czy na liście jest mniej niż 5 kart
- 		-jeżeli tak to dodajemy kartę 
- 		-w przeciwnym wypadku wychodzimy z pętli
- 
- 
- 
- /////////////KONIEC TRÓJKI/////////////////
-
- jak już pewnie zauważyłeś robimy ciągle to samo tylko zmieniamy ilość kart do dobrania
- 
- 
- /////////////// STRAIGHT/////////////////
- 
- Ten algorytm jest NAJPROSTSZY więc się go nie bój :)
- Właściwie to tylko seria ifów.
- 
- Przypomnienie (uproszczenie tego jak wygląda strit)
- Strita będziemy mieć wtedy gdy natrafimy na 3 następujące po sobie karty. Dlaczego tylko 3? Jeżeli zadałeś sobie to pytanie to czytaj dalej.
- Możliwości strita (indeksy kart):
- 
- 0 1 2 3 4
- 1 2 3 4 5
- 2 3 4 5 6
- 
- Jako iż mamy metodę isStraight, która nam zwróciła true wiemy że mamy strita (niewiemy gdzie się zaczyna)
- Jeżeli teraz sprawdzimy 3 pierwsze karty z powyższych kombinacji i okaże się że następują po sobie to znaczy że dwie kolejne muszą też następować po sobie.
- Jeżeli nie skumałeś powyższego zdania to nic się nie stało :)
- Napisz sobie na kartce kilka stritów i spójrz na indeksy tych kart.
- W sumie mamy tylko 3 możliwości strita więc wystarczą nam zwykłe ify.
- 
- algorytm:
- sprawdzamy czy karty na indeksach 0, 1, 2 następują po sobie (nie pytaj jak to sprawdzić........ wystarczy dodać do wartości karty pierwszej 1 a do drugiej 2)
- jeżeli tak to do listy dodajemy karty na indeksach 0,1,2,3,4
- jeżeli nie to sprawdzamy czy karty na indeksach 1, 2, 3 następują po sobie
- jeżeli tak to do listy dodajemy karty na indeksach 1,2,3,4,5
- jeżeli nie to sprawdzamy czy karty na indeksach 2, 3, 4 następują po sobie
- jeżeli tak to do listy dodajemy karty na indeksach 2,3,4,5,6
- zwracamy listę kart
- 
- EDIT
- powyższy algorytm powinien iść od końca!!!!!
- tzn. pierwsze sprawdzasz karty na pozycjach 2 3 4
- dlaczego?
- np dla 2 3 4 5 6 7 8
- stritem jest 4 5 6 7 8 a nie 2 3 4 5 6
- 
- //////////KONIEC STRITA///////////////////
-	
-//////////////////FLUSH////////////////////
- 
-do napisania tutaj masz tylko jedną pętlę z jednym ifem więc jest jeszcze łatwiej niż przy stricie
-jako iż w tym algorytmie używam mapy co wykracza poza wymagania przedstawione na górze napisałem kawałek za ciebie
-jak już pewnie zuważyłeś dodałem dwie mapy na górze
-teraz użyjemy tej drugiej
-	
-wiemy że mamy kolor ale nie wiemy jaki to kolor
-tworzymy pętlę która będzie iterować nam przez całą mapę
-jeżeli nie rozumiesz tego fragmentu to nic się złego nie dzieje
-	
-poniższy kod szuka nam koloru naszego flusha
-	int suit = -1;
-		for (Entry<Integer, Integer> entry : suitMap.entrySet()) {
-	            if (entry.getValue().intValue() >= 5) {
-		            suit = entry.getKey();
-		            break;
-	            }
-		}
-jako iż wiemy już jaki mają kolor nasze karty to
-tworzymy pętlę od końca listy do początku
--jeżeli karta ma ten sam kolor co kolor który wyżej znależliśmy to dodajemy ją do listy i sprawdzamy czy mamy już 5 kart
--jeżeli mamy już 5 kart to wychodzimy z pętli
-
-zwracamy listę kart
-	
-////////////////KONIEC FLUSHA/////////////////
-	
-jak już pewnie zuwżyłeś udało ci się napisać ponad połowę możliwości znając tylko pętle for (i używając trochę głowy)
-jedziemy dalej
-	
-////////////////////MOCNY FULL////////////////////
-
-
-full jest najtrudniejszym zadaniem ale nie znaczy to że jest trudny
-jeżeli wpadaniesz na jakiś kultularny pomysł jak to zrobić bardziej zrozumiale to spróbuj go zaimplementować (albo daj znać może coś pomogę)
-
-nie mam na chwilę prostego pomysłu więc spróbuj zrozumięc co się tu wyprawia
-to będzie ostatni przkład z mapami, obiecuję
-
-dla przypadku np 1 1 3 3 4 4 4
-nasza hashamapa wygląda tak
-Klucze:   1 3 4
-Wartości: 2 2 3
-jak więc można łatwo odczytać mamy 3 czwórki, dwie trójki i dwie dwójki
-mocniejszą parą jest oczywiście para trójek
-czyli wartość trójki to 4 (mamy 3 czwórki), wartość dwójki to trzy(mamy 2 trójki, jedynki są gorsze więc je odrzucamy)
-mając taką wiedzę możemy zrobić tak
-stworzyć pętlę od początku listy kart do końca
-i sprawdzać czy wartość karty jest równa wartości naszej trójki lub dwójki
-jeżeli tak to dodajemy ją do listy kart
-
-pewnie odleciałeś właśnie w kosmos ale coś takiego zrobimy
-aby skrócić twoje męki trochę napiszę 
-
-value1 to będzie wartość naszej trójki
-value2 to będzie wartość naszej dwójki
-		int value1 = -1;
-		int value2 = -1;
-		for (Entry<Integer, Integer> entry : valueMap.entrySet()) {
-	            if (entry.getValue().intValue() == 3) 
-		            value1 = entry.getKey();
-	            else if (entry.getValue().intValue() == 2 && entry.getValue().intValue > value2)
-	            	value2 = entry.getKey();
-		}
-	powyższego kodu nie będę opisywał ale jak szczaiłeś o co w nim chodzi to się bardzo cieszę
-	
-znamy już wartość trójki i dwójki więc teraz twoja kolej
-stwórz pętlę od początki do końca (albo na odwrót nie ma różnicy)
-jeżeli wartość karty jest równa wartości trójki lub dwójki to dodaj ją do listy kart
-	
-	zwróć listę kart
-	
-	
-//////////////////KONIEC FULLA (MOCNEGO)///////////////////////////////
-	
-	
-//////////////////////////CZWÓRKA///////////////////////////////
-	
-czas na powrót do przeszłości 
-jak pewnie zauważyłeś można to zrobić tak jak parę, trójkę bądź dwójkę
-	
-zrobimy to jeszcze prościej!!!!
-
-tworzymy pętlę dla pierwszych czterech elementów. Dlaczego czterech? Ponieważ kareta porzebuje 4 elementów. Zaraz zobaczysz o co chodzi.
-jeżeli wartość karty na pozycji i-tej jest równa karcie na pozycji i+1 oraz jest równa karcie na pozycji i+2 i jest równa karcie na pozycji i+3
-to do listy kart dodaj te cztery karty. Sprawdzamy licznik pętli. Jeżeli i < 3 to do listy dodajemy kartę na pozycji ostatniej w przeciwnym wypdaku
-dodajemy kartę na pozycji 2 (czyli trzecią kartę). 
-
-Jeżeli nie wiesz dlaczego tak to weź kartę i wypisz kilka przykładów.
-
-	
-////////////////////KONIEC CZWÓRKI/////////////////////////////////	
-	
-Został ostatni pacjent
-
-//////////////////POKER///////////////////////
-
-użyjemy ty zabójczej kombinacji algorytmów na straighta oraz flusha (jak napewno pamiętasz nie były one trudne)
-	
-wpierw musimy znaleźć kolor naszego flusha 
-z algorytmu na flusha chyba wiesz jak to zrobić (jak nie wiesz jak to zrobić to poprostu skopiuj, użyliśmy do tego map więc możesz 	nie ogarniać)
-
-teraz tak jak dla strita sprawdzamy 3 ify z tym że musimy sprawdzać też kolor tych kart nie tylko wartości	
-powinienieś sobie z tym poradzić (jest to tylko lekka modyfikacja)
-	
-///////////////KONIEC POKERA//////////////////
-	
-	*/
 	
 }

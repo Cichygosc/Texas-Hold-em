@@ -107,7 +107,7 @@ public class CardEvaluatorTest {
 		temp.add(new Card(1, 2));
 		temp.add(new Card(3, 1));
 		temp.add(new Card(1, 3));
-		temp.add(new Card(5, 2));
+		temp.add(new Card(4, 2));
 		temp.add(new Card(6, 4));
 		temp.add(new Card(7, 4));
 		CardEvaluator.getInstance().createMaps(temp);
@@ -144,13 +144,59 @@ public class CardEvaluatorTest {
 		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isOnePair(temp));
 	}
+	
+	@Test
+	public void findStraightFlushTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 4));
+		temp.add(new Card(1, 1));
+		temp.add(new Card(2, 1));
+		temp.add(new Card(4, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(5, 1));
+		temp.add(new Card(3, 1));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(5, 1));
+		cards.add(new Card(4, 1));
+		cards.add(new Card(3, 1));
+		cards.add(new Card(2, 1));
+		cards.add(new Card(1, 1));
+		
+		CardEvaluator.getInstance().createMaps(temp);
+		assertTrue(cmp(CardEvaluator.getInstance().findStraightFlush(temp), cards));
+	}
+	
+	@Test
+	public void findFourOfKindTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(3, 2));
+		temp.add(new Card(4, 3));
+		temp.add(new Card(5, 2));
+		temp.add(new Card(1, 3));
+		temp.add(new Card(1, 4));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(5, 3));
+		cards.add(new Card(1, 4));
+		cards.add(new Card(1, 3));
+		cards.add(new Card(1, 2));
+		cards.add(new Card(1, 1));
+		
+		assertTrue(cmp(CardEvaluator.getInstance().findFourOfKind(temp), cards));
+	}
+
 
 	@Test
 	public void findFullHouseTest()
 	{
 		List<Card> temp = new ArrayList<Card>();
 		temp.add(new Card(1, 1));
-		temp.add(new Card(5, 2));
+		temp.add(new Card(0, 2));
 		temp.add(new Card(3, 1));
 		temp.add(new Card(3, 2));
 		temp.add(new Card(3, 3));
@@ -163,6 +209,7 @@ public class CardEvaluatorTest {
 		cards.add(new Card(3, 1));
 		cards.add(new Card(2, 3));
 		cards.add(new Card(2, 1));
+		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(cmp(CardEvaluator.getInstance().findFullHouse(temp), cards));
 	}
 
@@ -184,11 +231,55 @@ public class CardEvaluatorTest {
 		cards.add(new Card(3, 1));
 		cards.add(new Card(2, 1));
 		cards.add(new Card(1, 1));
-		List<Card> bestCards = CardEvaluator.getInstance().findFlush(temp);
-		for (int i = 0; i < 5; ++i)
-			assertTrue(bestCards.get(i).equals(cards.get(i)));
+		CardEvaluator.getInstance().createMaps(temp);
+		assertTrue(cmp(CardEvaluator.getInstance().findFlush(temp), cards));
 	}
 	
+	@Test
+	public void findStraightTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(2, 2));
+		temp.add(new Card(4, 3));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(5, 3));
+		temp.add(new Card(3, 4));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(5, 3));
+		cards.add(new Card(4, 3));
+		cards.add(new Card(3, 4));
+		cards.add(new Card(2, 2));
+		cards.add(new Card(1, 1));
+		assertTrue(cmp(CardEvaluator.getInstance().findStraight(temp), cards));
+
+	}
+
+
+	
+	@Test
+	public void findThreeOfAKindTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(2, 1));
+		temp.add(new Card(1, 3));
+		temp.add(new Card(4, 2));
+		temp.add(new Card(5, 4));
+		temp.add(new Card(6, 4));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(6, 4));
+		cards.add(new Card(5, 4));
+		cards.add(new Card(1, 3));
+		cards.add(new Card(1, 2));
+		cards.add(new Card(1, 1));
+		assertTrue(cmp(CardEvaluator.getInstance().findThreeOfAKind(temp), cards));
+
+	}
 	
 	@Test
 	public void findTwoPairTest()
@@ -208,9 +299,7 @@ public class CardEvaluatorTest {
 		cards.add(new Card(3, 1));
 		cards.add(new Card(1, 2));
 		cards.add(new Card(1, 1));
-		List<Card> bestCards = CardEvaluator.getInstance().findTwoPair(temp);
-		for (int i = 0; i < 5; ++i)
-			assertTrue(bestCards.get(i).equals(cards.get(i)));
+		assertTrue(cmp(CardEvaluator.getInstance().findTwoPair(temp), cards));
 	}
 	
 	@Test
@@ -231,9 +320,8 @@ public class CardEvaluatorTest {
 		cards.add(new Card(4, 2));
 		cards.add(new Card(1, 2));
 		cards.add(new Card(1, 1));
-		List<Card> bestCards = CardEvaluator.getInstance().findOnePair(temp);
-		for (int i = 0; i < 5; ++i)
-			assertTrue(bestCards.get(i).equals(cards.get(i)));
+		assertTrue(cmp(CardEvaluator.getInstance().findOnePair(temp), cards));
+
 	}
 	
 	@Test
@@ -254,9 +342,8 @@ public class CardEvaluatorTest {
 		cards.add(new Card(5, 2));
 		cards.add(new Card(4, 3));
 		cards.add(new Card(3, 1));
-		List<Card> bestCards = CardEvaluator.getInstance().findHighCard(temp);
-		for (int i = 0; i < 5; ++i)
-			assertTrue(bestCards.get(i).equals(cards.get(i)));
+		assertTrue(cmp(CardEvaluator.getInstance().findHighCard(temp), cards));
+
 	}
 	
 	
