@@ -14,6 +14,16 @@ import poker.CardEvaluator;
 
 public class CardEvaluatorTest {
 
+	private static boolean cmp (List<Card> l1, List<Card> l2)
+	{
+		List<Card> temp = new ArrayList<Card>(l1);
+		for (Card card: l2)
+			if (!temp.remove(card))
+				return false;
+		return temp.isEmpty();
+	}
+	
+	
 	@Test
 	public void isStraightFlushTest(){
 		
@@ -135,6 +145,120 @@ public class CardEvaluatorTest {
 		assertTrue(CardEvaluator.getInstance().isOnePair(temp));
 	}
 
+	@Test
+	public void findFullHouseTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(5, 2));
+		temp.add(new Card(3, 1));
+		temp.add(new Card(3, 2));
+		temp.add(new Card(3, 3));
+		temp.add(new Card(2, 1));
+		temp.add(new Card(2, 3));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(3, 3));
+		cards.add(new Card(3, 2));
+		cards.add(new Card(3, 1));
+		cards.add(new Card(2, 3));
+		cards.add(new Card(2, 1));
+		assertTrue(cmp(CardEvaluator.getInstance().findFullHouse(temp), cards));
+	}
+
+	@Test
+	public void findFlushTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(2, 1));
+		temp.add(new Card(3, 1));
+		temp.add(new Card(6, 3));
+		temp.add(new Card(4, 1));
+		temp.add(new Card(5, 1));
+		temp.add(new Card(11, 5));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(5, 1));
+		cards.add(new Card(4, 1));
+		cards.add(new Card(3, 1));
+		cards.add(new Card(2, 1));
+		cards.add(new Card(1, 1));
+		List<Card> bestCards = CardEvaluator.getInstance().findFlush(temp);
+		for (int i = 0; i < 5; ++i)
+			assertTrue(bestCards.get(i).equals(cards.get(i)));
+	}
+	
+	
+	@Test
+	public void findTwoPairTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(3, 1));
+		temp.add(new Card(3, 3));
+		temp.add(new Card(5, 2));
+		temp.add(new Card(6, 4));
+		temp.add(new Card(7, 4));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(7, 4));
+		cards.add(new Card(3, 3));
+		cards.add(new Card(3, 1));
+		cards.add(new Card(1, 2));
+		cards.add(new Card(1, 1));
+		List<Card> bestCards = CardEvaluator.getInstance().findTwoPair(temp);
+		for (int i = 0; i < 5; ++i)
+			assertTrue(bestCards.get(i).equals(cards.get(i)));
+	}
+	
+	@Test
+	public void findOnePairTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(1, 2));
+		temp.add(new Card(2, 1));
+		temp.add(new Card(3, 3));
+		temp.add(new Card(4, 2));
+		temp.add(new Card(5, 4));
+		temp.add(new Card(6, 4));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(6, 4));
+		cards.add(new Card(5, 4));
+		cards.add(new Card(4, 2));
+		cards.add(new Card(1, 2));
+		cards.add(new Card(1, 1));
+		List<Card> bestCards = CardEvaluator.getInstance().findOnePair(temp);
+		for (int i = 0; i < 5; ++i)
+			assertTrue(bestCards.get(i).equals(cards.get(i)));
+	}
+	
+	@Test
+	public void findHighCardTest()
+	{
+		List<Card> temp = new ArrayList<Card>();
+		temp.add(new Card(1, 1));
+		temp.add(new Card(2, 2));
+		temp.add(new Card(3, 1));
+		temp.add(new Card(4, 3));
+		temp.add(new Card(5, 2));
+		temp.add(new Card(6, 4));
+		temp.add(new Card(7, 4));
+		
+		List<Card> cards = new ArrayList<Card>(); 
+		cards.add(new Card(7, 4));
+		cards.add(new Card(6, 4));
+		cards.add(new Card(5, 2));
+		cards.add(new Card(4, 3));
+		cards.add(new Card(3, 1));
+		List<Card> bestCards = CardEvaluator.getInstance().findHighCard(temp);
+		for (int i = 0; i < 5; ++i)
+			assertTrue(bestCards.get(i).equals(cards.get(i)));
+	}
+	
 	
 	
 }

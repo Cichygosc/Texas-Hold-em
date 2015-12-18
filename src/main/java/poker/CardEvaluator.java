@@ -40,6 +40,49 @@ public class CardEvaluator {
 		BestHand hand = new BestHand();
 		createMaps(cards);
 
+		int rank;
+		List<Card> cardList = new ArrayList<Card>();
+		
+		if( isStraightFlush(cards)){
+			cardList = findStraightFlush(cards);
+			rank = 9;
+		}
+		else if( isFourOfKind(cards)){
+			cardList = findFourOfKind(cards);
+			rank = 8;
+		}
+		else if (isFullHouse(cards)){
+			cardList = findFullHouse(cards);
+			rank = 7;
+		}
+		else if (isFlush(cards)){
+			cardList = findFlush(cards);
+			rank = 6;
+		}
+		else if (isStraight(cards)){
+			cardList = findStraight(cards);
+			rank = 5;
+		}
+		else if (isThreeOfAKind(cards)){
+			cardList = findThreeOfAKind(cards);
+			rank = 4;
+		}
+		else if (isTwoPair(cards)){
+			cardList = findTwoPair(cards);
+			rank = 3;
+		}
+		else if (isOnePair(cards)){
+			cardList = findOnePair(cards);
+			rank = 2;
+		}
+		else {
+		 cardList = findHighCard(cards);
+		 rank = 1;
+		}
+		hand.setCards(cardList);
+		hand.setRank(rank);
+		
+		
 		//Musisz sprawdzić jaką kobinację ma gracz. (masz od tego metody is...)
 		//Sprawdzanie zacznij od najmocniejszej kombinacji.
 		//Jeżeli gracz ma np parę to wywołujesz metodę do znalezienia tej pary.
@@ -163,6 +206,148 @@ public class CardEvaluator {
 			return true;
 		return false;
 	}
+	
+	public List<Card> findFullHouse(List<Card> cards){
+		Collections.sort(cards);
+		int value1 = -1;
+		int value2 = -1;
+		List<Card> bestCards = new ArrayList<Card>();
+		for (Entry<Integer, Integer> entry : valueMap.entrySet()) {
+	            if (entry.getValue().intValue() == 3) 
+		            value1 = entry.getKey();
+	            else if (entry.getValue().intValue() == 2 && entry.getValue().intValue() > value2)
+	            	value2 = entry.getKey();
+		}
+		
+		
+		for(int i = 0; i <= cards.size() - 1; ++i){
+			if(cards.get(i).getNumber() == value2 || cards.get(i).getNumber() == value1 ){
+				bestCards.add(cards.get(i));
+			}else{
+				break;
+				
+			}
+		}				
+		
+		return bestCards;
+	}
+	
+public List<Card> findFlush(List<Card> cards){
+	
+	List<Card> bestCards = new ArrayList<Card>();
+	
+	int suit = -1;
+	for (Entry<Integer, Integer> entry : suitMap.entrySet()) {
+            if (entry.getValue().intValue() >= 5) {
+	            suit = entry.getKey();
+	            break;
+            }
+	}
+	
+	for(int i=cards.size() -1 ; i >= 0; --i){
+		if(cards.get(i).getSuit() == suit){
+			bestCards.add(cards.get(i));
+			if(bestCards.size() == 5){
+				break;
+			}
+		}
+	}
+		
+	return bestCards;
+}
+	
+	
+	
+public List<Card> findThreeOfAKind(List<Card> cards){
+
+	
+		int count = 0;
+		int lastCard = cards.get(6).getNumber();
+		
+		List<Card> bestCards = new ArrayList<Card>();
+		bestCards.add(cards.get(6));
+		
+		for(int i=cards.size() - 2; i >= 0; --i)
+			if(count == 3){
+				if(bestCards.size() < 5){
+					bestCards.add(cards.get(i));
+				}else{
+					break;
+				}
+					
+			} else {
+				if(lastCard == cards.get(i).getNumber()){
+					count++;
+					bestCards.add(cards.get(i));
+				}else{
+					lastCard = cards.get(i).getNumber();
+					if(bestCards.size()<2){
+						bestCards.add(cards.get(i));
+					}
+				}
+			}
+		return bestCards;
+	}
+	
+	public List<Card> findTwoPair(List<Card> cards){
+		
+		int countPair = 0;
+		int lastCard = cards.get(6).getNumber();
+		
+		List<Card> bestCards = new ArrayList<Card>();
+		bestCards.add(cards.get(6));
+		
+		for(int i=cards.size() - 2; i >= 0; --i)
+			if(countPair == 2){
+				if(bestCards.size() < 5){
+					bestCards.add(cards.get(i));
+				}else{
+					break;
+				}
+					
+			} else {
+				if(lastCard == cards.get(i).getNumber()){
+					countPair++;
+				}else{
+					lastCard = cards.get(i).getNumber();
+				}
+			}
+		return bestCards;
+	}
+	
+	
+	public List<Card> findOnePair(List<Card> cards) {
+		Collections.sort(cards);
+		boolean findPair = false;
+		int pairNumber = cards.get(6).getNumber();
+		List<Card> bestCards = new ArrayList<Card>();
+		bestCards.add(cards.get(6));
+		for (int i = cards.size() - 2; i >= 0; --i) {
+			if (!findPair) {
+				if (pairNumber == cards.get(i).getNumber()) {
+					findPair = true;
+					bestCards.add(cards.get(i));
+					if (i != 5)
+						bestCards.add(cards.get(i + 1));
+				} else {
+					pairNumber = cards.get(i).getNumber();
+					if (bestCards.size() < 3) {
+						bestCards.add(cards.get(i));
+					}
+				}
+			} else {
+				if (bestCards.size() < 5) {
+					bestCards.add(cards.get(i));
+				} else 
+					break;
+			}
+
+		}
+
+		return bestCards;
+	}	 
+	
+
 	
 	/*
 	 * Musisz stworzyć taką metodę dla każdej kombinacji.
