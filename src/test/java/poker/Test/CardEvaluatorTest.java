@@ -149,7 +149,7 @@ public class CardEvaluatorTest {
 	public void findStraightFlushTest()
 	{
 		List<Card> temp = new ArrayList<Card>();
-		temp.add(new Card(1, 4));
+		temp.add(new Card(1, 3));
 		temp.add(new Card(1, 1));
 		temp.add(new Card(2, 1));
 		temp.add(new Card(4, 1));

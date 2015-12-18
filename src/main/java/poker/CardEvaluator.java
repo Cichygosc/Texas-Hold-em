@@ -180,18 +180,21 @@ public class CardEvaluator {
 		            suit = entry.getKey();
 		            break;
 	            }
+	        
 		}
-	            if (cards.get(2).getNumber() + 1 == cards.get(3).getNumber() && cards.get(2).getNumber() + 2 == cards.get(4).getNumber() && cards.get(3).getNumber() + 1 == cards.get(4).getNumber()
-	        		&& cards.get(2).getSuit() == suit && cards.get(2).getSuit()  == cards.get(3).getSuit() && cards.get(2).getSuit() == cards.get(4).getSuit()){
-	        			bestCards.add(cards.get(2));
+		for (int i = cards.size() - 1; i >= 0; i--)
+			if (cards.get(i).getSuit() != suit)
+				cards.remove(i);
+		
+	            if (cards.size() == 7 && cards.get(2).getNumber() + 1 == cards.get(3).getNumber() && cards.get(2).getNumber() + 2 == cards.get(4).getNumber() && cards.get(3).getNumber() + 1 == cards.get(4).getNumber()){
+		            	bestCards.add(cards.get(2));
 	        			bestCards.add(cards.get(3));
 	        			bestCards.add(cards.get(4));
 	        			bestCards.add(cards.get(5));
 	        			bestCards.add(cards.get(6));
 	        	}
 	        	else 
-	        	if (cards.get(1).getNumber() + 1 == cards.get(2).getNumber() && cards.get(1).getNumber() + 2 == cards.get(3).getNumber() && cards.get(2).getNumber() + 1 == cards.get(3).getNumber()
-	        		&& cards.get(1).getSuit() == suit && cards.get(1).getSuit() == cards.get(2).getSuit() && cards.get(1).getSuit() == cards.get(3).getSuit() ){
+	        	if ((cards.size() == 7 || cards.size() == 6) && cards.get(1).getNumber() + 1 == cards.get(2).getNumber() && cards.get(1).getNumber() + 2 == cards.get(3).getNumber() && cards.get(2).getNumber() + 1 == cards.get(3).getNumber()){
 	        			bestCards.add(cards.get(1));
 	        			bestCards.add(cards.get(2));
 	        			bestCards.add(cards.get(3));
@@ -199,13 +202,12 @@ public class CardEvaluator {
 	        			bestCards.add(cards.get(5));
 	        	}
 	        	else 
-	        	if (cards.get(0).getNumber() + 1 == cards.get(1).getNumber() && cards.get(0).getNumber() + 2 == cards.get(2).getNumber() && cards.get(1).getNumber() + 1 == cards.get(2).getNumber()
-	        		&& cards.get(0).getSuit() == suit && cards.get(0).getSuit()  == cards.get(1).getSuit() && cards.get(0).getSuit() == cards.get(2).getSuit()){
+	        	{
 	        			bestCards.add(cards.get(0));
 	        			bestCards.add(cards.get(1));
 	        			bestCards.add(cards.get(2));
 	        			bestCards.add(cards.get(3));
-	        			bestCards.add(cards.get(4));
+		            	bestCards.add(cards.get(4));
 	        	}
            
 		
