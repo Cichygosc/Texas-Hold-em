@@ -96,6 +96,11 @@ public class PlayerThread extends Thread {
 					player.getPlayerPot().bet(bet);
 					player.getPlayerPot().setCurrentBet(bet);
 					pokerRoom.getDealer().setCurrentBet(bet);
+					if (player.getPlayerPot().getMoney() == 0)
+					{
+						player.getPlayerPot().allIn();
+						pokerRoom.playerFoldOrAllIn();
+					}
 					pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE " + player.getName() + " bet " + bet);
 				}
 				else if (in.startsWith("CALL"))
@@ -104,18 +109,25 @@ public class PlayerThread extends Thread {
 					player.getPlayerPot().bet(call);
 					player.getPlayerPot().setCurrentBet(call);
 					pokerRoom.getDealer().addPot(call);
+					if (player.getPlayerPot().getMoney() == 0)
+					{
+						player.getPlayerPot().allIn();
+						pokerRoom.playerFoldOrAllIn();
+					}
 					pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE " + player.getName() + " call " + call);
 				}
 				else if (in.startsWith("FOLD"))
 				{
 					player.getPlayerPot().fold();
 					pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE " + player.getName() + " has fold");
+					pokerRoom.playerFoldOrAllIn();
 				}
 				else if (in.startsWith("ALLIN"))
 				{
 					pokerRoom.getDealer().addPot(player.getPlayerPot().getMoney());
 					player.getPlayerPot().allIn();
 					pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE " + player.getName() + " all in");
+					pokerRoom.playerFoldOrAllIn();
 				}
 				else if (in.startsWith("NEXT PLAYER"))
 				{

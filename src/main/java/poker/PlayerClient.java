@@ -121,6 +121,7 @@ public class PlayerClient extends Thread {
 					}
 					else if (line.startsWith("END ROUND"))
 					{
+						clientApp.getGameView().hideButtons();
 						clientApp.getGameView().restartGame();
 					}
 					else if (line.startsWith("PLAYER LEFT"))

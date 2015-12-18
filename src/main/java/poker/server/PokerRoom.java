@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.sun.org.apache.bcel.internal.generic.ReturnaddressType;
+
 import poker.Dealer;
 import poker.Player;
 import poker.Table;
@@ -27,7 +29,9 @@ public class PokerRoom {
 	private int dealerPosition;
 	private boolean isDealerTurn;
 
+	private int playersFoldOrAllIn;
 	private int raisedTimes;
+	private boolean gameEnded;
 
 	public PokerRoom() {
 		connectedPlayers = new ArrayList<Player>();
@@ -39,6 +43,8 @@ public class PokerRoom {
 		currentPlayerNumber = -1;
 		dealerPosition = -1;
 		raisedTimes = 0;
+		playersFoldOrAllIn = 0;
+		gameEnded = false;
 		random = new Random();
 	}
 
@@ -67,8 +73,13 @@ public class PokerRoom {
 	}
 
 	private void newGame() {
+		System.out.println("Starting new game");
+		for (Player player:connectedPlayers)
+			player.getPlayerPot().newGame();
 		gameState = GameState.Preflop.getStateBehavior();
 		raisedTimes = 0;
+		playersFoldOrAllIn = 0;
+		gameEnded = false;
 		dealer.newGame();
 		chooseDealer();
 		findAvailableNextPlayer();
@@ -135,6 +146,8 @@ public class PokerRoom {
 
 	public void nextPlayerTurn() {
 		gameController.sendMessageToPlayer(currentPlayer, "END TURN");
+		if (gameEnded && checkEndOfRound())
+			while (nextRound());
 		if (isDealerTurn && checkEndOfRound())
 			if (!nextRound())
 				return;
@@ -198,13 +211,16 @@ public class PokerRoom {
 		int i = 0;
 		int cash = -1;
 		for (i = 0; i < connectedPlayers.size(); ++i) {
+			System.out.println("DEALER: "  + dealer.getTable().getRoundBet());
 			if (connectedPlayers.get(i).getPlayerPot().isAllIn() || connectedPlayers.get(i).getPlayerPot().isFold())
 				continue;
-			if (cash == -1) {
-				cash = connectedPlayers.get(i).getPlayerPot().getTotalCashUsedInRound();
-				continue;
-			}
-			if (cash != connectedPlayers.get(i).getPlayerPot().getTotalCashUsedInRound())
+		//	if (cash == -1) {
+		//		cash = connectedPlayers.get(i).getPlayerPot().getTotalCashUsedInRound();
+		//		continue;
+		//	}
+		//	if (cash != connectedPlayers.get(i).getPlayerPot().getTotalCashUsedInRound())
+		//		return false;
+			if (dealer.getTable().getRoundBet() - connectedPlayers.get(i).getPlayerPot().getTotalCashUsedInRound() != 0)
 				return false;
 		}
 		return true;
@@ -213,7 +229,7 @@ public class PokerRoom {
 	public void restartGame()
 	{
 		gameController.sendMessageToAllPlayers("END ROUND");
-		gameController.sendMessageToAllPlayers("New game starts in 5 seconds");
+		gameController.sendMessageToAllPlayers("New game starts in 10 seconds");
 		final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 		executorService.schedule(new Runnable() {
 			@Override
@@ -221,7 +237,7 @@ public class PokerRoom {
 				System.out.println("RUNNING NEWW GAME");
 				newGame();
 			}
-		}, 5, TimeUnit.SECONDS);
+		}, 10, TimeUnit.SECONDS);
 	}
 
 	public void addPlayer(Player player) {
@@ -234,6 +250,13 @@ public class PokerRoom {
 		connectedPlayers.remove(player);
 		numOfConnectedPlayers--;
 		gameController.sendMessageToAllPlayers("MESSAGE " + player.getName() + " has left the game!");
+	}
+	
+	public void playerFoldOrAllIn()
+	{
+		playersFoldOrAllIn++;
+		if (connectedPlayers.size() == playersFoldOrAllIn + 1)
+			gameEnded = true;
 	}
 
 	public int getRaisedTimes() {

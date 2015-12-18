@@ -15,11 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
-import poker.server.GameSettings;
-import sun.tools.jar.resources.jar;
-
 //ZNANE BLEDY
 //brak nickow graczy ktorzy juz sa na serwerze(gamePanel.removeAll usuwa je)
 
@@ -205,9 +200,9 @@ public class GameView {
 		ImageIcon icon;
 		icon = new ImageIcon("images/" + path + ".png");
 
-		playerCardLabel[seat + pos].setIcon(new ImageIcon(
+		playerCardLabel[2 * seat + pos].setIcon(new ImageIcon(
 				icon.getImage().getScaledInstance(ButtonWidth / 2, ButtonHeight * 2, java.awt.Image.SCALE_SMOOTH)));
-		playerCardLabel[seat + pos].setBounds(buttonPos[seat][0] + pos * (ButtonWidth / 2 + 5), buttonPos[seat][1],
+		playerCardLabel[2 * seat + pos].setBounds(buttonPos[seat][0] + pos * (ButtonWidth / 2 + 5), buttonPos[seat][1],
 				ButtonWidth / 2, ButtonHeight * 2);
 
 		gamePanel.revalidate();
@@ -238,10 +233,10 @@ public class GameView {
 	public void addTakenSeat(int seat, String playerName) {
 		playerNameLabel[seat] = new JLabel(playerName);
 		playerMoneyLabel[seat] = new JLabel();
-		playerCardLabel[seat] = new JLabel();
-		playerCardLabel[seat + 1] = new JLabel();
-		gamePanel.add(playerCardLabel[seat]);
-		gamePanel.add(playerCardLabel[seat + 1]);
+		playerCardLabel[2 * seat] = new JLabel();
+		playerCardLabel[2 * seat + 1] = new JLabel();
+		gamePanel.add(playerCardLabel[2 * seat]);
+		gamePanel.add(playerCardLabel[2 * seat + 1]);
 		gamePanel.add(playerMoneyLabel[seat]);
 		gamePanel.add(playerNameLabel[seat]);
 		refreshPlayerLabels(seat);
@@ -268,8 +263,8 @@ public class GameView {
 	{
 		for (int seat : gameScreen.getGameModel().getTakenSeats())
 		{
-			playerCardLabel[seat].setIcon(new ImageIcon());
-			playerCardLabel[seat + 1].setIcon(new ImageIcon());
+			playerCardLabel[2 * seat].setIcon(new ImageIcon());
+			playerCardLabel[2 * seat + 1].setIcon(new ImageIcon());
 			refreshPlayerLabels(seat);
 		}
 		for (int i = 0; i < 5; ++i)

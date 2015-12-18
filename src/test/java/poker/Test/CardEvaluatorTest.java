@@ -74,11 +74,11 @@ public class CardEvaluatorTest {
 	{
 		List<Card> temp = new ArrayList<Card>();
 		temp.add(new Card(0, 1));
-		temp.add(new Card(0, 1));
-		temp.add(new Card(0, 1));
+		temp.add(new Card(5, 1));
+		temp.add(new Card(4, 1));
 		temp.add(new Card(6, 3));
-		temp.add(new Card(0, 1));
-		temp.add(new Card(0, 1));
+		temp.add(new Card(2, 1));
+		temp.add(new Card(3, 1));
 		temp.add(new Card(11, 5));
 		CardEvaluator.getInstance().createMaps(temp);
 		assertTrue(CardEvaluator.getInstance().isFlush(temp));
