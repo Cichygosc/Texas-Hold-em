@@ -1,6 +1,7 @@
 package poker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -24,6 +25,7 @@ public class Dealer {
 
 	public void newGame() {
 		table.newGame();
+		deck.shuffleCards();
 	}
 
 	public void throwCards() {
@@ -64,14 +66,13 @@ public class Dealer {
 	private void lookForWinner()
 	{
 		table.optimalizeSidePots();
+		String winnersMessage = "Winners: ";
 		HashSet<Player> allWinners = new HashSet<Player>();
-		System.out.println("Pots: " + table.getTablePots().size());
 		for (int i = 0; i < table.getTablePots().size(); ++i)
 		{
 			TablePot pot = table.getTablePots().get(i);
 			List<Player> winners = new ArrayList<Player>();
 			BestHand winnerHand = null;
-			System.out.println("Players: " + pot.getPlayers().size());
 			for (Player player: pot.getPlayers())
 			{
 				if (player.getPlayerPot().isFold())
@@ -113,15 +114,16 @@ public class Dealer {
 			int moneyWin = pot.getPot() / winners.size();
 			for (Player player: winners)
 			{
-				allWinners.add(player);
+				if (!allWinners.contains(player))
+				{
+					winnersMessage += player.name + " with " + winnerHand + " ";
+					allWinners.add(player);
+				}
 				player.getPlayerPot().addMoney(moneyWin);
 				pokerRoom.getGameController().sendMessageToAllPlayers("MONEY " + player.getSeat() + " " + player.getPlayerPot().getMoney());
 			}
 		}
-		String winners = "Winners: ";
-		for (Player player : allWinners)
-			winners += player.name + " with " + player.getHand().getBestHand() + " ";
-		pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE " + winners);
+		pokerRoom.getGameController().sendMessageToAllPlayers("MESSAGE " + winnersMessage);
 		final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 		executorService.schedule(new Runnable() {
 			

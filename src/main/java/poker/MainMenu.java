@@ -196,7 +196,7 @@ public class MainMenu {
 		gamePanel.add(smallBlind, gridBagConstraints);
 
 		final JSpinner smallBlindAmount = new JSpinner();
-		SpinnerNumberModel smallBlindModel = generateSpinner(30, 5, 5, 15, 1, 4);
+		SpinnerNumberModel smallBlindModel = generateSpinner(30, 3, 1, 3, 1, 4);
 		smallBlindAmount.setModel(smallBlindModel);
 		gamePanel.add(smallBlindAmount, gridBagConstraints);
 
@@ -204,7 +204,7 @@ public class MainMenu {
 		gamePanel.add(bigBlind, gridBagConstraints);
 
 		final JSpinner bigBlindAmount = new JSpinner();
-		SpinnerNumberModel bigBlindModel = generateSpinner(50, 15, 5, 30, 1, 5);
+		SpinnerNumberModel bigBlindModel = generateSpinner(50, 6, 1, 6, 1, 5);
 		bigBlindAmount.setModel(bigBlindModel);
 		gamePanel.add(bigBlindAmount, gridBagConstraints);
 

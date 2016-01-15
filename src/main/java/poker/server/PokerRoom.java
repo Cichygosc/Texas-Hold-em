@@ -75,7 +75,10 @@ public class PokerRoom {
 	private void newGame() {
 		System.out.println("Starting new game");
 		for (Player player:connectedPlayers)
+		{
 			player.getPlayerPot().newGame();
+			player.getHand().newGame();
+		}
 		gameState = GameState.Preflop.getStateBehavior();
 		raisedTimes = 0;
 		playersFoldOrAllIn = 0;
@@ -146,7 +149,7 @@ public class PokerRoom {
 
 	public void nextPlayerTurn() {
 		gameController.sendMessageToPlayer(currentPlayer, "END TURN");
-		if (gameEnded && checkEndOfRound())
+		if (gameEnded)
 			while (nextRound());
 		if (isDealerTurn && checkEndOfRound())
 			if (!nextRound())
@@ -209,7 +212,6 @@ public class PokerRoom {
 
 	public boolean checkEndOfRound() {
 		int i = 0;
-		int cash = -1;
 		for (i = 0; i < connectedPlayers.size(); ++i) {
 			System.out.println("DEALER: "  + dealer.getTable().getRoundBet());
 			if (connectedPlayers.get(i).getPlayerPot().isAllIn() || connectedPlayers.get(i).getPlayerPot().isFold())

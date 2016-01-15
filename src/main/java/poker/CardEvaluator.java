@@ -62,7 +62,7 @@ public class CardEvaluator {
 		}
 		hand.setCards(cardList);
 		hand.setRank(rank);
-		
+		hand.setMap(valueMap);
 		
 		return hand;
 	}
@@ -118,6 +118,7 @@ public class CardEvaluator {
 	
 	public boolean isStraight(List<Card>  cards)
 	{
+		Collections.sort(cards);
 		for (int i = 0; i < 3; ++i)
 		{
 			if (cards.get(i).getNumber() + 1 == cards.get(i + 1).getNumber() && cards.get(i).getNumber() + 2 == cards.get(i + 2).getNumber()
@@ -145,7 +146,7 @@ public class CardEvaluator {
 	
 	public boolean isTwoPair(List<Card> cards)
 	{   
-		
+		Collections.sort(cards);
 		Card tmpCard = null;
         int pairCount = 0;
         for (Card card : cards) {
@@ -172,6 +173,7 @@ public class CardEvaluator {
 	
 	public List<Card> findStraightFlush(List<Card> cards){
 		
+		Collections.sort(cards);
 		List<Card> bestCards = new ArrayList<Card>();
 		
 		int suit = -1;
@@ -272,7 +274,7 @@ public class CardEvaluator {
 public List<Card> findFlush(List<Card> cards){
 	
 	List<Card> bestCards = new ArrayList<Card>();
-	
+	Collections.sort(cards);
 	int suit = -1;
 	for (Entry<Integer, Integer> entry : suitMap.entrySet()) {
             if (entry.getValue().intValue() >= 5) {

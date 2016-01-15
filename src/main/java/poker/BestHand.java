@@ -49,7 +49,7 @@ public class BestHand {
 			else if (getKey(1) > hand.getKey(1))
 				return 1;
 			else if (getKey(1) < hand.getKey(1))
-				return 1;
+				return -1;
 		}
 		else if (rank == 7)
 		{
@@ -118,6 +118,7 @@ public class BestHand {
 	}
 
 	public void setRank(int rank) {
+		System.out.println("Rank " + rank);
 		this.rank = rank;
 	}
 

@@ -19,7 +19,6 @@ public class CardDeck {
 			for (int j = 0; j < 13; ++j)
 				cards.add(new Card(j, i));
 		
-		r = new Random(System.currentTimeMillis());
 		position = 0;
 	}
 	
@@ -35,6 +34,7 @@ public class CardDeck {
 	
 	public void shuffleCards()
 	{
+		r = new Random(System.currentTimeMillis());
 		for (int i = 0; i < NumberOfCards; ++i)
 		{
 			int j = r.nextInt(NumberOfCards);

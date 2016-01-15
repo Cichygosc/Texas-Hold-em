@@ -7,16 +7,18 @@ public class Hand {
 
 	private List<Card> cardsInHand;
 	private List<Card> cardsOnBoard;
-	
+
 	public Hand()
 	{
+		cardsInHand = new ArrayList<Card>();
+		cardsOnBoard = new ArrayList<Card>();
 		newGame();
 	}
 	
 	public void newGame()
 	{
-		cardsInHand = new ArrayList<Card>();
-		cardsOnBoard = new ArrayList<Card>();
+		cardsInHand.clear();
+		cardsOnBoard.clear();
 	}
 	
 	public int numberOfCards()
